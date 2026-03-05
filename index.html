@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>رسالة من نفسك بعد 10 سنوات</title>
+  <meta name="description" content="تجربة قصيرة تولّد رسالة شخصية من نسختك بعد 10 سنوات." />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#101827;
+      --muted:#9aa4b2;
+      --text:#e5e7eb;
+      --line:#1f2a3a;
+      --accent:#7c3aed;
+      --accent2:#22c55e;
+      --danger:#ef4444;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(900px 500px at 80% -10%, rgba(124,58,237,.25), transparent 60%),
+                  radial-gradient(700px 450px at 10% 0%, rgba(34,197,94,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .wrap{width:min(960px, 100%)}
+    .top{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      user-select:none;
+    }
+    .dot{
+      width:12px; height:12px; border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 6px rgba(124,58,237,.12);
+    }
+    .brand h1{
+      font-size:14px; margin:0; letter-spacing:.2px; color:var(--muted); font-weight:600;
+    }
+    .chip{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(16,24,39,.55);
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(16,24,39,.85), rgba(16,24,39,.72));
+      border:1px solid rgba(31,42,58,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero{
+      padding:26px 22px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .hero h2{
+      margin:0 0 8px;
+      font-size:26px;
+      line-height:1.25;
+      letter-spacing:.2px;
+    }
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
+    }
+    .content{padding:18px 22px 22px}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width:720px){ .grid{grid-template-columns:1fr} .hero h2{font-size:22px} }
+    label{
+      display:block;
+      font-size:13px;
+      margin:0 0 8px;
+      color:#cbd5e1;
+      font-weight:600;
+    }
+    input, select, textarea{
+      width:100%;
+      background: rgba(11,15,23,.55);
+      border:1px solid rgba(31,42,58,.95);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius: 14px;
+      outline:none;
+      font-size:14px;
+    }
+    textarea{min-height:96px; resize:vertical}
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(124,58,237,.9);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.14);
+    }
+    .row{margin-top:14px}
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+    button{
+      border:0;
+      padding:12px 14px;
+      border-radius: 14px;
+      font-weight:700;
+      cursor:pointer;
+      color: #0b0f17;
+      background: linear-gradient(135deg, var(--accent), #9d4edd);
+      transition: transform .08s ease, filter .08s ease;
+    }
+    button:hover{filter:brightness(1.05)}
+    button:active{transform: translateY(1px)}
+    .btn-ghost{
+      background: transparent;
+      color: var(--text);
+      border:1px solid var(--line);
+      font-weight:700;
+    }
+    .btn-green{
+      background: linear-gradient(135deg, var(--accent2), #16a34a);
+      color:#04110a;
+    }
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:8px;
+      line-height:1.6;
+    }
+    .divider{
+      margin:18px 0;
+      height:1px;
+      background: var(--line);
+    }
+    .letter{
+      display:none;
+      margin-top:16px;
+      border:1px solid rgba(31,42,58,.95);
+      background: radial-gradient(1000px 500px at 10% 0%, rgba(124,58,237,.12), transparent 55%),
+                  rgba(11,15,23,.55);
+      border-radius: var(--radius);
+      padding:16px;
+    }
+    .letter-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .stamp{
+      font-family:var(--mono);
+      font-size:12px;
+      color:#cbd5e1;
+      border:1px dashed rgba(148,163,184,.45);
+      padding:8px 10px;
+      border-radius: 12px;
+      white-space:nowrap;
+      opacity:.95;
+    }
+    .letter-title{
+      margin:0;
+      font-size:16px;
+      color:#e2e8f0;
+      font-weight:800;
+    }
+    .letter-body{
+      white-space:pre-wrap;
+      line-height:1.9;
+      font-size:14px;
+      color:#e5e7eb;
+    }
+    .toast{
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      background: rgba(16,24,39,.95);
+      border:1px solid rgba(31,42,58,.95);
+      color: #e5e7eb;
+      padding:10px 12px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      display:none;
+      font-size:13px;
+    }
+    .small{
+      font-size:12px;
+      color:var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="dot"></div>
+        <h1>FutureMe • رسالة من نفسك بعد 10 سنوات</h1>
+      </div>
+      <div class="chip" id="chip">مدة التجربة: دقيقة واحدة</div>
+    </div>
+
+    <div class="card">
+      <div class="hero">
+        <h2>اقرأ رسالة من “أنت” بعد 10 سنوات</h2>
+        <p>
+          أجب بصدق على 5 أسئلة قصيرة. بعدها ستحصل على رسالة شخصية مبنية على إجاباتك،
+          وكأنها قادمة من عام <b id="year10"></b>.
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="grid">
+          <div>
+            <label for="name">اسمك أو لقبك (اختياري)</label>
+            <input id="name" type="text" placeholder="مثال: محمد / أبو أحمد / M.A" maxlength="40" />
+            <div class="hint">لو تركته فاضي، الرسالة ستبقى عامة بدون اسم.</div>
+          </div>
+
+          <div>
+            <label for="age">كم عمرك الآن؟</label>
+            <input id="age" type="number" placeholder="مثال: 32" min="10" max="99" />
+            <div class="hint">العمر يساعدنا نعطي الرسالة طابع شخصي (بدون أي حفظ للبيانات).</div>
+          </div>
+
+          <div>
+            <label for="focus">ما أكثر شيء يشغل تفكيرك هذه الفترة؟</label>
+            <select id="focus">
+              <option value="">اختر…</option>
+              <option value="النجاح">النجاح</option>
+              <option value="المال">المال</option>
+              <option value="العائلة">العائلة</option>
+              <option value="المستقبل">المستقبل</option>
+              <option value="الراحة النفسية">الراحة النفسية</option>
+              <option value="العمل">العمل</option>
+              <option value="الصحة">الصحة</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="mood">كيف تشعر تجاه حياتك الآن؟</label>
+            <select id="mood">
+              <option value="">اختر…</option>
+              <option value="راضٍ جدًا">راضٍ جدًا</option>
+              <option value="جيد لكن يمكن أفضل">جيد لكن يمكن أفضل</option>
+              <option value="أشعر أنني تائه قليلًا">أشعر أنني تائه قليلًا</option>
+              <option value="لا أعرف إلى أين أسير">لا أعرف إلى أين أسير</option>
+            </select>
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label for="delay">ما الشيء الذي تؤجله منذ فترة؟</label>
+            <textarea id="delay" placeholder="مثال: بدء مشروع / تعلم لغة / ترتيب حياتي / قرار مهم…"></textarea>
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label for="dream">ما الحلم الذي لا تريد أن يمضي العمر دون تحقيقه؟</label>
+            <textarea id="dream" placeholder="مثال: تأسيس شيء يخلّد اسمي / بيت / سفر / إنجاز كبير…"></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="genBtn">اقرأ رسالتك من المستقبل</button>
+          <button class="btn-ghost" id="resetBtn" type="button">مسح</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="letter" id="letterBox">
+          <div class="letter-head">
+            <div>
+              <div class="letter-title">رسالة من عام <span id="y2036"></span></div>
+              <div class="small">هذه الرسالة تُولد على جهازك فقط، ولا يتم حفظ أي شيء على السيرفر.</div>
+            </div>
+            <div class="stamp" id="stamp">FROM: FUTURE YOU</div>
+          </div>
+          <div class="letter-body" id="letterText"></div>
+
+          <div class="actions">
+            <button class="btn-green" id="shareBtn" type="button">مشاركة</button>
+            <button class="btn-ghost" id="copyBtn" type="button">نسخ الرسالة</button>
+            <button class="btn-ghost" id="copyLinkBtn" type="button">نسخ رابط الصفحة</button>
+          </div>
+
+          <div class="hint" id="shareHint">
+            شارك الرابط مع شخص مهم… يمكن يحتاج يقرأ رسالته هو أيضًا.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  const year10 = new Date().getFullYear() + 10;
+  $("year10").textContent = year10;
+  $("y2036").textContent = year10;
+
+  function toast(msg){
+    const t = $("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(()=> t.style.display="none", 2200);
+  }
+
+  function clean(s){
+    return (s || "").toString().trim().replace(/\s+/g, " ");
+  }
+
+  function pick(arr){
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function buildLetter(data){
+    const name = data.name ? `يا ${data.name}` : "يا أنت";
+    const ageLine = data.age ? `أتذكر عندما كان عمرك ${data.age} سنة؟` : "أتذكر تلك الفترة جيدًا…";
+    const focus = data.focus ? `كنت تفكر كثيرًا في ${data.focus}.` : "كنت تفكر كثيرًا في أمور كثيرة.";
+    const mood = data.mood ? `كنت تقول: "${data.mood}".` : "كنت متذبذبًا بين الرضا والقلق.";
+    const delay = data.delay ? `وأنت تؤجل: ${data.delay}.` : "وكان عندك شيء تؤجله دائمًا.";
+    const dream = data.dream ? `والحلم الذي كنت تخاف أن يبقى مجرد فكرة: ${data.dream}.` : "وكان عندك حلم كبير لا تريد أن يضيع.";
+
+    // نبرة الرسالة حسب المزاج
+    let toneBlock = "";
+    if (data.mood === "راضٍ جدًا"){
+      toneBlock = pick([
+        "حافظ على هذا الصفاء. لا تسمح للضوضاء أن تسرقك من نفسك.",
+        "لا تفسد ما بنيته بعجلة. استمر… لكن بوعي."
+      ]);
+    } else if (data.mood === "جيد لكن يمكن أفضل"){
+      toneBlock = pick([
+        "أنت قريب جدًا… لكن القرب لا يكفي بدون قرار واضح.",
+        "حياتك ليست سيئة. لكنها تحتاج شجاعة صغيرة لتصبح عظيمة."
+      ]);
+    } else if (data.mood === "أشعر أنني تائه قليلًا"){
+      toneBlock = pick([
+        "التيه ليس نهاية. التيه مجرد علامة أنك كبرت أسرع من خطتك.",
+        "لا تحارب نفسك. رتّب يومك أولًا… ثم سيهدأ رأسك."
+      ]);
+    } else if (data.mood === "لا أعرف إلى أين أسير"){
+      toneBlock = pick([
+        "أصعب لحظة هي هذه… عندما لا ترى الاتجاه. لكن صدقني: الاتجاه يُصنع، لا يُكتشف.",
+        "إذا لم تختر طريقًا، ستختارك الأيام لطريق لا يشبهك."
+      ]);
+    } else {
+      toneBlock = pick([
+        "أريدك أن تتعامل مع نفسك بجدية أكبر… لكن بدون قسوة.",
+        "لا تخف من التغيير. الخوف طبيعي، والندم هو الخطر الحقيقي."
+      ]);
+    }
+
+    // جُمل موجهة حسب محور التفكير
+    let focusAdvice = "";
+    const f = data.focus;
+    if (f === "المال"){
+      focusAdvice = pick([
+        "المال مهم… لكن لا تجعله مقياس قيمتك. اجعله أداة، وليس سجنًا.",
+        "لو ركضت خلف المال فقط ستتعب. ابنِ مهارة وقيمة… وسيأتي المال بكرامة."
+      ]);
+    } else if (f === "النجاح"){
+      focusAdvice = pick([
+        "النجاح ليس ضجة. النجاح التزام يومي هادئ لا يراه أحد.",
+        "لا تخلط بين الانشغال والإنجاز. ركّز على خطوة واحدة تُكملها."
+      ]);
+    } else if (f === "العائلة"){
+      focusAdvice = pick([
+        "العائلة لا تتكرر. لا تؤجل الكلام الطيب ولا الحضور الحقيقي.",
+        "حافظ على من يحبونك بصدق… لأن الزمن يسرق التفاصيل بهدوء."
+      ]);
+    } else if (f === "المستقبل"){
+      focusAdvice = pick([
+        "المستقبل لا يُبنى بالقلق، يُبنى بخطة صغيرة تُنفذ اليوم.",
+        "قلّل التفكير… وزِد الفعل. حتى لو كان الفعل بسيطًا جدًا."
+      ]);
+    } else if (f === "الراحة النفسية"){
+      focusAdvice = pick([
+        "الراحة النفسية لا تأتي من الهروب… تأتي من ترتيب الداخل قبل الخارج.",
+        "نم جيدًا، تحرك، اقطع الضوضاء… ستتفاجأ كيف تتغير حياتك."
+      ]);
+    } else if (f === "العمل"){
+      focusAdvice = pick([
+        "العمل قد يرفعك وقد يستهلكك. ضع حدودًا، واحفظ طاقتك لما يهم.",
+        "طور نفسك بذكاء… لا تبقَ في نفس المكان لأنك اعتدت عليه."
+      ]);
+    } else if (f === "الصحة"){
+      focusAdvice = pick([
+        "جسدك هو مركبتك الوحيدة. أي إهمال اليوم سيدفع ثمنه الغد.",
+        "لا تنتظر علامة قوية. التغيير يبدأ من عادة صغيرة ثابتة."
+      ]);
+    } else {
+      focusAdvice = pick([
+        "اختر محورًا واحدًا هذا الشهر واشتغل عليه بجد.",
+        "لا تترك حياتك مفتوحة على كل شيء… ستتسرب منك."
+      ]);
+    }
+
+    // دفع لطيف تجاه “التأجيل”
+    let delayPush = data.delay ? pick([
+      `بالنسبة لـ "${data.delay}"… لا تحتاج خطة عظيمة. تحتاج بداية فقط.`,
+      `شيء واحد فقط: ابدأ في "${data.delay}" ولو 20 دقيقة اليوم.`,
+      `قرارك المؤجل "${data.delay}" سيبقى يلاحقك حتى تحسمه. احسمه.`
+    ]) : pick([
+      "هناك شيء تؤجله… التقطه الآن قبل أن يصبح ندمًا.",
+      "ابدأ بخطوة صغيرة اليوم. الخطوة الصغيرة تمنع الانهيار الكبير."
+    ]);
+
+    // ختم الرسالة
+    const close = pick([
+      "لا تنتظر اللحظة المثالية… لأنها غالبًا لا تأتي.\nابدأ الآن. ثم عدّل في الطريق.",
+      "الحياة لا تضيع دفعة واحدة… تضيع أسبوعًا بعد أسبوع.\nلا تسمح لأسبوع جديد أن يمر بلا معنى.",
+      "إذا كنت تريد نسخة أقوى منك… عامل نفسك كأنها مسؤوليتك الأولى."
+    ]);
+
+    // بناء الرسالة
+    return `مرحبًا ${name}…
+
+أنا أنت بعد 10 سنوات.
+
+${ageLine}
+${focus}
+${delay}
+${dream}
+
+أريد أن أقول لك الحقيقة بدون تزيين:
+${toneBlock}
+
+ثم اسمع هذه:
+${focusAdvice}
+
+والأهم:
+${delayPush}
+
+وأخيرًا…
+${close}
+
+— أنت (من ${year10})`;
+  }
+
+  function validate(){
+    const age = clean($("age").value);
+    if (age && (Number(age) < 10 || Number(age) > 99)) return "العمر لازم يكون بين 10 و 99.";
+    return "";
+  }
+
+  $("genBtn").addEventListener("click", () => {
+    const err = validate();
+    if (err){ toast(err); return; }
+
+    const data = {
+      name: clean($("name").value),
+      age: clean($("age").value),
+      focus: $("focus").value,
+      mood: $("mood").value,
+      delay: clean($("delay").value),
+      dream: clean($("dream").value),
+    };
+
+    const letter = buildLetter(data);
+    $("letterText").textContent = letter;
+
+    // تغيير الختم بشكل لطيف حسب وجود اسم
+    $("stamp").textContent = data.name ? `TO: ${data.name.toUpperCase ? data.name.toUpperCase() : data.name}` : "TO: YOU";
+    $("letterBox").style.display = "block";
+    $("letterBox").scrollIntoView({behavior:"smooth", block:"start"});
+    toast("تم توليد رسالتك.");
+  });
+
+  $("resetBtn").addEventListener("click", () => {
+    $("name").value = "";
+    $("age").value = "";
+    $("focus").value = "";
+    $("mood").value = "";
+    $("delay").value = "";
+    $("dream").value = "";
+    $("letterBox").style.display = "none";
+    toast("تم المسح.");
+  });
+
+  $("copyBtn").addEventListener("click", async () => {
+    const txt = $("letterText").textContent || "";
+    if (!txt){ toast("لا يوجد نص لنسخه."); return; }
+    await navigator.clipboard.writeText(txt);
+    toast("تم نسخ الرسالة.");
+  });
+
+  $("copyLinkBtn").addEventListener("click", async () => {
+    await navigator.clipboard.writeText(location.href);
+    toast("تم نسخ رابط الصفحة.");
+  });
+
+  $("shareBtn").addEventListener("click", async () => {
+    const txt = $("letterText").textContent || "";
+    if (!txt){ toast("لا يوجد شيء لمشاركته."); return; }
+
+    const shareData = {
+      title: "رسالة من نفسك بعد 10 سنوات",
+      text: "جرب هذه التجربة… دقيقة واحدة وتقرأ رسالة من نفسك بعد 10 سنوات.",
+      url: location.href
+    };
+
+    if (navigator.share){
+      try{
+        await navigator.share(shareData);
+      }catch(e){
+        // المستخدم قد يلغي المشاركة
+      }
+    } else {
+      // fallback: نسخ الرابط
+      await navigator.clipboard.writeText(location.href);
+      toast("جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.");
+    }
+  });
+</script>
+</body>
+</html>
