@@ -42,18 +42,14 @@
       justify-content:space-between;
       margin-bottom:14px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      user-select:none;
-    }
+    .brand{display:flex; align-items:center; gap:10px; user-select:none;}
     .dot{
       width:12px; height:12px; border-radius:999px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       box-shadow: 0 0 0 6px rgba(124,58,237,.12);
     }
-    .brand h1{
-      font-size:14px; margin:0; letter-spacing:.2px; color:var(--muted); font-weight:600;
-    }
+    .brand h1{font-size:14px; margin:0; letter-spacing:.2px; color:var(--muted); font-weight:600;}
+    .rightTools{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
     .chip{
       font-size:12px;
       color:var(--muted);
@@ -61,6 +57,21 @@
       padding:8px 10px;
       border-radius:999px;
       background: rgba(16,24,39,.55);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      cursor:default;
+    }
+    .langBtn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: rgba(16,24,39,.55);
+      color: var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
     }
     .card{
       background: linear-gradient(180deg, rgba(16,24,39,.85), rgba(16,24,39,.72));
@@ -73,32 +84,16 @@
       padding:26px 22px 14px;
       border-bottom:1px solid var(--line);
     }
-    .hero h2{
-      margin:0 0 8px;
-      font-size:26px;
-      line-height:1.25;
-      letter-spacing:.2px;
-    }
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:14px;
-    }
+    .hero h2{margin:0 0 8px; font-size:26px; line-height:1.25; letter-spacing:.2px;}
+    .hero p{margin:0; color:var(--muted); line-height:1.7; font-size:14px;}
     .content{padding:18px 22px 22px}
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:14px;
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px;}
+    @media (max-width:720px){
+      .grid{grid-template-columns:1fr}
+      .hero h2{font-size:22px}
+      .rightTools{justify-content:flex-start}
     }
-    @media (max-width:720px){ .grid{grid-template-columns:1fr} .hero h2{font-size:22px} }
-    label{
-      display:block;
-      font-size:13px;
-      margin:0 0 8px;
-      color:#cbd5e1;
-      font-weight:600;
-    }
+    label{display:block; font-size:13px; margin:0 0 8px; color:#cbd5e1; font-weight:600;}
     input, select, textarea{
       width:100%;
       background: rgba(11,15,23,.55);
@@ -114,18 +109,12 @@
       border-color: rgba(124,58,237,.9);
       box-shadow: 0 0 0 4px rgba(124,58,237,.14);
     }
-    .row{margin-top:14px}
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
     button{
       border:0;
       padding:12px 14px;
       border-radius: 14px;
-      font-weight:700;
+      font-weight:800;
       cursor:pointer;
       color: #0b0f17;
       background: linear-gradient(135deg, var(--accent), #9d4edd);
@@ -137,24 +126,15 @@
       background: transparent;
       color: var(--text);
       border:1px solid var(--line);
-      font-weight:700;
+      font-weight:800;
     }
     .btn-green{
       background: linear-gradient(135deg, var(--accent2), #16a34a);
       color:#04110a;
     }
-    .hint{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:8px;
-      line-height:1.6;
-    }
-    .divider{
-      margin:18px 0;
-      height:1px;
-      background: var(--line);
-    }
-    .letter{
+    .hint{font-size:12px; color:var(--muted); margin-top:8px; line-height:1.6;}
+    .divider{margin:18px 0; height:1px; background: var(--line);}
+    .panel{
       display:none;
       margin-top:16px;
       border:1px solid rgba(31,42,58,.95);
@@ -163,7 +143,7 @@
       border-radius: var(--radius);
       padding:16px;
     }
-    .letter-head{
+    .panel-head{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
@@ -180,18 +160,9 @@
       white-space:nowrap;
       opacity:.95;
     }
-    .letter-title{
-      margin:0;
-      font-size:16px;
-      color:#e2e8f0;
-      font-weight:800;
-    }
-    .letter-body{
-      white-space:pre-wrap;
-      line-height:1.9;
-      font-size:14px;
-      color:#e5e7eb;
-    }
+    .panel-title{margin:0; font-size:16px; color:#e2e8f0; font-weight:900;}
+    .panel-body{white-space:pre-wrap; line-height:1.9; font-size:14px; color:#e5e7eb;}
+    .small{font-size:12px; color:var(--muted);}
     .toast{
       position:fixed;
       left:18px;
@@ -204,10 +175,54 @@
       box-shadow: var(--shadow);
       display:none;
       font-size:13px;
+      z-index:9999;
     }
-    .small{
-      font-size:12px;
-      color:var(--muted);
+
+    /* Weeks mini grid */
+    .weeksGrid{
+      display:grid;
+      gap:6px;
+      margin-top:10px;
+    }
+    .weeksCells{
+      display:grid;
+      grid-template-columns: repeat(20, 1fr);
+      gap:4px;
+    }
+    .cell{
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:4px;
+      border:1px solid rgba(31,42,58,.8);
+      background: rgba(148,163,184,.12);
+    }
+    .cell.live{
+      background: rgba(34,197,94,.55);
+      border-color: rgba(34,197,94,.65);
+    }
+
+    /* Plan list */
+    .planBox{
+      margin-top:10px;
+      border:1px solid rgba(31,42,58,.85);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(11,15,23,.35);
+    }
+    .planItem{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin:8px 0;
+      color:#e5e7eb;
+      line-height:1.7;
+      font-size:14px;
+    }
+    .bullet{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      margin-top:6px;
+      flex:0 0 auto;
     }
   </style>
 </head>
@@ -217,15 +232,18 @@
     <div class="top">
       <div class="brand">
         <div class="dot"></div>
-        <h1>FutureMe • رسالة من نفسك بعد 10 سنوات</h1>
+        <h1 id="brandTitle">FutureMe • رسالة من نفسك بعد 10 سنوات</h1>
       </div>
-      <div class="chip" id="chip">مدة التجربة: دقيقة واحدة</div>
+      <div class="rightTools">
+        <div class="chip" id="chip">مدة التجربة: دقيقة واحدة</div>
+        <button class="langBtn" id="langBtn" type="button">EN</button>
+      </div>
     </div>
 
     <div class="card">
       <div class="hero">
-        <h2>اقرأ رسالة من “أنت” بعد 10 سنوات</h2>
-        <p>
+        <h2 id="heroTitle">اقرأ رسالة من “أنت” بعد 10 سنوات</h2>
+        <p id="heroDesc">
           أجب بصدق على 5 أسئلة قصيرة. بعدها ستحصل على رسالة شخصية مبنية على إجاباتك،
           وكأنها قادمة من عام <b id="year10"></b>.
         </p>
@@ -234,19 +252,29 @@
       <div class="content">
         <div class="grid">
           <div>
-            <label for="name">اسمك أو لقبك (اختياري)</label>
+            <label id="lblName" for="name">اسمك أو لقبك (اختياري)</label>
             <input id="name" type="text" placeholder="مثال: محمد / أبو أحمد / M.A" maxlength="40" />
-            <div class="hint">لو تركته فاضي، الرسالة ستبقى عامة بدون اسم.</div>
+            <div class="hint" id="hintName">لو تركته فاضي، الرسالة ستبقى عامة بدون اسم.</div>
           </div>
 
           <div>
-            <label for="age">كم عمرك الآن؟</label>
+            <label id="lblAge" for="age">كم عمرك الآن؟</label>
             <input id="age" type="number" placeholder="مثال: 32" min="10" max="99" />
-            <div class="hint">العمر يساعدنا نعطي الرسالة طابع شخصي (بدون أي حفظ للبيانات).</div>
+            <div class="hint" id="hintAge">العمر يساعدنا نعطي الرسالة طابع شخصي (بدون أي حفظ للبيانات).</div>
           </div>
 
           <div>
-            <label for="focus">ما أكثر شيء يشغل تفكيرك هذه الفترة؟</label>
+            <label id="lblLifeExp" for="lifeExp">متوسط العمر الافتراضي</label>
+            <select id="lifeExp">
+              <option value="80" selected>80</option>
+              <option value="85">85</option>
+              <option value="90">90</option>
+            </select>
+            <div class="hint" id="hintLifeExp">تقدير عام فقط لعرض عداد الأسابيع.</div>
+          </div>
+
+          <div>
+            <label id="lblFocus" for="focus">ما أكثر شيء يشغل تفكيرك هذه الفترة؟</label>
             <select id="focus">
               <option value="">اختر…</option>
               <option value="النجاح">النجاح</option>
@@ -260,7 +288,7 @@
           </div>
 
           <div>
-            <label for="mood">كيف تشعر تجاه حياتك الآن؟</label>
+            <label id="lblMood" for="mood">كيف تشعر تجاه حياتك الآن؟</label>
             <select id="mood">
               <option value="">اختر…</option>
               <option value="راضٍ جدًا">راضٍ جدًا</option>
@@ -271,12 +299,12 @@
           </div>
 
           <div style="grid-column: 1 / -1;">
-            <label for="delay">ما الشيء الذي تؤجله منذ فترة؟</label>
+            <label id="lblDelay" for="delay">ما الشيء الذي تؤجله منذ فترة؟</label>
             <textarea id="delay" placeholder="مثال: بدء مشروع / تعلم لغة / ترتيب حياتي / قرار مهم…"></textarea>
           </div>
 
           <div style="grid-column: 1 / -1;">
-            <label for="dream">ما الحلم الذي لا تريد أن يمضي العمر دون تحقيقه؟</label>
+            <label id="lblDream" for="dream">ما الحلم الذي لا تريد أن يمضي العمر دون تحقيقه؟</label>
             <textarea id="dream" placeholder="مثال: تأسيس شيء يخلّد اسمي / بيت / سفر / إنجاز كبير…"></textarea>
           </div>
         </div>
@@ -288,25 +316,64 @@
 
         <div class="divider"></div>
 
-        <div class="letter" id="letterBox">
-          <div class="letter-head">
+        <!-- LIFE / WEEKS PANEL -->
+        <div class="panel" id="lifeBox">
+          <div class="panel-head">
             <div>
-              <div class="letter-title">رسالة من عام <span id="y2036"></span></div>
-              <div class="small">هذه الرسالة تُولد على جهازك فقط، ولا يتم حفظ أي شيء على السيرفر.</div>
+              <div class="panel-title" id="lifeTitle">عداد حياتك بالأسبوع</div>
+              <div class="small" id="lifeSmall">تقدير تقريبي (لرفع الوعي، ليس تنبؤًا).</div>
+            </div>
+            <div class="stamp" id="lifeStamp">WEEKS</div>
+          </div>
+
+          <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
+            <div>
+              <label id="lblWeeksLived">الأسابيع التي عشتها</label>
+              <div class="chip" id="weeksLived">—</div>
+            </div>
+            <div>
+              <label id="lblWeeksLeft">الأسابيع المتبقية (تقريبًا)</label>
+              <div class="chip" id="weeksLeft">—</div>
+            </div>
+            <div style="grid-column:1/-1;">
+              <label id="lblLifeSummary">ملخص سريع</label>
+              <div class="hint" id="lifeSummary">—</div>
+            </div>
+          </div>
+
+          <div class="weeksGrid">
+            <div class="small" id="miniGridHint">عرض مصغّر (400 أسبوع). الأخضر = مضى.</div>
+            <div class="weeksCells" id="weeksCells"></div>
+          </div>
+        </div>
+
+        <!-- LETTER PANEL -->
+        <div class="panel" id="letterBox">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title" id="letterTitle">رسالة من عام <span id="y2036"></span></div>
+              <div class="small" id="letterSmall">هذه الرسالة تُولد على جهازك فقط، ولا يتم حفظ أي شيء على السيرفر.</div>
             </div>
             <div class="stamp" id="stamp">FROM: FUTURE YOU</div>
           </div>
-          <div class="letter-body" id="letterText"></div>
+
+          <div class="panel-body" id="letterText"></div>
+
+          <!-- PLAN PANEL (inside) -->
+          <div class="planBox" id="planBox">
+            <div class="panel-title" style="font-size:14px; margin-bottom:6px;" id="planTitle">خطة 7 أيام (قرار الأسبوع)</div>
+            <div class="small" id="planSmall">3 خطوات واقعية… هدفها “بداية” وليس كمال.</div>
+            <div id="planItems"></div>
+          </div>
 
           <div class="actions">
             <button class="btn-green" id="shareBtn" type="button">مشاركة</button>
             <button class="btn-ghost" id="copyBtn" type="button">نسخ الرسالة</button>
+            <button class="btn-ghost" id="copyPlanBtn" type="button">نسخ الخطة</button>
             <button class="btn-ghost" id="copyLinkBtn" type="button">نسخ رابط الصفحة</button>
           </div>
 
-          <div class="hint" id="shareHint">
-            شارك الرابط مع شخص مهم… يمكن يحتاج يقرأ رسالته هو أيضًا.
-          </div>
+          <div class="hint" id="shareHint">شارك الرابط مع شخص مهم… يمكن يحتاج يقرأ رسالته هو أيضًا.</div>
         </div>
 
       </div>
@@ -318,6 +385,215 @@
 <script>
   const $ = (id) => document.getElementById(id);
 
+  // ===== Language system =====
+  const T = {
+    ar: {
+      dir:"rtl", lang:"ar",
+      brandTitle:"FutureMe • رسالة من نفسك بعد 10 سنوات",
+      chip:"مدة التجربة: دقيقة واحدة",
+      langBtn:"EN",
+      heroTitle:"اقرأ رسالة من “أنت” بعد 10 سنوات",
+      heroDesc:(y)=>`أجب بصدق على 5 أسئلة قصيرة. بعدها ستحصل على رسالة شخصية مبنية على إجاباتك، وكأنها قادمة من عام <b>${y}</b>.`,
+      lblName:"اسمك أو لقبك (اختياري)",
+      phName:"مثال: محمد / أبو أحمد / M.A",
+      hintName:"لو تركته فاضي، الرسالة ستبقى عامة بدون اسم.",
+      lblAge:"كم عمرك الآن؟",
+      phAge:"مثال: 32",
+      hintAge:"العمر يساعدنا نعطي الرسالة طابع شخصي (بدون أي حفظ للبيانات).",
+      lblLifeExp:"متوسط العمر الافتراضي",
+      hintLifeExp:"تقدير عام فقط لعرض عداد الأسابيع.",
+      lblFocus:"ما أكثر شيء يشغل تفكيرك هذه الفترة؟",
+      focusPlaceholder:"اختر…",
+      focusOptions:["النجاح","المال","العائلة","المستقبل","الراحة النفسية","العمل","الصحة"],
+      lblMood:"كيف تشعر تجاه حياتك الآن؟",
+      moodPlaceholder:"اختر…",
+      moodOptions:["راضٍ جدًا","جيد لكن يمكن أفضل","أشعر أنني تائه قليلًا","لا أعرف إلى أين أسير"],
+      lblDelay:"ما الشيء الذي تؤجله منذ فترة؟",
+      phDelay:"مثال: بدء مشروع / تعلم لغة / ترتيب حياتي / قرار مهم…",
+      lblDream:"ما الحلم الذي لا تريد أن يمضي العمر دون تحقيقه؟",
+      phDream:"مثال: تأسيس شيء يخلّد اسمي / بيت / سفر / إنجاز كبير…",
+      genBtn:"اقرأ رسالتك من المستقبل",
+      resetBtn:"مسح",
+      lifeTitle:"عداد حياتك بالأسبوع",
+      lifeSmall:"تقدير تقريبي (لرفع الوعي، ليس تنبؤًا).",
+      lblWeeksLived:"الأسابيع التي عشتها",
+      lblWeeksLeft:"الأسابيع المتبقية (تقريبًا)",
+      lblLifeSummary:"ملخص سريع",
+      miniGridHint:"عرض مصغّر (400 أسبوع). الأخضر = مضى.",
+      letterTitle:"رسالة من عام",
+      letterSmall:"هذه الرسالة تُولد على جهازك فقط، ولا يتم حفظ أي شيء على السيرفر.",
+      planTitle:"خطة 7 أيام (قرار الأسبوع)",
+      planSmall:"3 خطوات واقعية… هدفها “بداية” وليس كمال.",
+      shareBtn:"مشاركة",
+      copyBtn:"نسخ الرسالة",
+      copyPlanBtn:"نسخ الخطة",
+      copyLinkBtn:"نسخ رابط الصفحة",
+      shareHint:"شارك الرابط مع شخص مهم… يمكن يحتاج يقرأ رسالته هو أيضًا.",
+      toastGenerated:"تم توليد رسالتك.",
+      toastCleared:"تم المسح.",
+      toastNoText:"لا يوجد نص لنسخه.",
+      toastCopied:"تم النسخ.",
+      toastLinkCopied:"تم نسخ رابط الصفحة.",
+      toastPlanCopied:"تم نسخ الخطة.",
+      toastShareLinkFallback:"جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.",
+      errAge:"العمر لازم يكون بين 10 و 99.",
+      errNeedAge:"اكتب عمرك لتحصل على عداد الأسابيع.",
+      shareTitle:"Message from the Future",
+      shareText:(lived,left)=>`جرب هذه التجربة… اكتشفت أني قطعت ${lived} أسبوع وباقي تقريبًا ${left} أسبوع.`
+    },
+    en: {
+      dir:"ltr", lang:"en",
+      brandTitle:"FutureMe • A Message from Your Future Self",
+      chip:"Time: 1 minute",
+      langBtn:"AR",
+      heroTitle:"Read a message from “you” in 10 years",
+      heroDesc:(y)=>`Answer 5 quick questions. You'll get a personal message based on your inputs — as if it came from <b>${y}</b>.`,
+      lblName:"Your name or nickname (optional)",
+      phName:"e.g., Mohamed / Dad / M.A",
+      hintName:"Leave it empty if you want a generic message.",
+      lblAge:"How old are you?",
+      phAge:"e.g., 32",
+      hintAge:"Age helps personalize the experience (no data is stored).",
+      lblLifeExp:"Life expectancy (estimate)",
+      hintLifeExp:"Just for the weeks counter (not a prediction).",
+      lblFocus:"What is taking most of your headspace lately?",
+      focusPlaceholder:"Select…",
+      focusOptions:["Success","Money","Family","The future","Peace of mind","Work","Health"],
+      lblMood:"How do you feel about your life right now?",
+      moodPlaceholder:"Select…",
+      moodOptions:["Very satisfied","Good but could be better","A bit lost","Not sure where I'm heading"],
+      lblDelay:"What have you been procrastinating on?",
+      phDelay:"e.g., starting a project / learning a skill / a tough decision…",
+      lblDream:"What dream do you not want to leave unfulfilled?",
+      phDream:"e.g., building something big / a home / travel / a major achievement…",
+      genBtn:"Generate my future message",
+      resetBtn:"Reset",
+      lifeTitle:"Your life in weeks",
+      lifeSmall:"A rough estimate to raise awareness (not a prediction).",
+      lblWeeksLived:"Weeks you’ve lived",
+      lblWeeksLeft:"Weeks left (approx.)",
+      lblLifeSummary:"Quick summary",
+      miniGridHint:"Mini view (400 weeks). Green = passed.",
+      letterTitle:"A message from",
+      letterSmall:"Generated locally on your device. Nothing is stored.",
+      planTitle:"7-day plan (Your weekly decision)",
+      planSmall:"3 realistic steps — the goal is “start”, not perfection.",
+      shareBtn:"Share",
+      copyBtn:"Copy message",
+      copyPlanBtn:"Copy plan",
+      copyLinkBtn:"Copy page link",
+      shareHint:"Share this with someone who may need it.",
+      toastGenerated:"Message generated.",
+      toastCleared:"Cleared.",
+      toastNoText:"Nothing to copy.",
+      toastCopied:"Copied.",
+      toastLinkCopied:"Link copied.",
+      toastPlanCopied:"Plan copied.",
+      toastShareLinkFallback:"Sharing not supported. Link copied.",
+      errAge:"Age must be between 10 and 99.",
+      errNeedAge:"Enter your age to see the weeks counter.",
+      shareTitle:"Message from the Future",
+      shareText:(lived,left)=>`Try this — I’ve lived about ${lived} weeks and have ~${left} left.`
+    }
+  };
+
+  let LANG = localStorage.getItem("fm_lang") || "ar";
+
+  function setLang(l){
+    LANG = l;
+    localStorage.setItem("fm_lang", LANG);
+    const t = T[LANG];
+
+    document.documentElement.lang = t.lang;
+    document.documentElement.dir  = t.dir;
+
+    $("brandTitle").textContent = t.brandTitle;
+    $("chip").textContent = t.chip;
+    $("langBtn").textContent = t.langBtn;
+
+    $("heroTitle").textContent = t.heroTitle;
+    $("heroDesc").innerHTML = t.heroDesc(year10);
+
+    $("lblName").textContent = t.lblName;
+    $("name").placeholder = t.phName;
+    $("hintName").textContent = t.hintName;
+
+    $("lblAge").textContent = t.lblAge;
+    $("age").placeholder = t.phAge;
+    $("hintAge").textContent = t.hintAge;
+
+    $("lblLifeExp").textContent = t.lblLifeExp;
+    $("hintLifeExp").textContent = t.hintLifeExp;
+
+    $("lblFocus").textContent = t.lblFocus;
+    // rebuild focus options
+    const focusSel = $("focus");
+    const currentFocus = focusSel.value;
+    focusSel.innerHTML = "";
+    const opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = t.focusPlaceholder;
+    focusSel.appendChild(opt0);
+    t.focusOptions.forEach((v)=>{
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      focusSel.appendChild(o);
+    });
+    // try restore if matches
+    [...focusSel.options].forEach(o => { if (o.value === currentFocus) focusSel.value = currentFocus; });
+
+    $("lblMood").textContent = t.lblMood;
+    const moodSel = $("mood");
+    const currentMood = moodSel.value;
+    moodSel.innerHTML = "";
+    const m0 = document.createElement("option");
+    m0.value = "";
+    m0.textContent = t.moodPlaceholder;
+    moodSel.appendChild(m0);
+    t.moodOptions.forEach((v)=>{
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      moodSel.appendChild(o);
+    });
+    [...moodSel.options].forEach(o => { if (o.value === currentMood) moodSel.value = currentMood; });
+
+    $("lblDelay").textContent = t.lblDelay;
+    $("delay").placeholder = t.phDelay;
+
+    $("lblDream").textContent = t.lblDream;
+    $("dream").placeholder = t.phDream;
+
+    $("genBtn").textContent = t.genBtn;
+    $("resetBtn").textContent = t.resetBtn;
+
+    $("lifeTitle").textContent = t.lifeTitle;
+    $("lifeSmall").textContent = t.lifeSmall;
+    $("lblWeeksLived").textContent = t.lblWeeksLived;
+    $("lblWeeksLeft").textContent = t.lblWeeksLeft;
+    $("lblLifeSummary").textContent = t.lblLifeSummary;
+    $("miniGridHint").textContent = t.miniGridHint;
+
+    $("letterSmall").textContent = t.letterSmall;
+    $("planTitle").textContent = t.planTitle;
+    $("planSmall").textContent = t.planSmall;
+
+    $("shareBtn").textContent = t.shareBtn;
+    $("copyBtn").textContent = t.copyBtn;
+    $("copyPlanBtn").textContent = t.copyPlanBtn;
+    $("copyLinkBtn").textContent = t.copyLinkBtn;
+    $("shareHint").textContent = t.shareHint;
+
+    // Update document title/meta
+    document.title = (LANG === "ar") ? "رسالة من نفسك بعد 10 سنوات" : "Message from Your Future Self";
+  }
+
+  $("langBtn").addEventListener("click", ()=>{
+    setLang(LANG === "ar" ? "en" : "ar");
+  });
+
+  // ===== Existing base =====
   const year10 = new Date().getFullYear() + 10;
   $("year10").textContent = year10;
   $("y2036").textContent = year10;
@@ -338,7 +614,84 @@
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
+  // ===== Life weeks =====
+  function calcWeeks(age, lifeExpectancy){
+    const a = Number(age || 0);
+    const le = Number(lifeExpectancy || 80);
+    if (!a || a < 1) return null;
+
+    const lived = Math.max(0, Math.floor(a * 52.1429));
+    const total = Math.floor(le * 52.1429);
+    const left = Math.max(0, total - lived);
+
+    return { lived, left, total, le };
+  }
+
+  function renderMiniWeeksGrid(livedWeeks){
+    // 400-week mini grid (20x20)
+    const totalCells = 400;
+    const livedCells = Math.min(totalCells, Math.floor(livedWeeks / 10)); // compress: 10 real weeks = 1 cell
+    const wrap = $("weeksCells");
+    wrap.innerHTML = "";
+    for (let i=0;i<totalCells;i++){
+      const c = document.createElement("div");
+      c.className = "cell" + (i < livedCells ? " live" : "");
+      wrap.appendChild(c);
+    }
+  }
+
+  // ===== Plan generator =====
+  function build7DayPlan(data){
+    const t = T[LANG];
+    const delay = clean(data.delay);
+    const dream = clean(data.dream);
+
+    // pick a main target
+    const target = delay || dream || (LANG==="ar" ? "أمر مهم في حياتك" : "something important in your life");
+
+    const step1 = (LANG==="ar")
+      ? `اليوم 1: حدّد “الخطوة الأولى” في (${target}) واكتبها في سطر واحد. ثم خصص 20 دقيقة لتنفيذ جزء صغير منها.`
+      : `Day 1: Define the first step for (${target}) in one sentence. Then spend 20 minutes doing a tiny part of it.`;
+
+    const step2 = (LANG==="ar")
+      ? `الأيام 2–4: كرر 20 دقيقة يوميًا. ممنوع التقييم. فقط تنفيذ. (حتى لو كان التقدم بسيط).`
+      : `Days 2–4: Repeat 20 minutes daily. No judging. Just doing. Even if progress is tiny.`;
+
+    const step3 = (LANG==="ar")
+      ? `الأيام 5–7: حوّلها لالتزام واضح: موعد ثابت + مهمة واحدة يوميًا. وفي اليوم 7 اكتب: ماذا تغير؟ وما الخطوة التالية؟`
+      : `Days 5–7: Make it real: fixed time + one task per day. On day 7 write: what changed, and what’s next?`;
+
+    const extra = (LANG==="ar")
+      ? `قاعدة: إذا ضعت… ارجع لـ 20 دقيقة. هذا هو الحد الأدنى الذي يمنع الندم.`
+      : `Rule: if you feel lost… return to 20 minutes. That minimum prevents regret.`;
+
+    const items = [step1, step2, step3, extra];
+    return { target, items };
+  }
+
+  function setPlanUI(plan){
+    const box = $("planItems");
+    box.innerHTML = "";
+    plan.items.forEach((txt)=>{
+      const row = document.createElement("div");
+      row.className = "planItem";
+      row.innerHTML = `<span class="bullet"></span><span>${txt}</span>`;
+      box.appendChild(row);
+    });
+  }
+
+  function planAsText(plan){
+    const title = (LANG==="ar") ? "خطة 7 أيام (قرار الأسبوع)" : "7-Day Plan (Weekly Decision)";
+    return `${title}\n\n- ${plan.items.join("\n- ")}\n`;
+  }
+
+  // ===== Letter generator (AR + EN) =====
   function buildLetter(data){
+    if (LANG === "en") return buildLetterEN(data);
+    return buildLetterAR(data);
+  }
+
+  function buildLetterAR(data){
     const name = data.name ? `يا ${data.name}` : "يا أنت";
     const ageLine = data.age ? `أتذكر عندما كان عمرك ${data.age} سنة؟` : "أتذكر تلك الفترة جيدًا…";
     const focus = data.focus ? `كنت تفكر كثيرًا في ${data.focus}.` : "كنت تفكر كثيرًا في أمور كثيرة.";
@@ -346,7 +699,6 @@
     const delay = data.delay ? `وأنت تؤجل: ${data.delay}.` : "وكان عندك شيء تؤجله دائمًا.";
     const dream = data.dream ? `والحلم الذي كنت تخاف أن يبقى مجرد فكرة: ${data.dream}.` : "وكان عندك حلم كبير لا تريد أن يضيع.";
 
-    // نبرة الرسالة حسب المزاج
     let toneBlock = "";
     if (data.mood === "راضٍ جدًا"){
       toneBlock = pick([
@@ -375,7 +727,6 @@
       ]);
     }
 
-    // جُمل موجهة حسب محور التفكير
     let focusAdvice = "";
     const f = data.focus;
     if (f === "المال"){
@@ -420,7 +771,6 @@
       ]);
     }
 
-    // دفع لطيف تجاه “التأجيل”
     let delayPush = data.delay ? pick([
       `بالنسبة لـ "${data.delay}"… لا تحتاج خطة عظيمة. تحتاج بداية فقط.`,
       `شيء واحد فقط: ابدأ في "${data.delay}" ولو 20 دقيقة اليوم.`,
@@ -430,20 +780,19 @@
       "ابدأ بخطوة صغيرة اليوم. الخطوة الصغيرة تمنع الانهيار الكبير."
     ]);
 
-    // ختم الرسالة
     const close = pick([
       "لا تنتظر اللحظة المثالية… لأنها غالبًا لا تأتي.\nابدأ الآن. ثم عدّل في الطريق.",
       "الحياة لا تضيع دفعة واحدة… تضيع أسبوعًا بعد أسبوع.\nلا تسمح لأسبوع جديد أن يمر بلا معنى.",
       "إذا كنت تريد نسخة أقوى منك… عامل نفسك كأنها مسؤوليتك الأولى."
     ]);
 
-    // بناء الرسالة
     return `مرحبًا ${name}…
 
 أنا أنت بعد 10 سنوات.
 
 ${ageLine}
 ${focus}
+${mood}
 ${delay}
 ${dream}
 
@@ -462,12 +811,131 @@ ${close}
 — أنت (من ${year10})`;
   }
 
+  function buildLetterEN(data){
+    const name = data.name ? data.name : "you";
+    const ageLine = data.age ? `I remember when you were ${data.age}.` : `I remember that phase clearly.`;
+    const focus = data.focus ? `You were thinking a lot about ${data.focus}.` : `Your mind was busy with too many things.`;
+    const mood = data.mood ? `You kept saying: "${data.mood}".` : `You were swinging between calm and anxiety.`;
+    const delay = data.delay ? `You kept postponing: ${data.delay}.` : `You kept postponing something important.`;
+    const dream = data.dream ? `And you had a dream you didn’t want to leave undone: ${data.dream}.` : `And you had a big dream you didn’t want to lose.`;
+
+    let toneBlock = "";
+    if (data.mood === "Very satisfied"){
+      toneBlock = pick([
+        "Protect this clarity. Don’t let noise steal you from yourself.",
+        "Don’t ruin what you built with haste. Keep going — with awareness."
+      ]);
+    } else if (data.mood === "Good but could be better"){
+      toneBlock = pick([
+        "You were close… but closeness means nothing without a clear decision.",
+        "Your life wasn’t bad. It just needed one brave step to become great."
+      ]);
+    } else if (data.mood === "A bit lost"){
+      toneBlock = pick([
+        "Feeling lost isn’t the end. It’s a sign you outgrew your old plan.",
+        "Stop fighting yourself. Organize your day first… your mind will calm down."
+      ]);
+    } else if (data.mood === "Not sure where I'm heading"){
+      toneBlock = pick([
+        "The hardest moment is when you can’t see direction. But direction is built, not discovered.",
+        "If you don’t choose a path, the days will choose one for you — and it won’t look like you."
+      ]);
+    } else {
+      toneBlock = pick([
+        "Take yourself more seriously — without cruelty.",
+        "Fear is normal. Regret is the real danger."
+      ]);
+    }
+
+    let focusAdvice = pick([
+      "Pick one lane for this month and commit to it daily.",
+      "Less thinking. More doing — even if it’s small."
+    ]);
+
+    if (data.focus === "Money"){
+      focusAdvice = pick([
+        "Money matters — but don’t turn it into your identity. Make it a tool, not a prison.",
+        "Build skill and value. Money will follow with dignity."
+      ]);
+    } else if (data.focus === "Success"){
+      focusAdvice = pick([
+        "Success isn’t noise. Success is a quiet daily commitment no one sees.",
+        "Don’t confuse being busy with progress. Finish one meaningful step."
+      ]);
+    } else if (data.focus === "Family"){
+      focusAdvice = pick([
+        "Family doesn’t repeat. Don’t postpone presence or kind words.",
+        "Protect the people who truly love you — time steals details silently."
+      ]);
+    } else if (data.focus === "The future"){
+      focusAdvice = pick([
+        "The future isn’t built by worrying. It’s built by a small plan executed today.",
+        "Turn anxiety into a checklist. One task. Today."
+      ]);
+    } else if (data.focus === "Peace of mind"){
+      focusAdvice = pick([
+        "Peace doesn’t come from escaping. It comes from arranging the inside before the outside.",
+        "Sleep. Move. Cut noise. You’ll be shocked how fast life changes."
+      ]);
+    } else if (data.focus === "Work"){
+      focusAdvice = pick([
+        "Work can lift you or consume you. Set boundaries and protect your energy.",
+        "Upgrade your skills — don’t stay stuck because it’s familiar."
+      ]);
+    } else if (data.focus === "Health"){
+      focusAdvice = pick([
+        "Your body is your only vehicle. What you ignore today, you pay for tomorrow.",
+        "Start with a small consistent habit. That’s the real switch."
+      ]);
+    }
+
+    let delayPush = data.delay ? pick([
+      `About "${data.delay}"… you don’t need a perfect plan. You need a start.`,
+      `One thing: begin "${data.delay}" for 20 minutes today.`,
+      `The postponed decision "${data.delay}" will chase you until you choose. Choose.`
+    ]) : pick([
+      "There’s something you’re postponing… grab it before it becomes regret.",
+      "Start with one small step today. Small steps prevent big collapse."
+    ]);
+
+    const close = pick([
+      "Don’t wait for the perfect moment — it rarely comes.\nStart now. Adjust on the way.",
+      "Life doesn’t slip away all at once — it slips week by week.\nDon’t let another week pass with no meaning.",
+      "If you want a stronger version of you… treat it as your first responsibility."
+    ]);
+
+    return `Hey ${name},
+
+This is you — 10 years later.
+
+${ageLine}
+${focus}
+${mood}
+${delay}
+${dream}
+
+Here’s the truth, without decoration:
+${toneBlock}
+
+Now listen:
+${focusAdvice}
+
+Most importantly:
+${delayPush}
+
+Finally…
+${close}
+
+— You (from ${year10})`;
+  }
+
   function validate(){
     const age = clean($("age").value);
-    if (age && (Number(age) < 10 || Number(age) > 99)) return "العمر لازم يكون بين 10 و 99.";
+    if (age && (Number(age) < 10 || Number(age) > 99)) return T[LANG].errAge;
     return "";
   }
 
+  // ===== Generate =====
   $("genBtn").addEventListener("click", () => {
     const err = validate();
     if (err){ toast(err); return; }
@@ -475,52 +943,94 @@ ${close}
     const data = {
       name: clean($("name").value),
       age: clean($("age").value),
+      lifeExp: $("lifeExp").value,
       focus: $("focus").value,
       mood: $("mood").value,
       delay: clean($("delay").value),
       dream: clean($("dream").value),
     };
 
+    // Life box
+    const w = calcWeeks(data.age, data.lifeExp);
+    if (w){
+      $("weeksLived").textContent = (LANG==="ar") ? `${w.lived} أسبوع` : `${w.lived} weeks`;
+      $("weeksLeft").textContent  = (LANG==="ar") ? `${w.left} أسبوع` : `${w.left} weeks`;
+      $("lifeSummary").textContent =
+        (LANG==="ar")
+          ? `على افتراض متوسط عمر ${w.le} سنة: مجموع الأسابيع ${w.total}. أنت قطعت ${w.lived} وباقي تقريبًا ${w.left}.`
+          : `Assuming ${w.le} years: total weeks ${w.total}. You’ve lived ${w.lived}, with ~${w.left} left.`;
+      $("lifeBox").style.display = "block";
+      renderMiniWeeksGrid(w.lived);
+    } else {
+      $("lifeBox").style.display = "none";
+    }
+
+    // Letter
     const letter = buildLetter(data);
     $("letterText").textContent = letter;
 
-    // تغيير الختم بشكل لطيف حسب وجود اسم
-    $("stamp").textContent = data.name ? `TO: ${data.name.toUpperCase ? data.name.toUpperCase() : data.name}` : "TO: YOU";
+    // Stamp
+    const toTxt = data.name ? data.name : (LANG==="ar" ? "YOU" : "YOU");
+    $("stamp").textContent = `TO: ${toTxt}`;
+
+    // Plan
+    const plan = build7DayPlan(data);
+    setPlanUI(plan);
+
+    // Show letter panel
     $("letterBox").style.display = "block";
     $("letterBox").scrollIntoView({behavior:"smooth", block:"start"});
-    toast("تم توليد رسالتك.");
+    toast(T[LANG].toastGenerated);
   });
 
+  // ===== Reset =====
   $("resetBtn").addEventListener("click", () => {
     $("name").value = "";
     $("age").value = "";
+    $("lifeExp").value = "80";
     $("focus").value = "";
     $("mood").value = "";
     $("delay").value = "";
     $("dream").value = "";
+    $("lifeBox").style.display = "none";
     $("letterBox").style.display = "none";
-    toast("تم المسح.");
+    toast(T[LANG].toastCleared);
   });
 
+  // ===== Copy message =====
   $("copyBtn").addEventListener("click", async () => {
     const txt = $("letterText").textContent || "";
-    if (!txt){ toast("لا يوجد نص لنسخه."); return; }
+    if (!txt){ toast(T[LANG].toastNoText); return; }
     await navigator.clipboard.writeText(txt);
-    toast("تم نسخ الرسالة.");
+    toast(T[LANG].toastCopied);
   });
 
+  // ===== Copy plan =====
+  $("copyPlanBtn").addEventListener("click", async () => {
+    const data = {
+      delay: clean($("delay").value),
+      dream: clean($("dream").value)
+    };
+    const plan = build7DayPlan(data);
+    await navigator.clipboard.writeText(planAsText(plan));
+    toast(T[LANG].toastPlanCopied);
+  });
+
+  // ===== Copy link =====
   $("copyLinkBtn").addEventListener("click", async () => {
     await navigator.clipboard.writeText(location.href);
-    toast("تم نسخ رابط الصفحة.");
+    toast(T[LANG].toastLinkCopied);
   });
 
+  // ===== Share =====
   $("shareBtn").addEventListener("click", async () => {
-    const txt = $("letterText").textContent || "";
-    if (!txt){ toast("لا يوجد شيء لمشاركته."); return; }
+    const letter = $("letterText").textContent || "";
+    if (!letter){ toast(T[LANG].toastNoText); return; }
 
+    const w = calcWeeks(clean($("age").value), $("lifeExp").value) || {lived:"—", left:"—"};
     const shareData = {
-      title: "رسالة من نفسك بعد 10 سنوات",
-      text: "جرب هذه التجربة… دقيقة واحدة وتقرأ رسالة من نفسك بعد 10 سنوات.",
+      title: T[LANG].shareTitle,
+      text: T[LANG].shareText(w.lived, w.left),
       url: location.href
     };
 
@@ -528,14 +1038,16 @@ ${close}
       try{
         await navigator.share(shareData);
       }catch(e){
-        // المستخدم قد يلغي المشاركة
+        // user cancelled
       }
     } else {
-      // fallback: نسخ الرابط
       await navigator.clipboard.writeText(location.href);
-      toast("جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.");
+      toast(T[LANG].toastShareLinkFallback);
     }
   });
+
+  // init language
+  setLang(LANG);
 </script>
 </body>
 </html>
