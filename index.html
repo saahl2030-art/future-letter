@@ -3,152 +3,216 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رسالة من نفسك بعد 10 سنوات</title>
-  <meta name="description" content="تجربة قصيرة تولّد رسالة شخصية من نسختك بعد 10 سنوات." />
+  <title>Decode Yourself | فك شفرة نفسك</title>
+  <meta name="description" content="تجربة غامضة لفك شفرة نفسك عبر 3 مفاتيح رمزية ورسالة مشفّرة من داخلك." />
   <style>
     :root{
-      --bg:#0b0f17;
-      --card:#101827;
-      --muted:#9aa4b2;
-      --text:#e5e7eb;
-      --line:#1f2a3a;
+      --bg:#070b12;
+      --card:#0d1320;
+      --card2:#101827;
+      --text:#e8ecf3;
+      --muted:#94a3b8;
+      --line:#1f2937;
       --accent:#7c3aed;
       --accent2:#22c55e;
+      --accent3:#38bdf8;
       --danger:#ef4444;
-      --shadow: 0 12px 30px rgba(0,0,0,.35);
-      --radius: 18px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --radius:20px;
+      --shadow:0 14px 40px rgba(0,0,0,.42);
+      --sans:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:var(--sans);
-      background: radial-gradient(900px 500px at 80% -10%, rgba(124,58,237,.25), transparent 60%),
-                  radial-gradient(700px 450px at 10% 0%, rgba(34,197,94,.18), transparent 55%),
-                  var(--bg);
       color:var(--text);
       min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      background:
+        radial-gradient(900px 500px at 80% -10%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(700px 450px at 10% 0%, rgba(56,189,248,.12), transparent 55%),
+        radial-gradient(500px 300px at 50% 100%, rgba(34,197,94,.08), transparent 65%),
+        var(--bg);
       padding:18px;
     }
-    .wrap{width:min(960px, 100%)}
-    .top{
+
+    .wrap{width:min(980px,100%); margin:0 auto;}
+    .topbar{
       display:flex;
-      gap:12px;
       align-items:center;
       justify-content:space-between;
+      gap:12px;
       margin-bottom:14px;
+      flex-wrap:wrap;
     }
-    .brand{display:flex; align-items:center; gap:10px; user-select:none;}
-    .dot{
-      width:12px; height:12px; border-radius:999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 6px rgba(124,58,237,.12);
-    }
-    .brand h1{font-size:14px; margin:0; letter-spacing:.2px; color:var(--muted); font-weight:600;}
-    .rightTools{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
-    .chip{
-      font-size:12px;
-      color:var(--muted);
-      border:1px solid var(--line);
-      padding:8px 10px;
-      border-radius:999px;
-      background: rgba(16,24,39,.55);
-      display:inline-flex;
+    .brand{
+      display:flex;
       align-items:center;
-      gap:8px;
-      user-select:none;
-      cursor:default;
+      gap:10px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:700;
     }
-    .langBtn{
-      cursor:pointer;
+    .dot{
+      width:12px;height:12px;border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 6px rgba(124,58,237,.12);
+    }
+    .tools{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .chip,.lang-btn{
       border:1px solid var(--line);
-      background: rgba(16,24,39,.55);
-      color: var(--text);
-      padding:8px 10px;
+      background:rgba(16,24,39,.6);
+      color:var(--muted);
       border-radius:999px;
+      padding:8px 12px;
       font-size:12px;
       font-weight:800;
     }
+    .lang-btn{
+      color:var(--text);
+      cursor:pointer;
+    }
+
     .card{
-      background: linear-gradient(180deg, rgba(16,24,39,.85), rgba(16,24,39,.72));
-      border:1px solid rgba(31,42,58,.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      background:linear-gradient(180deg, rgba(16,24,39,.9), rgba(13,19,32,.82));
+      border:1px solid rgba(31,41,55,.95);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
       overflow:hidden;
     }
+
     .hero{
-      padding:26px 22px 14px;
+      padding:28px 22px 18px;
       border-bottom:1px solid var(--line);
     }
-    .hero h2{margin:0 0 8px; font-size:26px; line-height:1.25; letter-spacing:.2px;}
-    .hero p{margin:0; color:var(--muted); line-height:1.7; font-size:14px;}
-    .content{padding:18px 22px 22px}
-    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px;}
-    @media (max-width:720px){
-      .grid{grid-template-columns:1fr}
-      .hero h2{font-size:22px}
-      .rightTools{justify-content:flex-start}
+    .hero h1{
+      margin:0 0 10px;
+      font-size:32px;
+      line-height:1.2;
+      letter-spacing:.2px;
     }
-    label{display:block; font-size:13px; margin:0 0 8px; color:#cbd5e1; font-weight:600;}
-    input, select, textarea{
-      width:100%;
-      background: rgba(11,15,23,.55);
-      border:1px solid rgba(31,42,58,.95);
-      color:var(--text);
-      padding:12px 12px;
-      border-radius: 14px;
-      outline:none;
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:15px;
+      max-width:750px;
+    }
+
+    .content{padding:20px 22px 24px;}
+
+    .center-box{
+      text-align:center;
+      padding:26px 16px 10px;
+    }
+
+    .sigil{
+      width:92px;
+      height:92px;
+      margin:0 auto 16px;
+      border-radius:50%;
+      border:1px solid rgba(124,58,237,.35);
+      display:grid;
+      place-items:center;
+      position:relative;
+      background:
+        radial-gradient(circle at center, rgba(124,58,237,.16), transparent 62%),
+        rgba(11,15,23,.55);
+      box-shadow: inset 0 0 0 8px rgba(124,58,237,.05);
+    }
+    .sigil:before,
+    .sigil:after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:50%;
+      border:1px dashed rgba(148,163,184,.2);
+    }
+    .sigil span{
+      font-family:var(--mono);
+      font-size:22px;
+      letter-spacing:2px;
+      color:#d8b4fe;
+      font-weight:900;
+    }
+
+    .start-title{
+      font-size:24px;
+      margin:0 0 10px;
+      font-weight:900;
+    }
+    .start-sub{
+      color:var(--muted);
+      line-height:1.9;
+      max-width:660px;
+      margin:0 auto;
       font-size:14px;
     }
-    textarea{min-height:96px; resize:vertical}
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(124,58,237,.9);
-      box-shadow: 0 0 0 4px rgba(124,58,237,.14);
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:18px;
     }
-    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
     button{
       border:0;
-      padding:12px 14px;
-      border-radius: 14px;
-      font-weight:800;
+      padding:12px 16px;
+      border-radius:14px;
+      font-weight:900;
       cursor:pointer;
-      color: #0b0f17;
-      background: linear-gradient(135deg, var(--accent), #9d4edd);
-      transition: transform .08s ease, filter .08s ease;
+      transition:transform .08s ease, filter .08s ease;
     }
     button:hover{filter:brightness(1.05)}
-    button:active{transform: translateY(1px)}
+    button:active{transform:translateY(1px)}
+    .btn-primary{
+      color:#0b1020;
+      background:linear-gradient(135deg,var(--accent),#9d4edd);
+    }
     .btn-ghost{
-      background: transparent;
-      color: var(--text);
+      background:transparent;
+      color:var(--text);
       border:1px solid var(--line);
-      font-weight:800;
     }
     .btn-green{
-      background: linear-gradient(135deg, var(--accent2), #16a34a);
       color:#04110a;
+      background:linear-gradient(135deg,var(--accent2),#16a34a);
     }
-    .hint{font-size:12px; color:var(--muted); margin-top:8px; line-height:1.6;}
-    .divider{margin:18px 0; height:1px; background: var(--line);}
-    .panel{
+
+    .hidden{display:none!important;}
+
+    .step{
       display:none;
-      margin-top:16px;
-      border:1px solid rgba(31,42,58,.95);
-      background: radial-gradient(1000px 500px at 10% 0%, rgba(124,58,237,.12), transparent 55%),
-                  rgba(11,15,23,.55);
-      border-radius: var(--radius);
-      padding:16px;
+      margin-top:18px;
+      border:1px solid rgba(31,41,55,.95);
+      border-radius:18px;
+      padding:18px;
+      background:
+        radial-gradient(800px 360px at 10% 0%, rgba(124,58,237,.10), transparent 55%),
+        rgba(11,15,23,.42);
     }
-    .panel-head{
+    .step.active{display:block}
+
+    .step-head{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:12px;
-      margin-bottom:10px;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+    .step-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+    }
+    .step-kicker{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:4px;
+      line-height:1.6;
     }
     .stamp{
       font-family:var(--mono);
@@ -156,898 +220,868 @@
       color:#cbd5e1;
       border:1px dashed rgba(148,163,184,.45);
       padding:8px 10px;
-      border-radius: 12px;
+      border-radius:12px;
       white-space:nowrap;
       opacity:.95;
     }
-    .panel-title{margin:0; font-size:16px; color:#e2e8f0; font-weight:900;}
-    .panel-body{white-space:pre-wrap; line-height:1.9; font-size:14px; color:#e5e7eb;}
-    .small{font-size:12px; color:var(--muted);}
+
+    .riddle{
+      font-size:16px;
+      line-height:2;
+      color:#e5e7eb;
+      margin-bottom:14px;
+    }
+    .riddle em{
+      color:#d8b4fe;
+      font-style:normal;
+      font-weight:900;
+    }
+
+    label{
+      display:block;
+      margin:0 0 8px;
+      font-size:13px;
+      color:#cbd5e1;
+      font-weight:800;
+    }
+    input, textarea{
+      width:100%;
+      background:rgba(11,15,23,.58);
+      border:1px solid rgba(31,41,55,.95);
+      color:var(--text);
+      padding:13px 12px;
+      border-radius:14px;
+      outline:none;
+      font-size:15px;
+    }
+    input:focus, textarea:focus{
+      border-color:rgba(124,58,237,.88);
+      box-shadow:0 0 0 4px rgba(124,58,237,.12);
+    }
+    textarea{min-height:110px; resize:vertical}
+
+    .hint{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    .reveal{
+      margin-top:14px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(31,41,55,.95);
+      background:rgba(15,23,42,.45);
+      display:none;
+    }
+    .reveal.active{display:block}
+
+    .reveal-line{
+      line-height:1.9;
+      font-size:15px;
+      color:#e5e7eb;
+    }
+    .value{
+      color:#86efac;
+      font-weight:900;
+    }
+    .code-fragment{
+      margin-top:10px;
+      border-top:1px dashed rgba(148,163,184,.2);
+      padding-top:10px;
+      color:#d8b4fe;
+      font-family:var(--mono);
+      font-size:13px;
+      line-height:1.8;
+      white-space:pre-wrap;
+    }
+
+    .progress{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:18px;
+    }
+    .prog{
+      border:1px solid var(--line);
+      background:rgba(15,23,42,.45);
+      border-radius:14px;
+      padding:10px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+    }
+    .prog.done{
+      color:#bbf7d0;
+      border-color:rgba(34,197,94,.35);
+      background:rgba(34,197,94,.08);
+    }
+
+    .final-wrap{
+      display:none;
+      margin-top:18px;
+      border:1px solid rgba(31,41,55,.95);
+      border-radius:18px;
+      padding:18px;
+      background:
+        radial-gradient(1000px 480px at 10% 0%, rgba(124,58,237,.12), transparent 55%),
+        rgba(11,15,23,.52);
+    }
+    .final-wrap.active{display:block}
+
+    .decode-line{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#c4b5fd;
+      font-family:var(--mono);
+      font-size:13px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .pulse{
+      width:10px;height:10px;border-radius:50%;
+      background:#22c55e;
+      box-shadow:0 0 0 8px rgba(34,197,94,.08);
+      animation:pulse 1.4s infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1);opacity:1}
+      70%{transform:scale(1.6);opacity:.15}
+      100%{transform:scale(1);opacity:1}
+    }
+
+    .final-title{
+      font-size:20px;
+      margin:0 0 10px;
+      font-weight:900;
+    }
+    .final-message{
+      white-space:pre-wrap;
+      line-height:2;
+      font-size:15px;
+      color:#ecf0f7;
+      margin-top:8px;
+    }
+
+    .life-code{
+      margin-top:16px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(56,189,248,.28);
+      background:rgba(56,189,248,.07);
+    }
+    .life-code strong{
+      display:block;
+      margin-bottom:6px;
+      color:#bae6fd;
+      font-size:14px;
+    }
+    .life-code .big{
+      font-family:var(--mono);
+      font-size:18px;
+      color:#67e8f9;
+      font-weight:900;
+      letter-spacing:1px;
+    }
+    .life-code p{
+      margin:8px 0 0;
+      color:#d8e4f0;
+      line-height:1.8;
+      font-size:14px;
+    }
+
     .toast{
       position:fixed;
       left:18px;
       bottom:18px;
-      background: rgba(16,24,39,.95);
-      border:1px solid rgba(31,42,58,.95);
-      color: #e5e7eb;
+      background:rgba(16,24,39,.95);
+      border:1px solid rgba(31,41,55,.95);
+      color:#e5e7eb;
       padding:10px 12px;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
+      border-radius:12px;
+      box-shadow:var(--shadow);
       display:none;
       font-size:13px;
       z-index:9999;
     }
 
-    /* Weeks mini grid */
-    .weeksGrid{
-      display:grid;
-      gap:6px;
-      margin-top:10px;
-    }
-    .weeksCells{
-      display:grid;
-      grid-template-columns: repeat(20, 1fr);
-      gap:4px;
-    }
-    .cell{
-      width:100%;
-      aspect-ratio:1/1;
-      border-radius:4px;
-      border:1px solid rgba(31,42,58,.8);
-      background: rgba(148,163,184,.12);
-    }
-    .cell.live{
-      background: rgba(34,197,94,.55);
-      border-color: rgba(34,197,94,.65);
-    }
-
-    /* Plan list */
-    .planBox{
-      margin-top:10px;
-      border:1px solid rgba(31,42,58,.85);
-      border-radius: 14px;
-      padding:12px;
-      background: rgba(11,15,23,.35);
-    }
-    .planItem{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin:8px 0;
-      color:#e5e7eb;
-      line-height:1.7;
-      font-size:14px;
-    }
-    .bullet{
-      width:10px;height:10px;border-radius:999px;
-      background: linear-gradient(135deg, var(--accent2), var(--accent));
-      margin-top:6px;
-      flex:0 0 auto;
+    @media (max-width:720px){
+      .hero h1{font-size:26px}
+      .start-title{font-size:22px}
     }
   </style>
 </head>
-
 <body>
   <div class="wrap">
-    <div class="top">
+    <div class="topbar">
       <div class="brand">
         <div class="dot"></div>
-        <h1 id="brandTitle">FutureMe • رسالة من نفسك بعد 10 سنوات</h1>
+        <div id="brandText">Decode Yourself • فك شفرة نفسك</div>
       </div>
-      <div class="rightTools">
-        <div class="chip" id="chip">مدة التجربة: دقيقة واحدة</div>
-        <button class="langBtn" id="langBtn" type="button">EN</button>
+      <div class="tools">
+        <div class="chip" id="chipText">3 مفاتيح • رسالة واحدة</div>
+        <button class="lang-btn" id="langBtn" type="button">EN</button>
       </div>
     </div>
 
     <div class="card">
       <div class="hero">
-        <h2 id="heroTitle">اقرأ رسالة من “أنت” بعد 10 سنوات</h2>
+        <h1 id="heroTitle">هناك رسالة لك… لكنها مشفّرة</h1>
         <p id="heroDesc">
-          أجب بصدق على 5 أسئلة قصيرة. بعدها ستحصل على رسالة شخصية مبنية على إجاباتك،
-          وكأنها قادمة من عام <b id="year10"></b>.
+          ليست كل الرسائل تُقرأ فورًا. بعضها لا يُفتح… إلا إذا عرفت كيف تفك نفسك أولًا.
+          أمامك ثلاثة مفاتيح. كل مفتاح يكشف جزءًا من الحقيقة.
         </p>
       </div>
 
       <div class="content">
-        <div class="grid">
-          <div>
-            <label id="lblName" for="name">اسمك أو لقبك (اختياري)</label>
-            <input id="name" type="text" placeholder="مثال: محمد / أبو أحمد / M.A" maxlength="40" />
-            <div class="hint" id="hintName">لو تركته فاضي، الرسالة ستبقى عامة بدون اسم.</div>
-          </div>
-
-          <div>
-            <label id="lblAge" for="age">كم عمرك الآن؟</label>
-            <input id="age" type="number" placeholder="مثال: 32" min="10" max="99" />
-            <div class="hint" id="hintAge">العمر يساعدنا نعطي الرسالة طابع شخصي (بدون أي حفظ للبيانات).</div>
-          </div>
-
-          <div>
-            <label id="lblLifeExp" for="lifeExp">متوسط العمر الافتراضي</label>
-            <select id="lifeExp">
-              <option value="80" selected>80</option>
-              <option value="85">85</option>
-              <option value="90">90</option>
-            </select>
-            <div class="hint" id="hintLifeExp">تقدير عام فقط لعرض عداد الأسابيع.</div>
-          </div>
-
-          <div>
-            <label id="lblFocus" for="focus">ما أكثر شيء يشغل تفكيرك هذه الفترة؟</label>
-            <select id="focus">
-              <option value="">اختر…</option>
-              <option value="النجاح">النجاح</option>
-              <option value="المال">المال</option>
-              <option value="العائلة">العائلة</option>
-              <option value="المستقبل">المستقبل</option>
-              <option value="الراحة النفسية">الراحة النفسية</option>
-              <option value="العمل">العمل</option>
-              <option value="الصحة">الصحة</option>
-            </select>
-          </div>
-
-          <div>
-            <label id="lblMood" for="mood">كيف تشعر تجاه حياتك الآن؟</label>
-            <select id="mood">
-              <option value="">اختر…</option>
-              <option value="راضٍ جدًا">راضٍ جدًا</option>
-              <option value="جيد لكن يمكن أفضل">جيد لكن يمكن أفضل</option>
-              <option value="أشعر أنني تائه قليلًا">أشعر أنني تائه قليلًا</option>
-              <option value="لا أعرف إلى أين أسير">لا أعرف إلى أين أسير</option>
-            </select>
-          </div>
-
-          <div style="grid-column: 1 / -1;">
-            <label id="lblDelay" for="delay">ما الشيء الذي تؤجله منذ فترة؟</label>
-            <textarea id="delay" placeholder="مثال: بدء مشروع / تعلم لغة / ترتيب حياتي / قرار مهم…"></textarea>
-          </div>
-
-          <div style="grid-column: 1 / -1;">
-            <label id="lblDream" for="dream">ما الحلم الذي لا تريد أن يمضي العمر دون تحقيقه؟</label>
-            <textarea id="dream" placeholder="مثال: تأسيس شيء يخلّد اسمي / بيت / سفر / إنجاز كبير…"></textarea>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button id="genBtn">اقرأ رسالتك من المستقبل</button>
-          <button class="btn-ghost" id="resetBtn" type="button">مسح</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- LIFE / WEEKS PANEL -->
-        <div class="panel" id="lifeBox">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title" id="lifeTitle">عداد حياتك بالأسبوع</div>
-              <div class="small" id="lifeSmall">تقدير تقريبي (لرفع الوعي، ليس تنبؤًا).</div>
-            </div>
-            <div class="stamp" id="lifeStamp">WEEKS</div>
-          </div>
-
-          <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
-            <div>
-              <label id="lblWeeksLived">الأسابيع التي عشتها</label>
-              <div class="chip" id="weeksLived">—</div>
-            </div>
-            <div>
-              <label id="lblWeeksLeft">الأسابيع المتبقية (تقريبًا)</label>
-              <div class="chip" id="weeksLeft">—</div>
-            </div>
-            <div style="grid-column:1/-1;">
-              <label id="lblLifeSummary">ملخص سريع</label>
-              <div class="hint" id="lifeSummary">—</div>
-            </div>
-          </div>
-
-          <div class="weeksGrid">
-            <div class="small" id="miniGridHint">عرض مصغّر (400 أسبوع). الأخضر = مضى.</div>
-            <div class="weeksCells" id="weeksCells"></div>
-          </div>
-        </div>
-
-        <!-- LETTER PANEL -->
-        <div class="panel" id="letterBox">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title" id="letterTitle">رسالة من عام <span id="y2036"></span></div>
-              <div class="small" id="letterSmall">هذه الرسالة تُولد على جهازك فقط، ولا يتم حفظ أي شيء على السيرفر.</div>
-            </div>
-            <div class="stamp" id="stamp">FROM: FUTURE YOU</div>
-          </div>
-
-          <div class="panel-body" id="letterText"></div>
-
-          <!-- PLAN PANEL (inside) -->
-          <div class="planBox" id="planBox">
-            <div class="panel-title" style="font-size:14px; margin-bottom:6px;" id="planTitle">خطة 7 أيام (قرار الأسبوع)</div>
-            <div class="small" id="planSmall">3 خطوات واقعية… هدفها “بداية” وليس كمال.</div>
-            <div id="planItems"></div>
-          </div>
-
+        <div class="center-box" id="introBox">
+          <div class="sigil"><span>Ø</span></div>
+          <h2 class="start-title" id="startTitle">ابدأ فك الشيفرة</h2>
+          <p class="start-sub" id="startSub">
+            لن تُسأل أسئلة عادية.  
+            ستواجه ثلاث إشارات: سارق، باب، وأثر.  
+            وإذا أجبت بصدق… ستُفتح الرسالة.
+          </p>
           <div class="actions">
-            <button class="btn-green" id="shareBtn" type="button">مشاركة</button>
-            <button class="btn-ghost" id="copyBtn" type="button">نسخ الرسالة</button>
-            <button class="btn-ghost" id="copyPlanBtn" type="button">نسخ الخطة</button>
-            <button class="btn-ghost" id="copyLinkBtn" type="button">نسخ رابط الصفحة</button>
+            <button class="btn-primary" id="startBtn">ابدأ الآن</button>
           </div>
-
-          <div class="hint" id="shareHint">شارك الرابط مع شخص مهم… يمكن يحتاج يقرأ رسالته هو أيضًا.</div>
         </div>
 
+        <div class="progress" id="progressBar">
+          <div class="prog" id="p1">المفتاح الأول</div>
+          <div class="prog" id="p2">المفتاح الثاني</div>
+          <div class="prog" id="p3">المفتاح الثالث</div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step" id="step1">
+          <div class="step-head">
+            <div>
+              <h3 class="step-title" id="s1Title">المفتاح الأول: السارق الصامت</h3>
+              <div class="step-kicker" id="s1Kick">بعض اللصوص لا يسرقون مالك… بل عمرك.</div>
+            </div>
+            <div class="stamp">KEY_01</div>
+          </div>
+
+          <div class="riddle" id="s1Riddle">
+            هناك شيء في حياتك  
+            <em>يأخذ منك جزءًا من عمرك كل يوم</em>  
+            دون أن يترك أثرًا حقيقيًا.  
+            <br><br>
+            كم ساعة تعتقد أنه يسرق منك يوميًا؟
+          </div>
+
+          <label id="lblHours" for="hoursInput">اكتب عدد الساعات</label>
+          <input id="hoursInput" type="number" min="0" max="24" placeholder="مثال: 3" />
+          <div class="hint" id="hoursHint">أدخل رقمًا فقط. كن صريحًا مع نفسك.</div>
+
+          <div class="actions" style="justify-content:flex-start;">
+            <button class="btn-primary" id="unlock1Btn">فك المفتاح الأول</button>
+          </div>
+
+          <div class="reveal" id="reveal1">
+            <div class="reveal-line" id="r1Line"></div>
+            <div class="code-fragment" id="r1Code"></div>
+            <div class="actions" style="justify-content:flex-start;">
+              <button class="btn-ghost" id="next1Btn">التالي</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step2">
+          <div class="step-head">
+            <div>
+              <h3 class="step-title" id="s2Title">المفتاح الثاني: الباب الذي لا يُفتح وحده</h3>
+              <div class="step-kicker" id="s2Kick">بعض الأبواب تبقى مغلقة لأننا نقف أمامها فقط.</div>
+            </div>
+            <div class="stamp">KEY_02</div>
+          </div>
+
+          <div class="riddle" id="s2Riddle">
+            في حياتك باب تقف أمامه منذ فترة.  
+            خلفه نسخة مختلفة منك.  
+            <br><br>
+            ما اسم هذا الباب؟
+          </div>
+
+          <label id="lblDoor" for="doorInput">اكتب اسم الباب</label>
+          <textarea id="doorInput" placeholder="مثال: مشروع / قرار / سفر / اعتذار / بداية جديدة"></textarea>
+          <div class="hint" id="doorHint">لا تكتب شرحًا طويلًا. اكتب الشيء الحقيقي.</div>
+
+          <div class="actions" style="justify-content:flex-start;">
+            <button class="btn-primary" id="unlock2Btn">فك المفتاح الثاني</button>
+          </div>
+
+          <div class="reveal" id="reveal2">
+            <div class="reveal-line" id="r2Line"></div>
+            <div class="code-fragment" id="r2Code"></div>
+            <div class="actions" style="justify-content:flex-start;">
+              <button class="btn-ghost" id="next2Btn">التالي</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" id="step3">
+          <div class="step-head">
+            <div>
+              <h3 class="step-title" id="s3Title">المفتاح الثالث: الأثر الأخير</h3>
+              <div class="step-kicker" id="s3Kick">ما يبقى منك… ليس ما كنت تفكر فيه، بل ما تركته.</div>
+            </div>
+            <div class="stamp">KEY_03</div>
+          </div>
+
+          <div class="riddle" id="s3Riddle">
+            لو لم يُسمح لك بترك شيء واحد فقط في هذه الحياة…  
+            شيء واحد يثبت أنك كنت هنا…  
+            <br><br>
+            فماذا سيكون؟
+          </div>
+
+          <label id="lblMark" for="markInput">اكتب أثرك</label>
+          <textarea id="markInput" placeholder="مثال: فكرة / مشروع / شخص قمت بإنقاذه / حياة صنعتها / أثر جميل"></textarea>
+          <div class="hint" id="markHint">لا تكتب ما يعجب الناس. اكتب ما يشبهك أنت.</div>
+
+          <div class="actions" style="justify-content:flex-start;">
+            <button class="btn-primary" id="unlock3Btn">إكمال فك الشيفرة</button>
+          </div>
+
+          <div class="reveal" id="reveal3">
+            <div class="reveal-line" id="r3Line"></div>
+            <div class="code-fragment" id="r3Code"></div>
+            <div class="actions" style="justify-content:flex-start;">
+              <button class="btn-green" id="finalBtn">افتح الرسالة</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FINAL -->
+        <div class="final-wrap" id="finalWrap">
+          <div class="decode-line">
+            <span class="pulse"></span>
+            <span id="decodingText">DECODE COMPLETE // الرسالة أصبحت قابلة للقراءة</span>
+          </div>
+
+          <h3 class="final-title" id="finalTitle">الرسالة</h3>
+          <div class="final-message" id="finalMessage"></div>
+
+          <div class="life-code" id="lifeCodeBox">
+            <strong id="lifeCodeTitle">رمز حياتك الحالي</strong>
+            <div class="big" id="lifeCodeValue">LIFE CODE: —</div>
+            <p id="lifeCodeDesc"></p>
+          </div>
+
+          <div class="actions" style="justify-content:flex-start;">
+            <button class="btn-green" id="shareBtn">مشاركة</button>
+            <button class="btn-ghost" id="copyMsgBtn">نسخ الرسالة</button>
+            <button class="btn-ghost" id="restartBtn">إعادة التجربة</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
-<script>
-  const $ = (id) => document.getElementById(id);
-
-  // ===== Language system =====
-  const T = {
-    ar: {
-      dir:"rtl", lang:"ar",
-      brandTitle:"FutureMe • رسالة من نفسك بعد 10 سنوات",
-      chip:"مدة التجربة: دقيقة واحدة",
-      langBtn:"EN",
-      heroTitle:"اقرأ رسالة من “أنت” بعد 10 سنوات",
-      heroDesc:(y)=>`أجب بصدق على 5 أسئلة قصيرة. بعدها ستحصل على رسالة شخصية مبنية على إجاباتك، وكأنها قادمة من عام <b>${y}</b>.`,
-      lblName:"اسمك أو لقبك (اختياري)",
-      phName:"مثال: محمد / أبو أحمد / M.A",
-      hintName:"لو تركته فاضي، الرسالة ستبقى عامة بدون اسم.",
-      lblAge:"كم عمرك الآن؟",
-      phAge:"مثال: 32",
-      hintAge:"العمر يساعدنا نعطي الرسالة طابع شخصي (بدون أي حفظ للبيانات).",
-      lblLifeExp:"متوسط العمر الافتراضي",
-      hintLifeExp:"تقدير عام فقط لعرض عداد الأسابيع.",
-      lblFocus:"ما أكثر شيء يشغل تفكيرك هذه الفترة؟",
-      focusPlaceholder:"اختر…",
-      focusOptions:["النجاح","المال","العائلة","المستقبل","الراحة النفسية","العمل","الصحة"],
-      lblMood:"كيف تشعر تجاه حياتك الآن؟",
-      moodPlaceholder:"اختر…",
-      moodOptions:["راضٍ جدًا","جيد لكن يمكن أفضل","أشعر أنني تائه قليلًا","لا أعرف إلى أين أسير"],
-      lblDelay:"ما الشيء الذي تؤجله منذ فترة؟",
-      phDelay:"مثال: بدء مشروع / تعلم لغة / ترتيب حياتي / قرار مهم…",
-      lblDream:"ما الحلم الذي لا تريد أن يمضي العمر دون تحقيقه؟",
-      phDream:"مثال: تأسيس شيء يخلّد اسمي / بيت / سفر / إنجاز كبير…",
-      genBtn:"اقرأ رسالتك من المستقبل",
-      resetBtn:"مسح",
-      lifeTitle:"عداد حياتك بالأسبوع",
-      lifeSmall:"تقدير تقريبي (لرفع الوعي، ليس تنبؤًا).",
-      lblWeeksLived:"الأسابيع التي عشتها",
-      lblWeeksLeft:"الأسابيع المتبقية (تقريبًا)",
-      lblLifeSummary:"ملخص سريع",
-      miniGridHint:"عرض مصغّر (400 أسبوع). الأخضر = مضى.",
-      letterTitle:"رسالة من عام",
-      letterSmall:"هذه الرسالة تُولد على جهازك فقط، ولا يتم حفظ أي شيء على السيرفر.",
-      planTitle:"خطة 7 أيام (قرار الأسبوع)",
-      planSmall:"3 خطوات واقعية… هدفها “بداية” وليس كمال.",
-      shareBtn:"مشاركة",
-      copyBtn:"نسخ الرسالة",
-      copyPlanBtn:"نسخ الخطة",
-      copyLinkBtn:"نسخ رابط الصفحة",
-      shareHint:"شارك الرابط مع شخص مهم… يمكن يحتاج يقرأ رسالته هو أيضًا.",
-      toastGenerated:"تم توليد رسالتك.",
-      toastCleared:"تم المسح.",
-      toastNoText:"لا يوجد نص لنسخه.",
-      toastCopied:"تم النسخ.",
-      toastLinkCopied:"تم نسخ رابط الصفحة.",
-      toastPlanCopied:"تم نسخ الخطة.",
-      toastShareLinkFallback:"جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.",
-      errAge:"العمر لازم يكون بين 10 و 99.",
-      errNeedAge:"اكتب عمرك لتحصل على عداد الأسابيع.",
-      shareTitle:"Message from the Future",
-      shareText:(lived,left)=>`جرب هذه التجربة… اكتشفت أني قطعت ${lived} أسبوع وباقي تقريبًا ${left} أسبوع.`
-    },
-    en: {
-      dir:"ltr", lang:"en",
-      brandTitle:"FutureMe • A Message from Your Future Self",
-      chip:"Time: 1 minute",
-      langBtn:"AR",
-      heroTitle:"Read a message from “you” in 10 years",
-      heroDesc:(y)=>`Answer 5 quick questions. You'll get a personal message based on your inputs — as if it came from <b>${y}</b>.`,
-      lblName:"Your name or nickname (optional)",
-      phName:"e.g., Mohamed / Dad / M.A",
-      hintName:"Leave it empty if you want a generic message.",
-      lblAge:"How old are you?",
-      phAge:"e.g., 32",
-      hintAge:"Age helps personalize the experience (no data is stored).",
-      lblLifeExp:"Life expectancy (estimate)",
-      hintLifeExp:"Just for the weeks counter (not a prediction).",
-      lblFocus:"What is taking most of your headspace lately?",
-      focusPlaceholder:"Select…",
-      focusOptions:["Success","Money","Family","The future","Peace of mind","Work","Health"],
-      lblMood:"How do you feel about your life right now?",
-      moodPlaceholder:"Select…",
-      moodOptions:["Very satisfied","Good but could be better","A bit lost","Not sure where I'm heading"],
-      lblDelay:"What have you been procrastinating on?",
-      phDelay:"e.g., starting a project / learning a skill / a tough decision…",
-      lblDream:"What dream do you not want to leave unfulfilled?",
-      phDream:"e.g., building something big / a home / travel / a major achievement…",
-      genBtn:"Generate my future message",
-      resetBtn:"Reset",
-      lifeTitle:"Your life in weeks",
-      lifeSmall:"A rough estimate to raise awareness (not a prediction).",
-      lblWeeksLived:"Weeks you’ve lived",
-      lblWeeksLeft:"Weeks left (approx.)",
-      lblLifeSummary:"Quick summary",
-      miniGridHint:"Mini view (400 weeks). Green = passed.",
-      letterTitle:"A message from",
-      letterSmall:"Generated locally on your device. Nothing is stored.",
-      planTitle:"7-day plan (Your weekly decision)",
-      planSmall:"3 realistic steps — the goal is “start”, not perfection.",
-      shareBtn:"Share",
-      copyBtn:"Copy message",
-      copyPlanBtn:"Copy plan",
-      copyLinkBtn:"Copy page link",
-      shareHint:"Share this with someone who may need it.",
-      toastGenerated:"Message generated.",
-      toastCleared:"Cleared.",
-      toastNoText:"Nothing to copy.",
-      toastCopied:"Copied.",
-      toastLinkCopied:"Link copied.",
-      toastPlanCopied:"Plan copied.",
-      toastShareLinkFallback:"Sharing not supported. Link copied.",
-      errAge:"Age must be between 10 and 99.",
-      errNeedAge:"Enter your age to see the weeks counter.",
-      shareTitle:"Message from the Future",
-      shareText:(lived,left)=>`Try this — I’ve lived about ${lived} weeks and have ~${left} left.`
-    }
-  };
-
-  let LANG = localStorage.getItem("fm_lang") || "ar";
-
-  function setLang(l){
-    LANG = l;
-    localStorage.setItem("fm_lang", LANG);
-    const t = T[LANG];
-
-    document.documentElement.lang = t.lang;
-    document.documentElement.dir  = t.dir;
-
-    $("brandTitle").textContent = t.brandTitle;
-    $("chip").textContent = t.chip;
-    $("langBtn").textContent = t.langBtn;
-
-    $("heroTitle").textContent = t.heroTitle;
-    $("heroDesc").innerHTML = t.heroDesc(year10);
-
-    $("lblName").textContent = t.lblName;
-    $("name").placeholder = t.phName;
-    $("hintName").textContent = t.hintName;
-
-    $("lblAge").textContent = t.lblAge;
-    $("age").placeholder = t.phAge;
-    $("hintAge").textContent = t.hintAge;
-
-    $("lblLifeExp").textContent = t.lblLifeExp;
-    $("hintLifeExp").textContent = t.hintLifeExp;
-
-    $("lblFocus").textContent = t.lblFocus;
-    // rebuild focus options
-    const focusSel = $("focus");
-    const currentFocus = focusSel.value;
-    focusSel.innerHTML = "";
-    const opt0 = document.createElement("option");
-    opt0.value = "";
-    opt0.textContent = t.focusPlaceholder;
-    focusSel.appendChild(opt0);
-    t.focusOptions.forEach((v)=>{
-      const o = document.createElement("option");
-      o.value = v;
-      o.textContent = v;
-      focusSel.appendChild(o);
-    });
-    // try restore if matches
-    [...focusSel.options].forEach(o => { if (o.value === currentFocus) focusSel.value = currentFocus; });
-
-    $("lblMood").textContent = t.lblMood;
-    const moodSel = $("mood");
-    const currentMood = moodSel.value;
-    moodSel.innerHTML = "";
-    const m0 = document.createElement("option");
-    m0.value = "";
-    m0.textContent = t.moodPlaceholder;
-    moodSel.appendChild(m0);
-    t.moodOptions.forEach((v)=>{
-      const o = document.createElement("option");
-      o.value = v;
-      o.textContent = v;
-      moodSel.appendChild(o);
-    });
-    [...moodSel.options].forEach(o => { if (o.value === currentMood) moodSel.value = currentMood; });
-
-    $("lblDelay").textContent = t.lblDelay;
-    $("delay").placeholder = t.phDelay;
-
-    $("lblDream").textContent = t.lblDream;
-    $("dream").placeholder = t.phDream;
-
-    $("genBtn").textContent = t.genBtn;
-    $("resetBtn").textContent = t.resetBtn;
-
-    $("lifeTitle").textContent = t.lifeTitle;
-    $("lifeSmall").textContent = t.lifeSmall;
-    $("lblWeeksLived").textContent = t.lblWeeksLived;
-    $("lblWeeksLeft").textContent = t.lblWeeksLeft;
-    $("lblLifeSummary").textContent = t.lblLifeSummary;
-    $("miniGridHint").textContent = t.miniGridHint;
-
-    $("letterSmall").textContent = t.letterSmall;
-    $("planTitle").textContent = t.planTitle;
-    $("planSmall").textContent = t.planSmall;
-
-    $("shareBtn").textContent = t.shareBtn;
-    $("copyBtn").textContent = t.copyBtn;
-    $("copyPlanBtn").textContent = t.copyPlanBtn;
-    $("copyLinkBtn").textContent = t.copyLinkBtn;
-    $("shareHint").textContent = t.shareHint;
-
-    // Update document title/meta
-    document.title = (LANG === "ar") ? "رسالة من نفسك بعد 10 سنوات" : "Message from Your Future Self";
-  }
-
-  $("langBtn").addEventListener("click", ()=>{
-    setLang(LANG === "ar" ? "en" : "ar");
-  });
-
-  // ===== Existing base =====
-  const year10 = new Date().getFullYear() + 10;
-  $("year10").textContent = year10;
-  $("y2036").textContent = year10;
-
-  function toast(msg){
-    const t = $("toast");
-    t.textContent = msg;
-    t.style.display = "block";
-    clearTimeout(window.__toastTimer);
-    window.__toastTimer = setTimeout(()=> t.style.display="none", 2200);
-  }
-
-  function clean(s){
-    return (s || "").toString().trim().replace(/\s+/g, " ");
-  }
-
-  function pick(arr){
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
-  // ===== Life weeks =====
-  function calcWeeks(age, lifeExpectancy){
-    const a = Number(age || 0);
-    const le = Number(lifeExpectancy || 80);
-    if (!a || a < 1) return null;
-
-    const lived = Math.max(0, Math.floor(a * 52.1429));
-    const total = Math.floor(le * 52.1429);
-    const left = Math.max(0, total - lived);
-
-    return { lived, left, total, le };
-  }
-
-  function renderMiniWeeksGrid(livedWeeks){
-    // 400-week mini grid (20x20)
-    const totalCells = 400;
-    const livedCells = Math.min(totalCells, Math.floor(livedWeeks / 10)); // compress: 10 real weeks = 1 cell
-    const wrap = $("weeksCells");
-    wrap.innerHTML = "";
-    for (let i=0;i<totalCells;i++){
-      const c = document.createElement("div");
-      c.className = "cell" + (i < livedCells ? " live" : "");
-      wrap.appendChild(c);
-    }
-  }
-
-  // ===== Plan generator =====
-  function build7DayPlan(data){
-    const t = T[LANG];
-    const delay = clean(data.delay);
-    const dream = clean(data.dream);
-
-    // pick a main target
-    const target = delay || dream || (LANG==="ar" ? "أمر مهم في حياتك" : "something important in your life");
-
-    const step1 = (LANG==="ar")
-      ? `اليوم 1: حدّد “الخطوة الأولى” في (${target}) واكتبها في سطر واحد. ثم خصص 20 دقيقة لتنفيذ جزء صغير منها.`
-      : `Day 1: Define the first step for (${target}) in one sentence. Then spend 20 minutes doing a tiny part of it.`;
-
-    const step2 = (LANG==="ar")
-      ? `الأيام 2–4: كرر 20 دقيقة يوميًا. ممنوع التقييم. فقط تنفيذ. (حتى لو كان التقدم بسيط).`
-      : `Days 2–4: Repeat 20 minutes daily. No judging. Just doing. Even if progress is tiny.`;
-
-    const step3 = (LANG==="ar")
-      ? `الأيام 5–7: حوّلها لالتزام واضح: موعد ثابت + مهمة واحدة يوميًا. وفي اليوم 7 اكتب: ماذا تغير؟ وما الخطوة التالية؟`
-      : `Days 5–7: Make it real: fixed time + one task per day. On day 7 write: what changed, and what’s next?`;
-
-    const extra = (LANG==="ar")
-      ? `قاعدة: إذا ضعت… ارجع لـ 20 دقيقة. هذا هو الحد الأدنى الذي يمنع الندم.`
-      : `Rule: if you feel lost… return to 20 minutes. That minimum prevents regret.`;
-
-    const items = [step1, step2, step3, extra];
-    return { target, items };
-  }
-
-  function setPlanUI(plan){
-    const box = $("planItems");
-    box.innerHTML = "";
-    plan.items.forEach((txt)=>{
-      const row = document.createElement("div");
-      row.className = "planItem";
-      row.innerHTML = `<span class="bullet"></span><span>${txt}</span>`;
-      box.appendChild(row);
-    });
-  }
-
-  function planAsText(plan){
-    const title = (LANG==="ar") ? "خطة 7 أيام (قرار الأسبوع)" : "7-Day Plan (Weekly Decision)";
-    return `${title}\n\n- ${plan.items.join("\n- ")}\n`;
-  }
-
-  // ===== Letter generator (AR + EN) =====
-  function buildLetter(data){
-    if (LANG === "en") return buildLetterEN(data);
-    return buildLetterAR(data);
-  }
-
-  function buildLetterAR(data){
-    const name = data.name ? `يا ${data.name}` : "يا أنت";
-    const ageLine = data.age ? `أتذكر عندما كان عمرك ${data.age} سنة؟` : "أتذكر تلك الفترة جيدًا…";
-    const focus = data.focus ? `كنت تفكر كثيرًا في ${data.focus}.` : "كنت تفكر كثيرًا في أمور كثيرة.";
-    const mood = data.mood ? `كنت تقول: "${data.mood}".` : "كنت متذبذبًا بين الرضا والقلق.";
-    const delay = data.delay ? `وأنت تؤجل: ${data.delay}.` : "وكان عندك شيء تؤجله دائمًا.";
-    const dream = data.dream ? `والحلم الذي كنت تخاف أن يبقى مجرد فكرة: ${data.dream}.` : "وكان عندك حلم كبير لا تريد أن يضيع.";
-
-    let toneBlock = "";
-    if (data.mood === "راضٍ جدًا"){
-      toneBlock = pick([
-        "حافظ على هذا الصفاء. لا تسمح للضوضاء أن تسرقك من نفسك.",
-        "لا تفسد ما بنيته بعجلة. استمر… لكن بوعي."
-      ]);
-    } else if (data.mood === "جيد لكن يمكن أفضل"){
-      toneBlock = pick([
-        "أنت قريب جدًا… لكن القرب لا يكفي بدون قرار واضح.",
-        "حياتك ليست سيئة. لكنها تحتاج شجاعة صغيرة لتصبح عظيمة."
-      ]);
-    } else if (data.mood === "أشعر أنني تائه قليلًا"){
-      toneBlock = pick([
-        "التيه ليس نهاية. التيه مجرد علامة أنك كبرت أسرع من خطتك.",
-        "لا تحارب نفسك. رتّب يومك أولًا… ثم سيهدأ رأسك."
-      ]);
-    } else if (data.mood === "لا أعرف إلى أين أسير"){
-      toneBlock = pick([
-        "أصعب لحظة هي هذه… عندما لا ترى الاتجاه. لكن صدقني: الاتجاه يُصنع، لا يُكتشف.",
-        "إذا لم تختر طريقًا، ستختارك الأيام لطريق لا يشبهك."
-      ]);
-    } else {
-      toneBlock = pick([
-        "أريدك أن تتعامل مع نفسك بجدية أكبر… لكن بدون قسوة.",
-        "لا تخف من التغيير. الخوف طبيعي، والندم هو الخطر الحقيقي."
-      ]);
-    }
-
-    let focusAdvice = "";
-    const f = data.focus;
-    if (f === "المال"){
-      focusAdvice = pick([
-        "المال مهم… لكن لا تجعله مقياس قيمتك. اجعله أداة، وليس سجنًا.",
-        "لو ركضت خلف المال فقط ستتعب. ابنِ مهارة وقيمة… وسيأتي المال بكرامة."
-      ]);
-    } else if (f === "النجاح"){
-      focusAdvice = pick([
-        "النجاح ليس ضجة. النجاح التزام يومي هادئ لا يراه أحد.",
-        "لا تخلط بين الانشغال والإنجاز. ركّز على خطوة واحدة تُكملها."
-      ]);
-    } else if (f === "العائلة"){
-      focusAdvice = pick([
-        "العائلة لا تتكرر. لا تؤجل الكلام الطيب ولا الحضور الحقيقي.",
-        "حافظ على من يحبونك بصدق… لأن الزمن يسرق التفاصيل بهدوء."
-      ]);
-    } else if (f === "المستقبل"){
-      focusAdvice = pick([
-        "المستقبل لا يُبنى بالقلق، يُبنى بخطة صغيرة تُنفذ اليوم.",
-        "قلّل التفكير… وزِد الفعل. حتى لو كان الفعل بسيطًا جدًا."
-      ]);
-    } else if (f === "الراحة النفسية"){
-      focusAdvice = pick([
-        "الراحة النفسية لا تأتي من الهروب… تأتي من ترتيب الداخل قبل الخارج.",
-        "نم جيدًا، تحرك، اقطع الضوضاء… ستتفاجأ كيف تتغير حياتك."
-      ]);
-    } else if (f === "العمل"){
-      focusAdvice = pick([
-        "العمل قد يرفعك وقد يستهلكك. ضع حدودًا، واحفظ طاقتك لما يهم.",
-        "طور نفسك بذكاء… لا تبقَ في نفس المكان لأنك اعتدت عليه."
-      ]);
-    } else if (f === "الصحة"){
-      focusAdvice = pick([
-        "جسدك هو مركبتك الوحيدة. أي إهمال اليوم سيدفع ثمنه الغد.",
-        "لا تنتظر علامة قوية. التغيير يبدأ من عادة صغيرة ثابتة."
-      ]);
-    } else {
-      focusAdvice = pick([
-        "اختر محورًا واحدًا هذا الشهر واشتغل عليه بجد.",
-        "لا تترك حياتك مفتوحة على كل شيء… ستتسرب منك."
-      ]);
-    }
-
-    let delayPush = data.delay ? pick([
-      `بالنسبة لـ "${data.delay}"… لا تحتاج خطة عظيمة. تحتاج بداية فقط.`,
-      `شيء واحد فقط: ابدأ في "${data.delay}" ولو 20 دقيقة اليوم.`,
-      `قرارك المؤجل "${data.delay}" سيبقى يلاحقك حتى تحسمه. احسمه.`
-    ]) : pick([
-      "هناك شيء تؤجله… التقطه الآن قبل أن يصبح ندمًا.",
-      "ابدأ بخطوة صغيرة اليوم. الخطوة الصغيرة تمنع الانهيار الكبير."
-    ]);
-
-    const close = pick([
-      "لا تنتظر اللحظة المثالية… لأنها غالبًا لا تأتي.\nابدأ الآن. ثم عدّل في الطريق.",
-      "الحياة لا تضيع دفعة واحدة… تضيع أسبوعًا بعد أسبوع.\nلا تسمح لأسبوع جديد أن يمر بلا معنى.",
-      "إذا كنت تريد نسخة أقوى منك… عامل نفسك كأنها مسؤوليتك الأولى."
-    ]);
-
-    return `مرحبًا ${name}…
-
-أنا أنت بعد 10 سنوات.
-
-${ageLine}
-${focus}
-${mood}
-${delay}
-${dream}
-
-أريد أن أقول لك الحقيقة بدون تزيين:
-${toneBlock}
-
-ثم اسمع هذه:
-${focusAdvice}
-
-والأهم:
-${delayPush}
-
-وأخيرًا…
-${close}
-
-— أنت (من ${year10})`;
-  }
-
-  function buildLetterEN(data){
-    const name = data.name ? data.name : "you";
-    const ageLine = data.age ? `I remember when you were ${data.age}.` : `I remember that phase clearly.`;
-    const focus = data.focus ? `You were thinking a lot about ${data.focus}.` : `Your mind was busy with too many things.`;
-    const mood = data.mood ? `You kept saying: "${data.mood}".` : `You were swinging between calm and anxiety.`;
-    const delay = data.delay ? `You kept postponing: ${data.delay}.` : `You kept postponing something important.`;
-    const dream = data.dream ? `And you had a dream you didn’t want to leave undone: ${data.dream}.` : `And you had a big dream you didn’t want to lose.`;
-
-    let toneBlock = "";
-    if (data.mood === "Very satisfied"){
-      toneBlock = pick([
-        "Protect this clarity. Don’t let noise steal you from yourself.",
-        "Don’t ruin what you built with haste. Keep going — with awareness."
-      ]);
-    } else if (data.mood === "Good but could be better"){
-      toneBlock = pick([
-        "You were close… but closeness means nothing without a clear decision.",
-        "Your life wasn’t bad. It just needed one brave step to become great."
-      ]);
-    } else if (data.mood === "A bit lost"){
-      toneBlock = pick([
-        "Feeling lost isn’t the end. It’s a sign you outgrew your old plan.",
-        "Stop fighting yourself. Organize your day first… your mind will calm down."
-      ]);
-    } else if (data.mood === "Not sure where I'm heading"){
-      toneBlock = pick([
-        "The hardest moment is when you can’t see direction. But direction is built, not discovered.",
-        "If you don’t choose a path, the days will choose one for you — and it won’t look like you."
-      ]);
-    } else {
-      toneBlock = pick([
-        "Take yourself more seriously — without cruelty.",
-        "Fear is normal. Regret is the real danger."
-      ]);
-    }
-
-    let focusAdvice = pick([
-      "Pick one lane for this month and commit to it daily.",
-      "Less thinking. More doing — even if it’s small."
-    ]);
-
-    if (data.focus === "Money"){
-      focusAdvice = pick([
-        "Money matters — but don’t turn it into your identity. Make it a tool, not a prison.",
-        "Build skill and value. Money will follow with dignity."
-      ]);
-    } else if (data.focus === "Success"){
-      focusAdvice = pick([
-        "Success isn’t noise. Success is a quiet daily commitment no one sees.",
-        "Don’t confuse being busy with progress. Finish one meaningful step."
-      ]);
-    } else if (data.focus === "Family"){
-      focusAdvice = pick([
-        "Family doesn’t repeat. Don’t postpone presence or kind words.",
-        "Protect the people who truly love you — time steals details silently."
-      ]);
-    } else if (data.focus === "The future"){
-      focusAdvice = pick([
-        "The future isn’t built by worrying. It’s built by a small plan executed today.",
-        "Turn anxiety into a checklist. One task. Today."
-      ]);
-    } else if (data.focus === "Peace of mind"){
-      focusAdvice = pick([
-        "Peace doesn’t come from escaping. It comes from arranging the inside before the outside.",
-        "Sleep. Move. Cut noise. You’ll be shocked how fast life changes."
-      ]);
-    } else if (data.focus === "Work"){
-      focusAdvice = pick([
-        "Work can lift you or consume you. Set boundaries and protect your energy.",
-        "Upgrade your skills — don’t stay stuck because it’s familiar."
-      ]);
-    } else if (data.focus === "Health"){
-      focusAdvice = pick([
-        "Your body is your only vehicle. What you ignore today, you pay for tomorrow.",
-        "Start with a small consistent habit. That’s the real switch."
-      ]);
-    }
-
-    let delayPush = data.delay ? pick([
-      `About "${data.delay}"… you don’t need a perfect plan. You need a start.`,
-      `One thing: begin "${data.delay}" for 20 minutes today.`,
-      `The postponed decision "${data.delay}" will chase you until you choose. Choose.`
-    ]) : pick([
-      "There’s something you’re postponing… grab it before it becomes regret.",
-      "Start with one small step today. Small steps prevent big collapse."
-    ]);
-
-    const close = pick([
-      "Don’t wait for the perfect moment — it rarely comes.\nStart now. Adjust on the way.",
-      "Life doesn’t slip away all at once — it slips week by week.\nDon’t let another week pass with no meaning.",
-      "If you want a stronger version of you… treat it as your first responsibility."
-    ]);
-
-    return `Hey ${name},
-
-This is you — 10 years later.
-
-${ageLine}
-${focus}
-${mood}
-${delay}
-${dream}
-
-Here’s the truth, without decoration:
-${toneBlock}
-
-Now listen:
-${focusAdvice}
-
-Most importantly:
-${delayPush}
-
-Finally…
-${close}
-
-— You (from ${year10})`;
-  }
-
-  function validate(){
-    const age = clean($("age").value);
-    if (age && (Number(age) < 10 || Number(age) > 99)) return T[LANG].errAge;
-    return "";
-  }
-
-  // ===== Generate =====
-  $("genBtn").addEventListener("click", () => {
-    const err = validate();
-    if (err){ toast(err); return; }
-
-    const data = {
-      name: clean($("name").value),
-      age: clean($("age").value),
-      lifeExp: $("lifeExp").value,
-      focus: $("focus").value,
-      mood: $("mood").value,
-      delay: clean($("delay").value),
-      dream: clean($("dream").value),
-    };
-
-    // Life box
-    const w = calcWeeks(data.age, data.lifeExp);
-    if (w){
-      $("weeksLived").textContent = (LANG==="ar") ? `${w.lived} أسبوع` : `${w.lived} weeks`;
-      $("weeksLeft").textContent  = (LANG==="ar") ? `${w.left} أسبوع` : `${w.left} weeks`;
-      $("lifeSummary").textContent =
-        (LANG==="ar")
-          ? `على افتراض متوسط عمر ${w.le} سنة: مجموع الأسابيع ${w.total}. أنت قطعت ${w.lived} وباقي تقريبًا ${w.left}.`
-          : `Assuming ${w.le} years: total weeks ${w.total}. You’ve lived ${w.lived}, with ~${w.left} left.`;
-      $("lifeBox").style.display = "block";
-      renderMiniWeeksGrid(w.lived);
-    } else {
-      $("lifeBox").style.display = "none";
-    }
-
-    // Letter
-    const letter = buildLetter(data);
-    $("letterText").textContent = letter;
-
-    // Stamp
-    const toTxt = data.name ? data.name : (LANG==="ar" ? "YOU" : "YOU");
-    $("stamp").textContent = `TO: ${toTxt}`;
-
-    // Plan
-    const plan = build7DayPlan(data);
-    setPlanUI(plan);
-
-    // Show letter panel
-    $("letterBox").style.display = "block";
-    $("letterBox").scrollIntoView({behavior:"smooth", block:"start"});
-    toast(T[LANG].toastGenerated);
-  });
-
-  // ===== Reset =====
-  $("resetBtn").addEventListener("click", () => {
-    $("name").value = "";
-    $("age").value = "";
-    $("lifeExp").value = "80";
-    $("focus").value = "";
-    $("mood").value = "";
-    $("delay").value = "";
-    $("dream").value = "";
-    $("lifeBox").style.display = "none";
-    $("letterBox").style.display = "none";
-    toast(T[LANG].toastCleared);
-  });
-
-  // ===== Copy message =====
-  $("copyBtn").addEventListener("click", async () => {
-    const txt = $("letterText").textContent || "";
-    if (!txt){ toast(T[LANG].toastNoText); return; }
-    await navigator.clipboard.writeText(txt);
-    toast(T[LANG].toastCopied);
-  });
-
-  // ===== Copy plan =====
-  $("copyPlanBtn").addEventListener("click", async () => {
-    const data = {
-      delay: clean($("delay").value),
-      dream: clean($("dream").value)
-    };
-    const plan = build7DayPlan(data);
-    await navigator.clipboard.writeText(planAsText(plan));
-    toast(T[LANG].toastPlanCopied);
-  });
-
-  // ===== Copy link =====
-  $("copyLinkBtn").addEventListener("click", async () => {
-    await navigator.clipboard.writeText(location.href);
-    toast(T[LANG].toastLinkCopied);
-  });
-
-  // ===== Share =====
-  $("shareBtn").addEventListener("click", async () => {
-    const letter = $("letterText").textContent || "";
-    if (!letter){ toast(T[LANG].toastNoText); return; }
-
-    const w = calcWeeks(clean($("age").value), $("lifeExp").value) || {lived:"—", left:"—"};
-    const shareData = {
-      title: T[LANG].shareTitle,
-      text: T[LANG].shareText(w.lived, w.left),
-      url: location.href
-    };
-
-    if (navigator.share){
-      try{
-        await navigator.share(shareData);
-      }catch(e){
-        // user cancelled
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const year10 = new Date().getFullYear() + 10;
+    let LANG = localStorage.getItem("decode_lang") || "ar";
+
+    const T = {
+      ar: {
+        dir:"rtl",
+        brandText:"Decode Yourself • فك شفرة نفسك",
+        chipText:"3 مفاتيح • رسالة واحدة",
+        langBtn:"EN",
+        heroTitle:"هناك رسالة لك… لكنها مشفّرة",
+        heroDesc:"ليست كل الرسائل تُقرأ فورًا. بعضها لا يُفتح… إلا إذا عرفت كيف تفك نفسك أولًا. أمامك ثلاثة مفاتيح. كل مفتاح يكشف جزءًا من الحقيقة.",
+        startTitle:"ابدأ فك الشيفرة",
+        startSub:"لن تُسأل أسئلة عادية. ستواجه ثلاث إشارات: سارق، باب، وأثر. وإذا أجبت بصدق… ستُفتح الرسالة.",
+        startBtn:"ابدأ الآن",
+        p1:"المفتاح الأول",
+        p2:"المفتاح الثاني",
+        p3:"المفتاح الثالث",
+
+        s1Title:"المفتاح الأول: السارق الصامت",
+        s1Kick:"بعض اللصوص لا يسرقون مالك… بل عمرك.",
+        s1Riddle:"هناك شيء في حياتك\n<em>يأخذ منك جزءًا من عمرك كل يوم</em>\nدون أن يترك أثرًا حقيقيًا.\n\nكم ساعة تعتقد أنه يسرق منك يوميًا؟",
+        lblHours:"اكتب عدد الساعات",
+        hoursPh:"مثال: 3",
+        hoursHint:"أدخل رقمًا فقط. كن صريحًا مع نفسك.",
+        unlock1Btn:"فك المفتاح الأول",
+        nextBtn:"التالي",
+
+        s2Title:"المفتاح الثاني: الباب الذي لا يُفتح وحده",
+        s2Kick:"بعض الأبواب تبقى مغلقة لأننا نقف أمامها فقط.",
+        s2Riddle:"في حياتك باب تقف أمامه منذ فترة.\nخلفه نسخة مختلفة منك.\n\nما اسم هذا الباب؟",
+        lblDoor:"اكتب اسم الباب",
+        doorPh:"مثال: مشروع / قرار / سفر / اعتذار / بداية جديدة",
+        doorHint:"لا تكتب شرحًا طويلًا. اكتب الشيء الحقيقي.",
+        unlock2Btn:"فك المفتاح الثاني",
+
+        s3Title:"المفتاح الثالث: الأثر الأخير",
+        s3Kick:"ما يبقى منك… ليس ما كنت تفكر فيه، بل ما تركته.",
+        s3Riddle:"لو لم يُسمح لك بترك شيء واحد فقط في هذه الحياة…\nشيء واحد يثبت أنك كنت هنا…\n\nفماذا سيكون؟",
+        lblMark:"اكتب أثرك",
+        markPh:"مثال: فكرة / مشروع / شخص قمت بإنقاذه / حياة صنعتها / أثر جميل",
+        markHint:"لا تكتب ما يعجب الناس. اكتب ما يشبهك أنت.",
+        unlock3Btn:"إكمال فك الشيفرة",
+        finalBtn:"افتح الرسالة",
+
+        decodingText:"DECODE COMPLETE // الرسالة أصبحت قابلة للقراءة",
+        finalTitle:"الرسالة",
+        lifeCodeTitle:"رمز حياتك الحالي",
+        shareBtn:"مشاركة",
+        copyMsgBtn:"نسخ الرسالة",
+        restartBtn:"إعادة التجربة",
+
+        errHours:"اكتب رقمًا صحيحًا بين 0 و 24.",
+        errDoor:"اكتب اسم الباب أولًا.",
+        errMark:"اكتب الأثر الذي تريد تركه.",
+        copied:"تم النسخ.",
+        copiedLink:"تم نسخ الرابط.",
+        sharedFallback:"جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.",
+        restarted:"تمت إعادة التجربة.",
+
+        shareTitle:"Decode Yourself",
+        shareText:"هل تستطيع فك الرسالة المخفية داخلك؟ جرب هذه التجربة."
+      },
+      en: {
+        dir:"ltr",
+        brandText:"Decode Yourself",
+        chipText:"3 keys • 1 message",
+        langBtn:"AR",
+        heroTitle:"There is a message for you… but it is encrypted",
+        heroDesc:"Not every message is meant to be read immediately. Some only open when you learn how to decode yourself first. Three keys. One truth.",
+        startTitle:"Begin the decode",
+        startSub:"You won’t answer ordinary questions. You’ll face three signs: a thief, a door, and a mark. If you answer honestly… the message will open.",
+        startBtn:"Start now",
+        p1:"First key",
+        p2:"Second key",
+        p3:"Third key",
+
+        s1Title:"First key: The silent thief",
+        s1Kick:"Some thieves do not steal your money… they steal your life.",
+        s1Riddle:"There is something in your life\n<em>taking part of your age every day</em>\nwithout leaving any real trace.\n\nHow many hours do you think it steals from you daily?",
+        lblHours:"Enter the number of hours",
+        hoursPh:"e.g. 3",
+        hoursHint:"Numbers only. Be honest with yourself.",
+        unlock1Btn:"Unlock the first key",
+        nextBtn:"Next",
+
+        s2Title:"Second key: The door that never opens by itself",
+        s2Kick:"Some doors stay closed because we only stand in front of them.",
+        s2Riddle:"There is a door in your life you have been standing before for a while.\nBehind it is a different version of you.\n\nWhat is the name of that door?",
+        lblDoor:"Write the door's name",
+        doorPh:"e.g. project / decision / travel / apology / new beginning",
+        doorHint:"Do not explain too much. Write the real thing.",
+        unlock2Btn:"Unlock the second key",
+
+        s3Title:"Third key: The final mark",
+        s3Kick:"What remains of you is not what you imagined, but what you left behind.",
+        s3Riddle:"If you were allowed to leave only one thing in this life…\none thing that proves you were here…\n\nwhat would it be?",
+        lblMark:"Write your mark",
+        markPh:"e.g. an idea / a project / a life I changed / something beautiful",
+        markHint:"Do not write what impresses people. Write what resembles you.",
+        unlock3Btn:"Complete the decode",
+        finalBtn:"Open the message",
+
+        decodingText:"DECODE COMPLETE // The message is now readable",
+        finalTitle:"The Message",
+        lifeCodeTitle:"Your current life code",
+        shareBtn:"Share",
+        copyMsgBtn:"Copy message",
+        restartBtn:"Restart",
+
+        errHours:"Enter a valid number between 0 and 24.",
+        errDoor:"Write the name of the door first.",
+        errMark:"Write the mark you want to leave.",
+        copied:"Copied.",
+        copiedLink:"Link copied.",
+        sharedFallback:"Direct sharing is not supported. Link copied.",
+        restarted:"Experience restarted.",
+
+        shareTitle:"Decode Yourself",
+        shareText:"Can you unlock the hidden message inside you? Try this experience."
       }
-    } else {
-      await navigator.clipboard.writeText(location.href);
-      toast(T[LANG].toastShareLinkFallback);
-    }
-  });
+    };
 
-  // init language
-  setLang(LANG);
-</script>
+    const state = {
+      hours: null,
+      yearsLostHours: null,
+      door: "",
+      mark: ""
+    };
+
+    function toast(msg){
+      const t = $("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(()=> t.style.display = "none", 2200);
+    }
+
+    function clean(s){
+      return (s || "").toString().trim().replace(/\s+/g," ");
+    }
+
+    function setLang(lang){
+      LANG = lang;
+      localStorage.setItem("decode_lang", LANG);
+      const t = T[LANG];
+      document.documentElement.lang = LANG === "ar" ? "ar" : "en";
+      document.documentElement.dir = t.dir;
+
+      $("brandText").textContent = t.brandText;
+      $("chipText").textContent = t.chipText;
+      $("langBtn").textContent = t.langBtn;
+      $("heroTitle").textContent = t.heroTitle;
+      $("heroDesc").textContent = t.heroDesc;
+      $("startTitle").textContent = t.startTitle;
+      $("startSub").textContent = t.startSub;
+      $("startBtn").textContent = t.startBtn;
+      $("p1").textContent = t.p1;
+      $("p2").textContent = t.p2;
+      $("p3").textContent = t.p3;
+
+      $("s1Title").textContent = t.s1Title;
+      $("s1Kick").textContent = t.s1Kick;
+      $("s1Riddle").innerHTML = t.s1Riddle.replace(/\n/g,"<br>");
+      $("lblHours").textContent = t.lblHours;
+      $("hoursInput").placeholder = t.hoursPh;
+      $("hoursHint").textContent = t.hoursHint;
+      $("unlock1Btn").textContent = t.unlock1Btn;
+      $("next1Btn").textContent = t.nextBtn;
+
+      $("s2Title").textContent = t.s2Title;
+      $("s2Kick").textContent = t.s2Kick;
+      $("s2Riddle").innerHTML = t.s2Riddle.replace(/\n/g,"<br>");
+      $("lblDoor").textContent = t.lblDoor;
+      $("doorInput").placeholder = t.doorPh;
+      $("doorHint").textContent = t.doorHint;
+      $("unlock2Btn").textContent = t.unlock2Btn;
+      $("next2Btn").textContent = t.nextBtn;
+
+      $("s3Title").textContent = t.s3Title;
+      $("s3Kick").textContent = t.s3Kick;
+      $("s3Riddle").innerHTML = t.s3Riddle.replace(/\n/g,"<br>");
+      $("lblMark").textContent = t.lblMark;
+      $("markInput").placeholder = t.markPh;
+      $("markHint").textContent = t.markHint;
+      $("unlock3Btn").textContent = t.unlock3Btn;
+      $("finalBtn").textContent = t.finalBtn;
+
+      $("decodingText").textContent = t.decodingText;
+      $("finalTitle").textContent = t.finalTitle;
+      $("lifeCodeTitle").textContent = t.lifeCodeTitle;
+      $("shareBtn").textContent = t.shareBtn;
+      $("copyMsgBtn").textContent = t.copyMsgBtn;
+      $("restartBtn").textContent = t.restartBtn;
+
+      renderDynamicBits();
+    }
+
+    function showStep(id){
+      ["step1","step2","step3"].forEach(s => $(s).classList.remove("active"));
+      $(id).classList.add("active");
+    }
+
+    function markDone(n){
+      $(`p${n}`).classList.add("done");
+    }
+
+    function calcYearsLost(hours){
+      const h = Number(hours || 0);
+      return Math.round(h * 365 * 10);
+    }
+
+    function reveal1(){
+      const t = T[LANG];
+      const hours = Number($("hoursInput").value);
+      if (isNaN(hours) || hours < 0 || hours > 24){
+        toast(t.errHours);
+        return;
+      }
+      state.hours = hours;
+      state.yearsLostHours = calcYearsLost(hours);
+
+      if (LANG === "ar"){
+        $("r1Line").innerHTML = `خلال 10 سنوات… هذا السارق قد يأخذ منك <span class="value">${state.yearsLostHours.toLocaleString()}</span> ساعة من حياتك.`;
+        $("r1Code").textContent =
+`FRAGMENT_01:
+الوقت لا يضيع دفعة واحدة.
+إنه يتسرّب ساعة… ثم عمرًا.`;
+      } else {
+        $("r1Line").innerHTML = `Over 10 years… this thief may take <span class="value">${state.yearsLostHours.toLocaleString()}</span> hours from your life.`;
+        $("r1Code").textContent =
+`FRAGMENT_01:
+Time does not disappear all at once.
+It leaks hour by hour… then becomes a life.`;
+      }
+
+      $("reveal1").classList.add("active");
+      markDone(1);
+    }
+
+    function reveal2(){
+      const t = T[LANG];
+      const door = clean($("doorInput").value);
+      if (!door){
+        toast(t.errDoor);
+        return;
+      }
+      state.door = door;
+
+      if (LANG === "ar"){
+        $("r2Line").innerHTML = `هذا الباب اسمه: <span class="value">${door}</span>.<br>والأبواب لا تُفتح بالتفكير فيها… بل بلمس مقبضها.`;
+        $("r2Code").textContent =
+`FRAGMENT_02:
+ما بقي مغلقًا في حياتك
+لم يكن مستحيلًا…
+بل مؤجَّلًا.`;
+      } else {
+        $("r2Line").innerHTML = `This door is called: <span class="value">${door}</span>.<br>Doors do not open by being admired. They open when touched.`;
+        $("r2Code").textContent =
+`FRAGMENT_02:
+What stayed closed in your life
+was not impossible…
+only postponed.`;
+      }
+
+      $("reveal2").classList.add("active");
+      markDone(2);
+    }
+
+    function reveal3(){
+      const t = T[LANG];
+      const mark = clean($("markInput").value);
+      if (!mark){
+        toast(t.errMark);
+        return;
+      }
+      state.mark = mark;
+
+      if (LANG === "ar"){
+        $("r3Line").innerHTML = `الأثر الذي اخترته هو: <span class="value">${mark}</span>.<br>والأثر لا يولد من الرغبة… بل من بداية لا تتراجع.`;
+        $("r3Code").textContent =
+`FRAGMENT_03:
+ما كان يستحق أن يبقى منك
+لم يكن فكرة جميلة…
+بل شيئًا يجب أن يبدأ.`;
+      } else {
+        $("r3Line").innerHTML = `The mark you chose is: <span class="value">${mark}</span>.<br>A mark is not born from desire… it is born from a beginning that does not retreat.`;
+        $("r3Code").textContent =
+`FRAGMENT_03:
+What was worthy of remaining from you
+was not a beautiful thought…
+but something that had to begin.`;
+      }
+
+      $("reveal3").classList.add("active");
+      markDone(3);
+    }
+
+    function buildFinalMessage(){
+      if (LANG === "ar"){
+        return `أنا أنت… لكن بعد سنوات.
+
+السارق الذي حسبته قبل قليل
+لم يكن مجرد وقت.
+كان حياةً كاملة وهي تتسرّب منك بهدوء.
+
+${state.yearsLostHours ? `لقد رأيت الرقم بنفسك: ${state.yearsLostHours.toLocaleString()} ساعة.` : ""}
+
+والباب الذي كتبته
+لم يكن مجرد باب.
+كان النسخة الأخرى من حياتك…
+تلك التي كانت تنتظرك خلف:
+${state.door}
+
+أما الأثر الذي ذكرته
+فلم يكن أمنية.
+كان الشيء الوحيد الذي كان يستحق
+أن تبدأ من أجله:
+${state.mark}
+
+المشكلة لم تكن أنك لا تعرف.
+
+المشكلة أنك كنت تعرف…
+لكن تؤجل الاعتراف.
+
+إذا خرجت من هذه التجربة
+وعدت كما كنت،
+فالشيفرة لن تُغلق من جديد فقط…
+
+بل ستبقى أنت أيضًا
+في نفس المكان.`;
+      }
+
+      return `This is you… but years later.
+
+The thief you calculated a moment ago
+was not just time.
+It was a whole life leaking away quietly.
+
+${state.yearsLostHours ? `You saw the number yourself: ${state.yearsLostHours.toLocaleString()} hours.` : ""}
+
+And the door you named
+was not just a door.
+It was the other version of your life…
+the one waiting behind:
+${state.door}
+
+And the mark you chose
+was not a wish.
+It was the one thing truly worthy
+of beginning for:
+${state.mark}
+
+The problem was never that you did not know.
+
+The problem was that you knew…
+but kept postponing the admission.
+
+If you leave this experience
+and return unchanged,
+the code will not merely close again…
+
+you will remain
+in the same place too.`;
+    }
+
+    function buildLifeCode(){
+      const h = Number(state.hours || 0);
+      let score = 0;
+
+      if (h <= 1) score += 3;
+      else if (h <= 3) score += 2;
+      else score += 1;
+
+      if (state.door.length >= 4) score += 3;
+      else score += 2;
+
+      if (state.mark.length >= 8) score += 4;
+      else if (state.mark.length >= 4) score += 3;
+      else score += 2;
+
+      score = Math.min(10, Math.max(3, score));
+
+      let descAr = "";
+      let descEn = "";
+
+      if (score <= 4){
+        descAr = "أنت ترى ما ينقصك، لكنك ما زلت في منطقة التأجيل. حياتك ليست فارغة… لكنها محبوسة خلف خطوة لم تُؤخذ.";
+        descEn = "You can see what is missing, but you still live in postponement. Your life is not empty… it is locked behind a step not taken.";
+      } else if (score <= 7){
+        descAr = "أنت بين الوعي والبداية. لديك وضوح كافٍ، لكنك تحتاج حسمًا أكثر من حاجتك لإلهام جديد.";
+        descEn = "You stand between awareness and beginning. You have enough clarity — what you need now is decision, not more inspiration.";
+      } else {
+        descAr = "فيك وضوح حقيقي. الخطر الوحيد عليك ليس الجهل… بل أن تعرف ثم تنشغل عن التنفيذ.";
+        descEn = "There is real clarity in you. Your only danger is not ignorance… it is knowing, then getting distracted from action.";
+      }
+
+      return {
+        value: `LIFE CODE: ${score}/10`,
+        desc: LANG === "ar" ? descAr : descEn
+      };
+    }
+
+    function renderDynamicBits(){
+      if ($("reveal1").classList.contains("active")) reveal1();
+      if ($("reveal2").classList.contains("active")) reveal2();
+      if ($("reveal3").classList.contains("active")) reveal3();
+
+      if ($("finalWrap").classList.contains("active")){
+        $("finalMessage").textContent = buildFinalMessage();
+        const lc = buildLifeCode();
+        $("lifeCodeValue").textContent = lc.value;
+        $("lifeCodeDesc").textContent = lc.desc;
+      }
+    }
+
+    function openFinal(){
+      $("finalWrap").classList.add("active");
+      $("finalMessage").textContent = buildFinalMessage();
+      const lc = buildLifeCode();
+      $("lifeCodeValue").textContent = lc.value;
+      $("lifeCodeDesc").textContent = lc.desc;
+      $("finalWrap").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function restartAll(){
+      state.hours = null;
+      state.yearsLostHours = null;
+      state.door = "";
+      state.mark = "";
+
+      $("hoursInput").value = "";
+      $("doorInput").value = "";
+      $("markInput").value = "";
+
+      ["reveal1","reveal2","reveal3"].forEach(id => $(id).classList.remove("active"));
+      ["p1","p2","p3"].forEach(id => $(id).classList.remove("done"));
+      $("finalWrap").classList.remove("active");
+      showStep("step1");
+      toast(T[LANG].restarted);
+    }
+
+    $("langBtn").addEventListener("click", () => {
+      setLang(LANG === "ar" ? "en" : "ar");
+    });
+
+    $("startBtn").addEventListener("click", () => {
+      showStep("step1");
+      $("step1").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    $("unlock1Btn").addEventListener("click", reveal1);
+    $("unlock2Btn").addEventListener("click", reveal2);
+    $("unlock3Btn").addEventListener("click", reveal3);
+
+    $("next1Btn").addEventListener("click", () => {
+      showStep("step2");
+      $("step2").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    $("next2Btn").addEventListener("click", () => {
+      showStep("step3");
+      $("step3").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    $("finalBtn").addEventListener("click", openFinal);
+
+    $("copyMsgBtn").addEventListener("click", async () => {
+      const msg = $("finalMessage").textContent || "";
+      if (!msg) return;
+      await navigator.clipboard.writeText(msg);
+      toast(T[LANG].copied);
+    });
+
+    $("shareBtn").addEventListener("click", async () => {
+      const shareData = {
+        title: T[LANG].shareTitle,
+        text: T[LANG].shareText,
+        url: location.href
+      };
+      if (navigator.share){
+        try{
+          await navigator.share(shareData);
+        }catch(e){}
+      } else {
+        await navigator.clipboard.writeText(location.href);
+        toast(T[LANG].sharedFallback);
+      }
+    });
+
+    $("restartBtn").addEventListener("click", restartAll);
+
+    setLang(LANG);
+  </script>
 </body>
 </html>
