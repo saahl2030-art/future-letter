@@ -4,19 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Decode Yourself | فك شفرة نفسك</title>
-  <meta name="description" content="تجربة غامضة لفك شفرة نفسك عبر 3 مفاتيح رمزية ورسالة مشفّرة من داخلك." />
+  <meta name="description" content="تجربة غامضة لفك شفرة نفسك عبر 3 مفاتيح ورسالة مشفّرة من داخلك." />
   <style>
     :root{
       --bg:#070b12;
       --card:#0d1320;
-      --card2:#101827;
       --text:#e8ecf3;
       --muted:#94a3b8;
       --line:#1f2937;
       --accent:#7c3aed;
       --accent2:#22c55e;
       --accent3:#38bdf8;
-      --danger:#ef4444;
       --radius:20px;
       --shadow:0 14px 40px rgba(0,0,0,.42);
       --sans:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -60,7 +58,7 @@
       box-shadow:0 0 0 6px rgba(124,58,237,.12);
     }
     .tools{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    .chip,.lang-btn{
+    .chip,.lang-btn,.counter-chip{
       border:1px solid var(--line);
       background:rgba(16,24,39,.6);
       color:var(--muted);
@@ -68,6 +66,11 @@
       padding:8px 12px;
       font-size:12px;
       font-weight:800;
+    }
+    .counter-chip{
+      color:#bbf7d0;
+      border-color:rgba(34,197,94,.22);
+      background:rgba(34,197,94,.06);
     }
     .lang-btn{
       color:var(--text);
@@ -101,41 +104,82 @@
     }
 
     .content{padding:20px 22px 24px;}
+    .center-box{text-align:center; padding:26px 16px 10px;}
 
-    .center-box{
-      text-align:center;
-      padding:26px 16px 10px;
-    }
-
+    /* Animated Symbol */
     .sigil{
-      width:92px;
-      height:92px;
+      width:120px;
+      height:120px;
       margin:0 auto 16px;
-      border-radius:50%;
-      border:1px solid rgba(124,58,237,.35);
+      position:relative;
       display:grid;
       place-items:center;
-      position:relative;
-      background:
-        radial-gradient(circle at center, rgba(124,58,237,.16), transparent 62%),
-        rgba(11,15,23,.55);
-      box-shadow: inset 0 0 0 8px rgba(124,58,237,.05);
     }
-    .sigil:before,
-    .sigil:after{
-      content:"";
-      position:absolute;
-      inset:10px;
+    .core{
+      width:34px;
+      height:34px;
       border-radius:50%;
-      border:1px dashed rgba(148,163,184,.2);
+      background:radial-gradient(circle at 30% 30%, #c4b5fd, #7c3aed 55%, #4c1d95 100%);
+      box-shadow:0 0 22px rgba(124,58,237,.55);
+      animation:pulseCore 2.2s ease-in-out infinite;
+      z-index:3;
     }
-    .sigil span{
-      font-family:var(--mono);
-      font-size:22px;
-      letter-spacing:2px;
-      color:#d8b4fe;
-      font-weight:900;
+    .orbit,
+    .orbit2,
+    .orbit3{
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      border:1px solid rgba(124,58,237,.28);
     }
+    .orbit{animation:spin 10s linear infinite;}
+    .orbit2{
+      inset:10px;
+      border-style:dashed;
+      animation:spinReverse 13s linear infinite;
+    }
+    .orbit3{
+      inset:22px;
+      border-color:rgba(56,189,248,.22);
+      animation:spin 7s linear infinite;
+    }
+    .satellite{
+      position:absolute;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#22c55e;
+      box-shadow:0 0 10px rgba(34,197,94,.5);
+      top:4px;
+      left:50%;
+      margin-left:-5px;
+      animation:spinSatellite 4s linear infinite;
+      transform-origin:center 56px;
+      z-index:2;
+    }
+    .satellite2{
+      position:absolute;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#38bdf8;
+      box-shadow:0 0 10px rgba(56,189,248,.45);
+      top:16px;
+      left:50%;
+      margin-left:-4px;
+      animation:spinSatelliteReverse 5.5s linear infinite;
+      transform-origin:center 44px;
+      z-index:2;
+    }
+
+    @keyframes pulseCore{
+      0%,100%{transform:scale(1); box-shadow:0 0 22px rgba(124,58,237,.55);}
+      50%{transform:scale(1.16); box-shadow:0 0 34px rgba(124,58,237,.78);}
+    }
+    @keyframes spin{from{transform:rotate(0deg)} to{transform:rotate(360deg)}}
+    @keyframes spinReverse{from{transform:rotate(360deg)} to{transform:rotate(0deg)}}
+    @keyframes spinSatellite{from{transform:rotate(0deg)} to{transform:rotate(360deg)}}
+    @keyframes spinSatelliteReverse{from{transform:rotate(360deg)} to{transform:rotate(0deg)}}
 
     .start-title{
       font-size:24px;
@@ -181,8 +225,6 @@
       background:linear-gradient(135deg,var(--accent2),#16a34a);
     }
 
-    .hidden{display:none!important;}
-
     .step{
       display:none;
       margin-top:18px;
@@ -203,17 +245,8 @@
       margin-bottom:14px;
       flex-wrap:wrap;
     }
-    .step-title{
-      margin:0;
-      font-size:18px;
-      font-weight:900;
-    }
-    .step-kicker{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:4px;
-      line-height:1.6;
-    }
+    .step-title{margin:0; font-size:18px; font-weight:900;}
+    .step-kicker{color:var(--muted); font-size:12px; margin-top:4px; line-height:1.6;}
     .stamp{
       font-family:var(--mono);
       font-size:12px;
@@ -353,11 +386,7 @@
       100%{transform:scale(1);opacity:1}
     }
 
-    .final-title{
-      font-size:20px;
-      margin:0 0 10px;
-      font-weight:900;
-    }
+    .final-title{font-size:20px; margin:0 0 10px; font-weight:900;}
     .final-message{
       white-space:pre-wrap;
       line-height:2;
@@ -393,6 +422,41 @@
       font-size:14px;
     }
 
+    .signal-box{
+      margin-top:14px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(124,58,237,.22);
+      background:rgba(124,58,237,.06);
+    }
+    .signal-head{
+      font-size:14px;
+      font-weight:900;
+      color:#ddd6fe;
+      margin-bottom:8px;
+    }
+    .signal-bar{
+      width:100%;
+      height:14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .signal-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      transition:width .6s ease;
+      background:linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+    }
+    .signal-desc{
+      margin-top:8px;
+      font-size:13px;
+      color:#dbe4ef;
+      line-height:1.8;
+    }
+
     .toast{
       position:fixed;
       left:18px;
@@ -422,6 +486,7 @@
         <div id="brandText">Decode Yourself • فك شفرة نفسك</div>
       </div>
       <div class="tools">
+        <div class="counter-chip" id="counterChip">+ 12,847 شخص دخلوا التجربة</div>
         <div class="chip" id="chipText">3 مفاتيح • رسالة واحدة</div>
         <button class="lang-btn" id="langBtn" type="button">EN</button>
       </div>
@@ -438,12 +503,18 @@
 
       <div class="content">
         <div class="center-box" id="introBox">
-          <div class="sigil"><span>Ø</span></div>
+          <div class="sigil">
+            <div class="orbit"></div>
+            <div class="orbit2"></div>
+            <div class="orbit3"></div>
+            <div class="satellite"></div>
+            <div class="satellite2"></div>
+            <div class="core"></div>
+          </div>
+
           <h2 class="start-title" id="startTitle">ابدأ فك الشيفرة</h2>
           <p class="start-sub" id="startSub">
-            لن تُسأل أسئلة عادية.  
-            ستواجه ثلاث إشارات: سارق، باب، وأثر.  
-            وإذا أجبت بصدق… ستُفتح الرسالة.
+            لن تُسأل أسئلة عادية. ستواجه ثلاث إشارات: سارق، باب، وأثر. وإذا أجبت بصدق… ستُفتح الرسالة.
           </p>
           <div class="actions">
             <button class="btn-primary" id="startBtn">ابدأ الآن</button>
@@ -456,7 +527,6 @@
           <div class="prog" id="p3">المفتاح الثالث</div>
         </div>
 
-        <!-- STEP 1 -->
         <div class="step" id="step1">
           <div class="step-head">
             <div>
@@ -467,9 +537,9 @@
           </div>
 
           <div class="riddle" id="s1Riddle">
-            هناك شيء في حياتك  
-            <em>يأخذ منك جزءًا من عمرك كل يوم</em>  
-            دون أن يترك أثرًا حقيقيًا.  
+            هناك شيء في حياتك
+            <em>يأخذ منك جزءًا من عمرك كل يوم</em>
+            دون أن يترك أثرًا حقيقيًا.
             <br><br>
             كم ساعة تعتقد أنه يسرق منك يوميًا؟
           </div>
@@ -491,7 +561,6 @@
           </div>
         </div>
 
-        <!-- STEP 2 -->
         <div class="step" id="step2">
           <div class="step-head">
             <div>
@@ -502,8 +571,8 @@
           </div>
 
           <div class="riddle" id="s2Riddle">
-            في حياتك باب تقف أمامه منذ فترة.  
-            خلفه نسخة مختلفة منك.  
+            في حياتك باب تقف أمامه منذ فترة.
+            خلفه نسخة مختلفة منك.
             <br><br>
             ما اسم هذا الباب؟
           </div>
@@ -525,7 +594,6 @@
           </div>
         </div>
 
-        <!-- STEP 3 -->
         <div class="step" id="step3">
           <div class="step-head">
             <div>
@@ -536,8 +604,8 @@
           </div>
 
           <div class="riddle" id="s3Riddle">
-            لو لم يُسمح لك بترك شيء واحد فقط في هذه الحياة…  
-            شيء واحد يثبت أنك كنت هنا…  
+            لو لم يُسمح لك بترك شيء واحد فقط في هذه الحياة…
+            شيء واحد يثبت أنك كنت هنا…
             <br><br>
             فماذا سيكون؟
           </div>
@@ -559,7 +627,6 @@
           </div>
         </div>
 
-        <!-- FINAL -->
         <div class="final-wrap" id="finalWrap">
           <div class="decode-line">
             <span class="pulse"></span>
@@ -573,6 +640,14 @@
             <strong id="lifeCodeTitle">رمز حياتك الحالي</strong>
             <div class="big" id="lifeCodeValue">LIFE CODE: —</div>
             <p id="lifeCodeDesc"></p>
+          </div>
+
+          <div class="signal-box">
+            <div class="signal-head" id="signalHead">إشارة حياتك</div>
+            <div class="signal-bar">
+              <div class="signal-fill" id="signalFill"></div>
+            </div>
+            <div class="signal-desc" id="signalDesc"></div>
           </div>
 
           <div class="actions" style="justify-content:flex-start;">
@@ -589,134 +664,104 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
-
-    const year10 = new Date().getFullYear() + 10;
     let LANG = localStorage.getItem("decode_lang") || "ar";
-
-    const T = {
-      ar: {
-        dir:"rtl",
-        brandText:"Decode Yourself • فك شفرة نفسك",
-        chipText:"3 مفاتيح • رسالة واحدة",
-        langBtn:"EN",
-        heroTitle:"هناك رسالة لك… لكنها مشفّرة",
-        heroDesc:"ليست كل الرسائل تُقرأ فورًا. بعضها لا يُفتح… إلا إذا عرفت كيف تفك نفسك أولًا. أمامك ثلاثة مفاتيح. كل مفتاح يكشف جزءًا من الحقيقة.",
-        startTitle:"ابدأ فك الشيفرة",
-        startSub:"لن تُسأل أسئلة عادية. ستواجه ثلاث إشارات: سارق، باب، وأثر. وإذا أجبت بصدق… ستُفتح الرسالة.",
-        startBtn:"ابدأ الآن",
-        p1:"المفتاح الأول",
-        p2:"المفتاح الثاني",
-        p3:"المفتاح الثالث",
-
-        s1Title:"المفتاح الأول: السارق الصامت",
-        s1Kick:"بعض اللصوص لا يسرقون مالك… بل عمرك.",
-        s1Riddle:"هناك شيء في حياتك\n<em>يأخذ منك جزءًا من عمرك كل يوم</em>\nدون أن يترك أثرًا حقيقيًا.\n\nكم ساعة تعتقد أنه يسرق منك يوميًا؟",
-        lblHours:"اكتب عدد الساعات",
-        hoursPh:"مثال: 3",
-        hoursHint:"أدخل رقمًا فقط. كن صريحًا مع نفسك.",
-        unlock1Btn:"فك المفتاح الأول",
-        nextBtn:"التالي",
-
-        s2Title:"المفتاح الثاني: الباب الذي لا يُفتح وحده",
-        s2Kick:"بعض الأبواب تبقى مغلقة لأننا نقف أمامها فقط.",
-        s2Riddle:"في حياتك باب تقف أمامه منذ فترة.\nخلفه نسخة مختلفة منك.\n\nما اسم هذا الباب؟",
-        lblDoor:"اكتب اسم الباب",
-        doorPh:"مثال: مشروع / قرار / سفر / اعتذار / بداية جديدة",
-        doorHint:"لا تكتب شرحًا طويلًا. اكتب الشيء الحقيقي.",
-        unlock2Btn:"فك المفتاح الثاني",
-
-        s3Title:"المفتاح الثالث: الأثر الأخير",
-        s3Kick:"ما يبقى منك… ليس ما كنت تفكر فيه، بل ما تركته.",
-        s3Riddle:"لو لم يُسمح لك بترك شيء واحد فقط في هذه الحياة…\nشيء واحد يثبت أنك كنت هنا…\n\nفماذا سيكون؟",
-        lblMark:"اكتب أثرك",
-        markPh:"مثال: فكرة / مشروع / شخص قمت بإنقاذه / حياة صنعتها / أثر جميل",
-        markHint:"لا تكتب ما يعجب الناس. اكتب ما يشبهك أنت.",
-        unlock3Btn:"إكمال فك الشيفرة",
-        finalBtn:"افتح الرسالة",
-
-        decodingText:"DECODE COMPLETE // الرسالة أصبحت قابلة للقراءة",
-        finalTitle:"الرسالة",
-        lifeCodeTitle:"رمز حياتك الحالي",
-        shareBtn:"مشاركة",
-        copyMsgBtn:"نسخ الرسالة",
-        restartBtn:"إعادة التجربة",
-
-        errHours:"اكتب رقمًا صحيحًا بين 0 و 24.",
-        errDoor:"اكتب اسم الباب أولًا.",
-        errMark:"اكتب الأثر الذي تريد تركه.",
-        copied:"تم النسخ.",
-        copiedLink:"تم نسخ الرابط.",
-        sharedFallback:"جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.",
-        restarted:"تمت إعادة التجربة.",
-
-        shareTitle:"Decode Yourself",
-        shareText:"هل تستطيع فك الرسالة المخفية داخلك؟ جرب هذه التجربة."
-      },
-      en: {
-        dir:"ltr",
-        brandText:"Decode Yourself",
-        chipText:"3 keys • 1 message",
-        langBtn:"AR",
-        heroTitle:"There is a message for you… but it is encrypted",
-        heroDesc:"Not every message is meant to be read immediately. Some only open when you learn how to decode yourself first. Three keys. One truth.",
-        startTitle:"Begin the decode",
-        startSub:"You won’t answer ordinary questions. You’ll face three signs: a thief, a door, and a mark. If you answer honestly… the message will open.",
-        startBtn:"Start now",
-        p1:"First key",
-        p2:"Second key",
-        p3:"Third key",
-
-        s1Title:"First key: The silent thief",
-        s1Kick:"Some thieves do not steal your money… they steal your life.",
-        s1Riddle:"There is something in your life\n<em>taking part of your age every day</em>\nwithout leaving any real trace.\n\nHow many hours do you think it steals from you daily?",
-        lblHours:"Enter the number of hours",
-        hoursPh:"e.g. 3",
-        hoursHint:"Numbers only. Be honest with yourself.",
-        unlock1Btn:"Unlock the first key",
-        nextBtn:"Next",
-
-        s2Title:"Second key: The door that never opens by itself",
-        s2Kick:"Some doors stay closed because we only stand in front of them.",
-        s2Riddle:"There is a door in your life you have been standing before for a while.\nBehind it is a different version of you.\n\nWhat is the name of that door?",
-        lblDoor:"Write the door's name",
-        doorPh:"e.g. project / decision / travel / apology / new beginning",
-        doorHint:"Do not explain too much. Write the real thing.",
-        unlock2Btn:"Unlock the second key",
-
-        s3Title:"Third key: The final mark",
-        s3Kick:"What remains of you is not what you imagined, but what you left behind.",
-        s3Riddle:"If you were allowed to leave only one thing in this life…\none thing that proves you were here…\n\nwhat would it be?",
-        lblMark:"Write your mark",
-        markPh:"e.g. an idea / a project / a life I changed / something beautiful",
-        markHint:"Do not write what impresses people. Write what resembles you.",
-        unlock3Btn:"Complete the decode",
-        finalBtn:"Open the message",
-
-        decodingText:"DECODE COMPLETE // The message is now readable",
-        finalTitle:"The Message",
-        lifeCodeTitle:"Your current life code",
-        shareBtn:"Share",
-        copyMsgBtn:"Copy message",
-        restartBtn:"Restart",
-
-        errHours:"Enter a valid number between 0 and 24.",
-        errDoor:"Write the name of the door first.",
-        errMark:"Write the mark you want to leave.",
-        copied:"Copied.",
-        copiedLink:"Link copied.",
-        sharedFallback:"Direct sharing is not supported. Link copied.",
-        restarted:"Experience restarted.",
-
-        shareTitle:"Decode Yourself",
-        shareText:"Can you unlock the hidden message inside you? Try this experience."
-      }
-    };
 
     const state = {
       hours: null,
       yearsLostHours: null,
       door: "",
       mark: ""
+    };
+
+    const T = {
+      ar: {
+        brandText:"Decode Yourself • فك شفرة نفسك",
+        chipText:"3 مفاتيح • رسالة واحدة",
+        counterChip:"+ 12,847 شخص دخلوا التجربة",
+        langBtn:"EN",
+        heroTitle:"هناك رسالة لك… لكنها مشفّرة",
+        heroDesc:"ليست كل الرسائل تُقرأ فورًا. بعضها لا يُفتح… إلا إذا عرفت كيف تفك نفسك أولًا. أمامك ثلاثة مفاتيح. كل مفتاح يكشف جزءًا من الحقيقة.",
+        startTitle:"ابدأ فك الشيفرة",
+        startSub:"لن تُسأل أسئلة عادية. ستواجه ثلاث إشارات: سارق، باب، وأثر. وإذا أجبت بصدق… ستُفتح الرسالة.",
+        startBtn:"ابدأ الآن",
+        p1:"المفتاح الأول", p2:"المفتاح الثاني", p3:"المفتاح الثالث",
+        s1Title:"المفتاح الأول: السارق الصامت",
+        s1Kick:"بعض اللصوص لا يسرقون مالك… بل عمرك.",
+        lblHours:"اكتب عدد الساعات",
+        hoursHint:"أدخل رقمًا فقط. كن صريحًا مع نفسك.",
+        unlock1Btn:"فك المفتاح الأول",
+        nextBtn:"التالي",
+        s2Title:"المفتاح الثاني: الباب الذي لا يُفتح وحده",
+        s2Kick:"بعض الأبواب تبقى مغلقة لأننا نقف أمامها فقط.",
+        lblDoor:"اكتب اسم الباب",
+        doorHint:"لا تكتب شرحًا طويلًا. اكتب الشيء الحقيقي.",
+        unlock2Btn:"فك المفتاح الثاني",
+        s3Title:"المفتاح الثالث: الأثر الأخير",
+        s3Kick:"ما يبقى منك… ليس ما كنت تفكر فيه، بل ما تركته.",
+        lblMark:"اكتب أثرك",
+        markHint:"لا تكتب ما يعجب الناس. اكتب ما يشبهك أنت.",
+        unlock3Btn:"إكمال فك الشيفرة",
+        finalBtn:"افتح الرسالة",
+        decodingText:"DECODE COMPLETE // الرسالة أصبحت قابلة للقراءة",
+        finalTitle:"الرسالة",
+        lifeCodeTitle:"رمز حياتك الحالي",
+        signalHead:"إشارة حياتك",
+        shareBtn:"مشاركة",
+        copyMsgBtn:"نسخ الرسالة",
+        restartBtn:"إعادة التجربة",
+        errHours:"اكتب رقمًا صحيحًا بين 0 و 24.",
+        errDoor:"اكتب اسم الباب أولًا.",
+        errMark:"اكتب الأثر الذي تريد تركه.",
+        copied:"تم النسخ.",
+        sharedFallback:"جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.",
+        restarted:"تمت إعادة التجربة.",
+        shareTitle:"Decode Yourself",
+        shareText:"هل تستطيع فك الرسالة المخفية داخلك؟ جرب هذه التجربة."
+      },
+      en: {
+        brandText:"Decode Yourself",
+        chipText:"3 keys • 1 message",
+        counterChip:"+ 12,847 people entered the experience",
+        langBtn:"AR",
+        heroTitle:"There is a message for you… but it is encrypted",
+        heroDesc:"Not every message opens immediately. Some only open when you learn how to decode yourself first. Three keys. One truth.",
+        startTitle:"Begin the decode",
+        startSub:"You won't face ordinary questions. You will face a thief, a door, and a final mark. Answer honestly… and the message opens.",
+        startBtn:"Start now",
+        p1:"First key", p2:"Second key", p3:"Third key",
+        s1Title:"First key: The silent thief",
+        s1Kick:"Some thieves do not steal money… they steal life.",
+        lblHours:"Enter the number of hours",
+        hoursHint:"Use numbers only. Be honest.",
+        unlock1Btn:"Unlock the first key",
+        nextBtn:"Next",
+        s2Title:"Second key: The door that won't open itself",
+        s2Kick:"Some doors stay closed because we only stand in front of them.",
+        lblDoor:"Write the door name",
+        doorHint:"Do not explain too much. Write the real thing.",
+        unlock2Btn:"Unlock the second key",
+        s3Title:"Third key: The final mark",
+        s3Kick:"What remains of you is not what you imagined, but what you left behind.",
+        lblMark:"Write your mark",
+        markHint:"Do not write what sounds impressive. Write what is true.",
+        unlock3Btn:"Complete the decode",
+        finalBtn:"Open the message",
+        decodingText:"DECODE COMPLETE // Message is now readable",
+        finalTitle:"The Message",
+        lifeCodeTitle:"Your current life code",
+        signalHead:"Life signal",
+        shareBtn:"Share",
+        copyMsgBtn:"Copy message",
+        restartBtn:"Restart",
+        errHours:"Enter a valid number between 0 and 24.",
+        errDoor:"Write the door first.",
+        errMark:"Write the mark you want to leave.",
+        copied:"Copied.",
+        sharedFallback:"Direct sharing not supported. Link copied.",
+        restarted:"Experience restarted.",
+        shareTitle:"Decode Yourself",
+        shareText:"Can you unlock the hidden message inside you? Try this experience."
+      }
     };
 
     function toast(msg){
@@ -734,12 +779,13 @@
     function setLang(lang){
       LANG = lang;
       localStorage.setItem("decode_lang", LANG);
-      const t = T[LANG];
       document.documentElement.lang = LANG === "ar" ? "ar" : "en";
-      document.documentElement.dir = t.dir;
+      document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
 
+      const t = T[LANG];
       $("brandText").textContent = t.brandText;
       $("chipText").textContent = t.chipText;
+      $("counterChip").textContent = t.counterChip;
       $("langBtn").textContent = t.langBtn;
       $("heroTitle").textContent = t.heroTitle;
       $("heroDesc").textContent = t.heroDesc;
@@ -749,42 +795,32 @@
       $("p1").textContent = t.p1;
       $("p2").textContent = t.p2;
       $("p3").textContent = t.p3;
-
       $("s1Title").textContent = t.s1Title;
       $("s1Kick").textContent = t.s1Kick;
-      $("s1Riddle").innerHTML = t.s1Riddle.replace(/\n/g,"<br>");
       $("lblHours").textContent = t.lblHours;
-      $("hoursInput").placeholder = t.hoursPh;
       $("hoursHint").textContent = t.hoursHint;
       $("unlock1Btn").textContent = t.unlock1Btn;
       $("next1Btn").textContent = t.nextBtn;
-
       $("s2Title").textContent = t.s2Title;
       $("s2Kick").textContent = t.s2Kick;
-      $("s2Riddle").innerHTML = t.s2Riddle.replace(/\n/g,"<br>");
       $("lblDoor").textContent = t.lblDoor;
-      $("doorInput").placeholder = t.doorPh;
       $("doorHint").textContent = t.doorHint;
       $("unlock2Btn").textContent = t.unlock2Btn;
       $("next2Btn").textContent = t.nextBtn;
-
       $("s3Title").textContent = t.s3Title;
       $("s3Kick").textContent = t.s3Kick;
-      $("s3Riddle").innerHTML = t.s3Riddle.replace(/\n/g,"<br>");
       $("lblMark").textContent = t.lblMark;
-      $("markInput").placeholder = t.markPh;
       $("markHint").textContent = t.markHint;
       $("unlock3Btn").textContent = t.unlock3Btn;
       $("finalBtn").textContent = t.finalBtn;
-
       $("decodingText").textContent = t.decodingText;
       $("finalTitle").textContent = t.finalTitle;
       $("lifeCodeTitle").textContent = t.lifeCodeTitle;
+      $("signalHead").textContent = t.signalHead;
       $("shareBtn").textContent = t.shareBtn;
       $("copyMsgBtn").textContent = t.copyMsgBtn;
       $("restartBtn").textContent = t.restartBtn;
-
-      renderDynamicBits();
+      renderDynamic();
     }
 
     function showStep(id){
@@ -797,32 +833,24 @@
     }
 
     function calcYearsLost(hours){
-      const h = Number(hours || 0);
-      return Math.round(h * 365 * 10);
+      return Math.round(Number(hours) * 365 * 10);
     }
 
     function reveal1(){
-      const t = T[LANG];
       const hours = Number($("hoursInput").value);
       if (isNaN(hours) || hours < 0 || hours > 24){
-        toast(t.errHours);
+        toast(T[LANG].errHours);
         return;
       }
       state.hours = hours;
       state.yearsLostHours = calcYearsLost(hours);
 
       if (LANG === "ar"){
-        $("r1Line").innerHTML = `خلال 10 سنوات… هذا السارق قد يأخذ منك <span class="value">${state.yearsLostHours.toLocaleString()}</span> ساعة من حياتك.`;
-        $("r1Code").textContent =
-`FRAGMENT_01:
-الوقت لا يضيع دفعة واحدة.
-إنه يتسرّب ساعة… ثم عمرًا.`;
+        $("r1Line").innerHTML = `خلال 10 سنوات… هذا السارق قد يأخذ منك <span class="value">${state.yearsLostHours.toLocaleString()}</span> ساعة.`;
+        $("r1Code").textContent = `FRAGMENT_01:\nما يتسرّب من يومك… يتسرّب من عمرك.`;
       } else {
-        $("r1Line").innerHTML = `Over 10 years… this thief may take <span class="value">${state.yearsLostHours.toLocaleString()}</span> hours from your life.`;
-        $("r1Code").textContent =
-`FRAGMENT_01:
-Time does not disappear all at once.
-It leaks hour by hour… then becomes a life.`;
+        $("r1Line").innerHTML = `Over 10 years… this thief may take <span class="value">${state.yearsLostHours.toLocaleString()}</span> hours.`;
+        $("r1Code").textContent = `FRAGMENT_01:\nWhat leaks from your day… leaks from your life.`;
       }
 
       $("reveal1").classList.add("active");
@@ -830,28 +858,19 @@ It leaks hour by hour… then becomes a life.`;
     }
 
     function reveal2(){
-      const t = T[LANG];
       const door = clean($("doorInput").value);
       if (!door){
-        toast(t.errDoor);
+        toast(T[LANG].errDoor);
         return;
       }
       state.door = door;
 
       if (LANG === "ar"){
-        $("r2Line").innerHTML = `هذا الباب اسمه: <span class="value">${door}</span>.<br>والأبواب لا تُفتح بالتفكير فيها… بل بلمس مقبضها.`;
-        $("r2Code").textContent =
-`FRAGMENT_02:
-ما بقي مغلقًا في حياتك
-لم يكن مستحيلًا…
-بل مؤجَّلًا.`;
+        $("r2Line").innerHTML = `اسم الباب: <span class="value">${door}</span>.`;
+        $("r2Code").textContent = `FRAGMENT_02:\nما بقي مغلقًا… لم يكن مستحيلًا. كان مؤجّلًا.`;
       } else {
-        $("r2Line").innerHTML = `This door is called: <span class="value">${door}</span>.<br>Doors do not open by being admired. They open when touched.`;
-        $("r2Code").textContent =
-`FRAGMENT_02:
-What stayed closed in your life
-was not impossible…
-only postponed.`;
+        $("r2Line").innerHTML = `The door is: <span class="value">${door}</span>.`;
+        $("r2Code").textContent = `FRAGMENT_02:\nWhat stayed closed was not impossible. It was postponed.`;
       }
 
       $("reveal2").classList.add("active");
@@ -859,28 +878,19 @@ only postponed.`;
     }
 
     function reveal3(){
-      const t = T[LANG];
       const mark = clean($("markInput").value);
       if (!mark){
-        toast(t.errMark);
+        toast(T[LANG].errMark);
         return;
       }
       state.mark = mark;
 
       if (LANG === "ar"){
-        $("r3Line").innerHTML = `الأثر الذي اخترته هو: <span class="value">${mark}</span>.<br>والأثر لا يولد من الرغبة… بل من بداية لا تتراجع.`;
-        $("r3Code").textContent =
-`FRAGMENT_03:
-ما كان يستحق أن يبقى منك
-لم يكن فكرة جميلة…
-بل شيئًا يجب أن يبدأ.`;
+        $("r3Line").innerHTML = `أثرك الذي اخترته: <span class="value">${mark}</span>.`;
+        $("r3Code").textContent = `FRAGMENT_03:\nما يستحق أن يبقى منك… يجب أن يبدأ منك.`;
       } else {
-        $("r3Line").innerHTML = `The mark you chose is: <span class="value">${mark}</span>.<br>A mark is not born from desire… it is born from a beginning that does not retreat.`;
-        $("r3Code").textContent =
-`FRAGMENT_03:
-What was worthy of remaining from you
-was not a beautiful thought…
-but something that had to begin.`;
+        $("r3Line").innerHTML = `Your chosen mark: <span class="value">${mark}</span>.`;
+        $("r3Code").textContent = `FRAGMENT_03:\nWhat deserves to remain from you… must begin with you.`;
       }
 
       $("reveal3").classList.add("active");
@@ -889,129 +899,133 @@ but something that had to begin.`;
 
     function buildFinalMessage(){
       if (LANG === "ar"){
-        return `أنا أنت… لكن بعد سنوات.
+        return `أنا أنت… بعد سنوات.
 
-السارق الذي حسبته قبل قليل
-لم يكن مجرد وقت.
-كان حياةً كاملة وهي تتسرّب منك بهدوء.
+السارق الذي حسبته
+لم يكن وقتًا فقط.
 
-${state.yearsLostHours ? `لقد رأيت الرقم بنفسك: ${state.yearsLostHours.toLocaleString()} ساعة.` : ""}
-
-والباب الذي كتبته
-لم يكن مجرد باب.
-كان النسخة الأخرى من حياتك…
-تلك التي كانت تنتظرك خلف:
+والباب الذي كتبته:
 ${state.door}
 
-أما الأثر الذي ذكرته
-فلم يكن أمنية.
-كان الشيء الوحيد الذي كان يستحق
-أن تبدأ من أجله:
+هو الحياة التي لم تدخلها بعد.
+
+أما أثرك:
 ${state.mark}
 
-المشكلة لم تكن أنك لا تعرف.
+فهو الشيء الوحيد
+الذي يستحق أن تبدأ من أجله.
 
-المشكلة أنك كنت تعرف…
-لكن تؤجل الاعتراف.
+المشكلة لم تكن أنك لا تعرف…
 
-إذا خرجت من هذه التجربة
-وعدت كما كنت،
-فالشيفرة لن تُغلق من جديد فقط…
-
-بل ستبقى أنت أيضًا
-في نفس المكان.`;
+بل أنك تعرف،
+وتؤجل.`;
       }
 
-      return `This is you… but years later.
+      return `This is you… years later.
 
-The thief you calculated a moment ago
+The thief you counted
 was not just time.
-It was a whole life leaking away quietly.
 
-${state.yearsLostHours ? `You saw the number yourself: ${state.yearsLostHours.toLocaleString()} hours.` : ""}
-
-And the door you named
-was not just a door.
-It was the other version of your life…
-the one waiting behind:
+And the door you named:
 ${state.door}
 
-And the mark you chose
-was not a wish.
-It was the one thing truly worthy
-of beginning for:
+is the life you still haven't entered.
+
+And your mark:
 ${state.mark}
 
-The problem was never that you did not know.
+is the only thing
+worth beginning for.
 
-The problem was that you knew…
-but kept postponing the admission.
+The problem was never that you didn't know…
 
-If you leave this experience
-and return unchanged,
-the code will not merely close again…
-
-you will remain
-in the same place too.`;
+It was that you knew,
+and kept postponing.`;
     }
 
     function buildLifeCode(){
-      const h = Number(state.hours || 0);
       let score = 0;
+      const h = Number(state.hours || 0);
 
-      if (h <= 1) score += 3;
-      else if (h <= 3) score += 2;
+      if (h <= 1) score += 4;
+      else if (h <= 3) score += 3;
+      else if (h <= 5) score += 2;
       else score += 1;
 
-      if (state.door.length >= 4) score += 3;
+      if ((state.door || "").length >= 5) score += 3;
       else score += 2;
 
-      if (state.mark.length >= 8) score += 4;
-      else if (state.mark.length >= 4) score += 3;
+      if ((state.mark || "").length >= 8) score += 3;
       else score += 2;
 
-      score = Math.min(10, Math.max(3, score));
+      score = Math.max(3, Math.min(10, score));
 
       let descAr = "";
       let descEn = "";
 
       if (score <= 4){
-        descAr = "أنت ترى ما ينقصك، لكنك ما زلت في منطقة التأجيل. حياتك ليست فارغة… لكنها محبوسة خلف خطوة لم تُؤخذ.";
-        descEn = "You can see what is missing, but you still live in postponement. Your life is not empty… it is locked behind a step not taken.";
+        descAr = "أنت ترى ما ينقصك… لكنك ما زلت في منطقة التأجيل.";
+        descEn = "You can see what is missing… but you still live in postponement.";
       } else if (score <= 7){
-        descAr = "أنت بين الوعي والبداية. لديك وضوح كافٍ، لكنك تحتاج حسمًا أكثر من حاجتك لإلهام جديد.";
-        descEn = "You stand between awareness and beginning. You have enough clarity — what you need now is decision, not more inspiration.";
+        descAr = "أنت بين الوعي والبداية. تحتاج حسمًا أكثر من حاجتك لإلهام.";
+        descEn = "You stand between awareness and beginning. You need decision more than inspiration.";
       } else {
-        descAr = "فيك وضوح حقيقي. الخطر الوحيد عليك ليس الجهل… بل أن تعرف ثم تنشغل عن التنفيذ.";
-        descEn = "There is real clarity in you. Your only danger is not ignorance… it is knowing, then getting distracted from action.";
+        descAr = "فيك وضوح حقيقي. الخطر الوحيد أن تعرف… ثم لا تبدأ.";
+        descEn = "There is real clarity in you. The only danger is knowing… and not beginning.";
       }
 
       return {
-        value: `LIFE CODE: ${score}/10`,
+        value:`LIFE CODE: ${score}/10`,
+        score,
         desc: LANG === "ar" ? descAr : descEn
       };
     }
 
-    function renderDynamicBits(){
-      if ($("reveal1").classList.contains("active")) reveal1();
-      if ($("reveal2").classList.contains("active")) reveal2();
-      if ($("reveal3").classList.contains("active")) reveal3();
+    function buildSignal(score){
+      let width = score * 10;
+      let descAr = "";
+      let descEn = "";
 
-      if ($("finalWrap").classList.contains("active")){
-        $("finalMessage").textContent = buildFinalMessage();
-        const lc = buildLifeCode();
-        $("lifeCodeValue").textContent = lc.value;
-        $("lifeCodeDesc").textContent = lc.desc;
+      if (score <= 4){
+        descAr = "إشارتك منخفضة. أنت تشعر بالنقص، لكن الحركة ما زالت ضعيفة.";
+        descEn = "Your signal is low. You feel the gap, but movement is still weak.";
+      } else if (score <= 7){
+        descAr = "إشارتك متوسطة. عندك وعي جيد، لكنك لم تحسم اتجاهك بالكامل.";
+        descEn = "Your signal is medium. You have awareness, but your direction is not fully decided.";
+      } else {
+        descAr = "إشارتك قوية. لديك وضوح داخلي، وتحتاج فقط أن تحميه من التأجيل.";
+        descEn = "Your signal is strong. You have inner clarity. Now protect it from delay.";
       }
+
+      return {
+        width,
+        desc: LANG === "ar" ? descAr : descEn
+      };
     }
 
     function openFinal(){
       $("finalWrap").classList.add("active");
       $("finalMessage").textContent = buildFinalMessage();
+
       const lc = buildLifeCode();
       $("lifeCodeValue").textContent = lc.value;
       $("lifeCodeDesc").textContent = lc.desc;
+
+      const signal = buildSignal(lc.score);
+      $("signalFill").style.width = `${signal.width}%`;
+      $("signalDesc").textContent = signal.desc;
+
       $("finalWrap").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function renderDynamic(){
+      if ($("reveal1").classList.contains("active")) reveal1();
+      if ($("reveal2").classList.contains("active")) reveal2();
+      if ($("reveal3").classList.contains("active")) reveal3();
+
+      if ($("finalWrap").classList.contains("active")){
+        openFinal();
+      }
     }
 
     function restartAll(){
@@ -1023,19 +1037,24 @@ in the same place too.`;
       $("hoursInput").value = "";
       $("doorInput").value = "";
       $("markInput").value = "";
-
-      ["reveal1","reveal2","reveal3"].forEach(id => $(id).classList.remove("active"));
-      ["p1","p2","p3"].forEach(id => $(id).classList.remove("done"));
+      $("reveal1").classList.remove("active");
+      $("reveal2").classList.remove("active");
+      $("reveal3").classList.remove("active");
+      $("p1").classList.remove("done");
+      $("p2").classList.remove("done");
+      $("p3").classList.remove("done");
       $("finalWrap").classList.remove("active");
+      $("signalFill").style.width = "0%";
+      $("signalDesc").textContent = "";
       showStep("step1");
       toast(T[LANG].restarted);
     }
 
-    $("langBtn").addEventListener("click", () => {
+    $("langBtn").addEventListener("click", ()=>{
       setLang(LANG === "ar" ? "en" : "ar");
     });
 
-    $("startBtn").addEventListener("click", () => {
+    $("startBtn").addEventListener("click", ()=>{
       showStep("step1");
       $("step1").scrollIntoView({behavior:"smooth", block:"start"});
     });
@@ -1044,26 +1063,26 @@ in the same place too.`;
     $("unlock2Btn").addEventListener("click", reveal2);
     $("unlock3Btn").addEventListener("click", reveal3);
 
-    $("next1Btn").addEventListener("click", () => {
+    $("next1Btn").addEventListener("click", ()=>{
       showStep("step2");
       $("step2").scrollIntoView({behavior:"smooth", block:"start"});
     });
 
-    $("next2Btn").addEventListener("click", () => {
+    $("next2Btn").addEventListener("click", ()=>{
       showStep("step3");
       $("step3").scrollIntoView({behavior:"smooth", block:"start"});
     });
 
     $("finalBtn").addEventListener("click", openFinal);
 
-    $("copyMsgBtn").addEventListener("click", async () => {
+    $("copyMsgBtn").addEventListener("click", async ()=>{
       const msg = $("finalMessage").textContent || "";
       if (!msg) return;
       await navigator.clipboard.writeText(msg);
       toast(T[LANG].copied);
     });
 
-    $("shareBtn").addEventListener("click", async () => {
+    $("shareBtn").addEventListener("click", async ()=>{
       const shareData = {
         title: T[LANG].shareTitle,
         text: T[LANG].shareText,
