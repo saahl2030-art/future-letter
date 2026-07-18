@@ -1,1106 +1,1241 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Decode Yourself | فك شفرة نفسك</title>
-  <meta name="description" content="تجربة غامضة لفك شفرة نفسك عبر 3 مفاتيح ورسالة مشفّرة من داخلك." />
-  <style>
-    :root{
-      --bg:#070b12;
-      --card:#0d1320;
-      --text:#e8ecf3;
-      --muted:#94a3b8;
-      --line:#1f2937;
-      --accent:#7c3aed;
-      --accent2:#22c55e;
-      --accent3:#38bdf8;
-      --radius:20px;
-      --shadow:0 14px 40px rgba(0,0,0,.42);
-      --sans:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>رسالة وصلت متأخرة عشر سنوات | A Letter Ten Years Late</title>
+<meta name="description" content="رسالة مختومة كُتبت لك بعد عشر سنوات. لن تُفتح إلا إذا تأكد كاتبها أنك أنت. — A sealed letter written to you ten years from now." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0c0f16;
+  --night-2:#121724;
+  --panel:rgba(18,23,36,.72);
+  --line:rgba(148,163,184,.14);
+  --text:#e9ecf4;
+  --muted:#98a1b3;
+  --gold:#c9a227;
+  --gold-2:#e3c565;
+  --gold-dim:rgba(201,162,39,.35);
+  --paper:#f3ead7;
+  --paper-2:#eadfc6;
+  --ink:#2b241a;
+  --ink-soft:#4a4132;
+  --danger:#e0655a;
+  --radius:18px;
+  --ui:"Tajawal", system-ui, sans-serif;
+  --letter:"Amiri", "Tajawal", serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--ui);
+  color:var(--text);
+  background:
+    radial-gradient(1100px 600px at 85% -10%, rgba(201,162,39,.07), transparent 60%),
+    radial-gradient(800px 500px at 0% 10%, rgba(60,80,140,.10), transparent 55%),
+    var(--night);
+  min-height:100vh;
+  padding:22px 16px 60px;
+  line-height:1.7;
+}
+.wrap{width:min(820px,100%);margin:0 auto}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      color:var(--text);
-      min-height:100vh;
-      background:
-        radial-gradient(900px 500px at 80% -10%, rgba(124,58,237,.22), transparent 60%),
-        radial-gradient(700px 450px at 10% 0%, rgba(56,189,248,.12), transparent 55%),
-        radial-gradient(500px 300px at 50% 100%, rgba(34,197,94,.08), transparent 65%),
-        var(--bg);
-      padding:18px;
-    }
+/* ---------- top bar ---------- */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;flex-wrap:wrap;margin-bottom:26px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:14px;color:var(--muted)}
+.brand .seal-dot{
+  width:13px;height:13px;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%, var(--gold-2), var(--gold) 60%, #7a621a);
+  box-shadow:0 0 0 5px rgba(201,162,39,.10);
+}
+.top-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{
+  border:1px solid var(--line);border-radius:999px;
+  padding:7px 13px;font-size:12px;font-weight:700;color:var(--muted);
+  background:rgba(18,23,36,.55);
+}
+.lang-btn{
+  border:1px solid var(--gold-dim);border-radius:999px;
+  padding:7px 15px;font-size:12.5px;font-weight:800;
+  color:var(--gold-2);background:rgba(201,162,39,.06);cursor:pointer;
+}
+.lang-btn:hover{background:rgba(201,162,39,.12)}
 
-    .wrap{width:min(980px,100%); margin:0 auto;}
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
-      flex-wrap:wrap;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:var(--muted);
-      font-size:14px;
-      font-weight:700;
-    }
-    .dot{
-      width:12px;height:12px;border-radius:999px;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow:0 0 0 6px rgba(124,58,237,.12);
-    }
-    .tools{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    .chip,.lang-btn,.counter-chip{
-      border:1px solid var(--line);
-      background:rgba(16,24,39,.6);
-      color:var(--muted);
-      border-radius:999px;
-      padding:8px 12px;
-      font-size:12px;
-      font-weight:800;
-    }
-    .counter-chip{
-      color:#bbf7d0;
-      border-color:rgba(34,197,94,.22);
-      background:rgba(34,197,94,.06);
-    }
-    .lang-btn{
-      color:var(--text);
-      cursor:pointer;
-    }
+/* ---------- pact ribbon (return visit) ---------- */
+.pact-ribbon{
+  display:none;
+  border:1px solid var(--gold-dim);
+  background:linear-gradient(180deg, rgba(201,162,39,.08), rgba(201,162,39,.03));
+  border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:18px;
+}
+.pact-ribbon.active{display:block}
+.pact-ribbon .pr-title{font-weight:800;color:var(--gold-2);font-size:14px;margin-bottom:4px}
+.pact-ribbon .pr-text{font-family:var(--letter);font-size:17px;color:var(--text)}
+.pact-ribbon .pr-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 
-    .card{
-      background:linear-gradient(180deg, rgba(16,24,39,.9), rgba(13,19,32,.82));
-      border:1px solid rgba(31,41,55,.95);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
+/* ---------- scenes ---------- */
+.scene{display:none;animation:sceneIn .5s ease both}
+.scene.active{display:block}
+@keyframes sceneIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-    .hero{
-      padding:28px 22px 18px;
-      border-bottom:1px solid var(--line);
-    }
-    .hero h1{
-      margin:0 0 10px;
-      font-size:32px;
-      line-height:1.2;
-      letter-spacing:.2px;
-    }
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.8;
-      font-size:15px;
-      max-width:750px;
-    }
+/* ---------- intro ---------- */
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:800;letter-spacing:.6px;color:var(--gold-2);
+  border:1px solid var(--gold-dim);border-radius:999px;padding:6px 14px;
+  background:rgba(201,162,39,.06);margin-bottom:18px;
+}
+h1.hero{
+  font-family:var(--letter);
+  font-weight:700;font-size:42px;line-height:1.35;margin:0 0 14px;
+}
+h1.hero .gold{color:var(--gold-2)}
+.hero-sub{color:var(--muted);font-size:16px;max-width:640px;margin:0 auto 30px}
 
-    .content{padding:20px 22px 24px;}
-    .center-box{text-align:center; padding:26px 16px 10px;}
+/* envelope */
+.envelope{
+  position:relative;
+  width:min(460px,100%);
+  margin:8px auto 30px;
+  aspect-ratio:16/10;
+  background:linear-gradient(180deg, var(--paper), var(--paper-2));
+  border-radius:10px;
+  box-shadow:0 30px 60px rgba(0,0,0,.5), 0 2px 0 rgba(255,255,255,.06) inset;
+  transform:rotate(-1.2deg);
+}
+.envelope::before{
+  content:"";
+  position:absolute;inset:0 0 auto 0;height:52%;
+  background:linear-gradient(180deg, #e7dcc1, #ddd0b0);
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+  border-radius:10px 10px 0 0;
+  box-shadow:0 6px 14px rgba(0,0,0,.12);
+}
+.envelope .addr{
+  position:absolute;bottom:12%;inset-inline:0;text-align:center;
+  font-family:var(--letter);color:var(--ink);font-size:16px;line-height:1.9;
+}
+.envelope .addr small{display:block;color:var(--ink-soft);font-size:12.5px;font-family:var(--ui);font-weight:700}
+.wax{
+  position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);
+  width:92px;height:92px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, #efd88a, var(--gold) 45%, #8a6f1c 85%);
+  box-shadow:0 8px 18px rgba(0,0,0,.35), 0 0 0 6px rgba(201,162,39,.14);
+  display:grid;place-items:center;text-align:center;
+  color:#241c05;font-weight:800;font-size:11.5px;line-height:1.5;
+  transition:transform .5s ease, opacity .5s ease;
+  padding:8px;
+}
+.wax .yr{font-family:var(--letter);font-size:19px;font-weight:700;display:block}
+.envelope.opened .wax{transform:translate(-50%,-50%) scale(1.25);opacity:0}
+.postmark{
+  position:absolute;top:10px;inset-inline-end:16px;
+  font-size:11px;font-weight:700;color:var(--ink-soft);
+  border:1.5px solid rgba(74,65,50,.5);border-radius:50%;
+  width:74px;height:74px;display:grid;place-items:center;text-align:center;line-height:1.4;
+  transform:rotate(9deg);opacity:.75;padding:6px;
+}
 
-    /* Animated Symbol */
-    .sigil{
-      width:120px;
-      height:120px;
-      margin:0 auto 16px;
-      position:relative;
-      display:grid;
-      place-items:center;
-    }
-    .core{
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      background:radial-gradient(circle at 30% 30%, #c4b5fd, #7c3aed 55%, #4c1d95 100%);
-      box-shadow:0 0 22px rgba(124,58,237,.55);
-      animation:pulseCore 2.2s ease-in-out infinite;
-      z-index:3;
-    }
-    .orbit,
-    .orbit2,
-    .orbit3{
-      position:absolute;
-      inset:0;
-      border-radius:50%;
-      border:1px solid rgba(124,58,237,.28);
-    }
-    .orbit{animation:spin 10s linear infinite;}
-    .orbit2{
-      inset:10px;
-      border-style:dashed;
-      animation:spinReverse 13s linear infinite;
-    }
-    .orbit3{
-      inset:22px;
-      border-color:rgba(56,189,248,.22);
-      animation:spin 7s linear infinite;
-    }
-    .satellite{
-      position:absolute;
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:#22c55e;
-      box-shadow:0 0 10px rgba(34,197,94,.5);
-      top:4px;
-      left:50%;
-      margin-left:-5px;
-      animation:spinSatellite 4s linear infinite;
-      transform-origin:center 56px;
-      z-index:2;
-    }
-    .satellite2{
-      position:absolute;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:#38bdf8;
-      box-shadow:0 0 10px rgba(56,189,248,.45);
-      top:16px;
-      left:50%;
-      margin-left:-4px;
-      animation:spinSatelliteReverse 5.5s linear infinite;
-      transform-origin:center 44px;
-      z-index:2;
-    }
+/* ---------- buttons ---------- */
+button{
+  font-family:var(--ui);font-weight:800;font-size:15px;
+  border:0;border-radius:14px;padding:13px 22px;cursor:pointer;
+  transition:transform .08s ease, filter .12s ease, box-shadow .12s ease;
+}
+button:hover{filter:brightness(1.08)}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px}
+.btn-gold{
+  color:#191302;
+  background:linear-gradient(135deg, var(--gold-2), var(--gold));
+  box-shadow:0 10px 26px rgba(201,162,39,.22);
+}
+.btn-ghost{
+  background:transparent;color:var(--text);
+  border:1px solid var(--line);
+}
+.btn-ghost:hover{border-color:var(--gold-dim)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.center{justify-content:center;text-align:center}
 
-    @keyframes pulseCore{
-      0%,100%{transform:scale(1); box-shadow:0 0 22px rgba(124,58,237,.55);}
-      50%{transform:scale(1.16); box-shadow:0 0 34px rgba(124,58,237,.78);}
-    }
-    @keyframes spin{from{transform:rotate(0deg)} to{transform:rotate(360deg)}}
-    @keyframes spinReverse{from{transform:rotate(360deg)} to{transform:rotate(0deg)}}
-    @keyframes spinSatellite{from{transform:rotate(0deg)} to{transform:rotate(360deg)}}
-    @keyframes spinSatelliteReverse{from{transform:rotate(360deg)} to{transform:rotate(0deg)}}
+/* ---------- verification ---------- */
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:26px 24px;
+  backdrop-filter:blur(6px);
+}
+.v-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.v-step{font-size:12px;font-weight:800;color:var(--gold-2);letter-spacing:.5px}
+.clarity{display:flex;align-items:center;gap:10px;min-width:190px;flex:0 0 auto}
+.clarity .lbl{font-size:11.5px;color:var(--muted);font-weight:700;white-space:nowrap}
+.clarity .bar{flex:1;height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;border:1px solid var(--line)}
+.clarity .fill{height:100%;width:0%;background:linear-gradient(90deg, #7a621a, var(--gold), var(--gold-2));transition:width .7s ease}
 
-    .start-title{
-      font-size:24px;
-      margin:0 0 10px;
-      font-weight:900;
-    }
-    .start-sub{
-      color:var(--muted);
-      line-height:1.9;
-      max-width:660px;
-      margin:0 auto;
-      font-size:14px;
-    }
+.v-voice{
+  font-family:var(--letter);
+  font-size:22px;line-height:2.05;color:#f0e9d8;
+  border-inline-start:3px solid var(--gold);
+  padding-inline-start:18px;
+  margin:18px 0 22px;
+}
+.v-voice::before{content:"«";color:var(--gold-2)}
+.v-voice::after{content:"»";color:var(--gold-2)}
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-top:18px;
-    }
-    button{
-      border:0;
-      padding:12px 16px;
-      border-radius:14px;
-      font-weight:900;
-      cursor:pointer;
-      transition:transform .08s ease, filter .08s ease;
-    }
-    button:hover{filter:brightness(1.05)}
-    button:active{transform:translateY(1px)}
-    .btn-primary{
-      color:#0b1020;
-      background:linear-gradient(135deg,var(--accent),#9d4edd);
-    }
-    .btn-ghost{
-      background:transparent;
-      color:var(--text);
-      border:1px solid var(--line);
-    }
-    .btn-green{
-      color:#04110a;
-      background:linear-gradient(135deg,var(--accent2),#16a34a);
-    }
+label{display:block;font-size:13px;font-weight:800;color:#cdd4e2;margin-bottom:9px}
+input[type=text],input[type=number],textarea{
+  width:100%;font-family:var(--ui);font-size:16px;color:var(--text);
+  background:rgba(10,13,20,.6);
+  border:1px solid var(--line);border-radius:14px;
+  padding:14px;outline:none;transition:border-color .15s, box-shadow .15s;
+}
+input:focus,textarea:focus{border-color:var(--gold-dim);box-shadow:0 0 0 4px rgba(201,162,39,.10)}
+textarea{min-height:100px;resize:vertical}
+.hint{font-size:12px;color:var(--muted);margin-top:8px}
+.err{font-size:12.5px;color:var(--danger);margin-top:8px;display:none;font-weight:700}
+.err.active{display:block}
 
-    .step{
-      display:none;
-      margin-top:18px;
-      border:1px solid rgba(31,41,55,.95);
-      border-radius:18px;
-      padding:18px;
-      background:
-        radial-gradient(800px 360px at 10% 0%, rgba(124,58,237,.10), transparent 55%),
-        rgba(11,15,23,.42);
-    }
-    .step.active{display:block}
+.choices{display:grid;gap:10px}
+.choice{
+  text-align:start;font-weight:700;font-size:15px;color:var(--text);
+  background:rgba(10,13,20,.55);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;
+}
+.choice:hover{border-color:var(--gold-dim)}
+.choice.selected{
+  border-color:var(--gold);
+  background:rgba(201,162,39,.10);
+  color:var(--gold-2);
+}
+.choice .c-sub{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-top:3px}
+.choice.selected .c-sub{color:rgba(227,197,101,.8)}
 
-    .step-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
-      flex-wrap:wrap;
-    }
-    .step-title{margin:0; font-size:18px; font-weight:900;}
-    .step-kicker{color:var(--muted); font-size:12px; margin-top:4px; line-height:1.6;}
-    .stamp{
-      font-family:var(--mono);
-      font-size:12px;
-      color:#cbd5e1;
-      border:1px dashed rgba(148,163,184,.45);
-      padding:8px 10px;
-      border-radius:12px;
-      white-space:nowrap;
-      opacity:.95;
-    }
+/* ---------- letter ---------- */
+.letter-stage{position:relative}
+.paper{
+  position:relative;
+  background:
+    radial-gradient(700px 300px at 50% -60px, rgba(201,162,39,.10), transparent 60%),
+    linear-gradient(180deg, var(--paper), var(--paper-2));
+  color:var(--ink);
+  border-radius:6px;
+  padding:52px clamp(22px,6vw,64px) 46px;
+  box-shadow:0 40px 90px rgba(0,0,0,.55);
+}
+.paper::before,.paper::after{
+  content:"";position:absolute;inset-inline:14px;height:10px;background:inherit;
+  border-radius:6px;z-index:-1;box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+.paper::before{bottom:-6px;opacity:.6}
+.paper::after{bottom:-12px;inset-inline:28px;opacity:.35}
+.letter-meta{
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  font-size:12.5px;font-weight:700;color:var(--ink-soft);
+  border-bottom:1px solid rgba(74,65,50,.22);
+  padding-bottom:14px;margin-bottom:26px;
+}
+.letter-title{
+  font-family:var(--letter);font-weight:700;font-size:27px;margin:0 0 20px;color:#1f1910;
+}
+.letter-body{
+  font-family:var(--letter);
+  font-size:19.5px;line-height:2.2;color:var(--ink);
+  min-height:120px;
+}
+html[dir=ltr] .letter-body{font-size:18.5px;line-height:2}
+.letter-body p{margin:0 0 22px}
+.caret{
+  display:inline-block;width:2px;height:1.05em;background:var(--gold);
+  vertical-align:-0.15em;animation:blink 1s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+.sig{
+  font-family:var(--letter);font-size:20px;color:#1f1910;
+  margin-top:8px;text-align:end;line-height:1.9;
+}
+.sig .who{font-weight:700}
+.sig .when{font-size:14px;color:var(--ink-soft);font-family:var(--ui);font-weight:700}
+.skip-row{display:flex;justify-content:center;margin-top:14px}
+.skip-row button{font-size:13px;padding:9px 16px}
 
-    .riddle{
-      font-size:16px;
-      line-height:2;
-      color:#e5e7eb;
-      margin-bottom:14px;
-    }
-    .riddle em{
-      color:#d8b4fe;
-      font-style:normal;
-      font-weight:900;
-    }
+/* fork timeline */
+.ps{
+  margin-top:34px;border-top:1px dashed rgba(74,65,50,.35);padding-top:22px;
+}
+.ps .ps-title{font-family:var(--letter);font-weight:700;font-size:17px;color:#1f1910;margin:0 0 12px}
+.fork{width:100%;height:auto;display:block}
+.fork text{font-family:var(--ui);font-weight:700}
 
-    label{
-      display:block;
-      margin:0 0 8px;
-      font-size:13px;
-      color:#cbd5e1;
-      font-weight:800;
-    }
-    input, textarea{
-      width:100%;
-      background:rgba(11,15,23,.58);
-      border:1px solid rgba(31,41,55,.95);
-      color:var(--text);
-      padding:13px 12px;
-      border-radius:14px;
-      outline:none;
-      font-size:15px;
-    }
-    input:focus, textarea:focus{
-      border-color:rgba(124,58,237,.88);
-      box-shadow:0 0 0 4px rgba(124,58,237,.12);
-    }
-    textarea{min-height:110px; resize:vertical}
+/* ---------- pact ---------- */
+.pact-intro{
+  font-family:var(--letter);font-size:22px;line-height:2;color:#f0e9d8;
+  margin:0 0 20px;
+}
+.card-preview{display:none;margin-top:26px;text-align:center}
+.card-preview.active{display:block}
+.card-preview canvas{
+  width:min(420px,100%);height:auto;border-radius:14px;
+  box-shadow:0 30px 70px rgba(0,0,0,.55);
+  border:1px solid var(--gold-dim);
+}
 
-    .hint{
-      margin-top:8px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.7;
-    }
+/* toast */
+.toast{
+  position:fixed;bottom:20px;inset-inline-start:20px;
+  background:rgba(18,23,36,.96);border:1px solid var(--gold-dim);
+  color:var(--text);font-size:13.5px;font-weight:700;
+  padding:11px 16px;border-radius:12px;display:none;z-index:99;
+  box-shadow:0 14px 34px rgba(0,0,0,.4);
+}
 
-    .reveal{
-      margin-top:14px;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid rgba(31,41,55,.95);
-      background:rgba(15,23,42,.45);
-      display:none;
-    }
-    .reveal.active{display:block}
+footer{margin-top:46px;text-align:center;color:var(--muted);font-size:12px}
+footer .l{color:var(--gold-2)}
 
-    .reveal-line{
-      line-height:1.9;
-      font-size:15px;
-      color:#e5e7eb;
-    }
-    .value{
-      color:#86efac;
-      font-weight:900;
-    }
-    .code-fragment{
-      margin-top:10px;
-      border-top:1px dashed rgba(148,163,184,.2);
-      padding-top:10px;
-      color:#d8b4fe;
-      font-family:var(--mono);
-      font-size:13px;
-      line-height:1.8;
-      white-space:pre-wrap;
-    }
-
-    .progress{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-      margin-top:18px;
-    }
-    .prog{
-      border:1px solid var(--line);
-      background:rgba(15,23,42,.45);
-      border-radius:14px;
-      padding:10px;
-      text-align:center;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-    }
-    .prog.done{
-      color:#bbf7d0;
-      border-color:rgba(34,197,94,.35);
-      background:rgba(34,197,94,.08);
-    }
-
-    .final-wrap{
-      display:none;
-      margin-top:18px;
-      border:1px solid rgba(31,41,55,.95);
-      border-radius:18px;
-      padding:18px;
-      background:
-        radial-gradient(1000px 480px at 10% 0%, rgba(124,58,237,.12), transparent 55%),
-        rgba(11,15,23,.52);
-    }
-    .final-wrap.active{display:block}
-
-    .decode-line{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:#c4b5fd;
-      font-family:var(--mono);
-      font-size:13px;
-      margin-bottom:10px;
-      flex-wrap:wrap;
-    }
-    .pulse{
-      width:10px;height:10px;border-radius:50%;
-      background:#22c55e;
-      box-shadow:0 0 0 8px rgba(34,197,94,.08);
-      animation:pulse 1.4s infinite;
-    }
-    @keyframes pulse{
-      0%{transform:scale(1);opacity:1}
-      70%{transform:scale(1.6);opacity:.15}
-      100%{transform:scale(1);opacity:1}
-    }
-
-    .final-title{font-size:20px; margin:0 0 10px; font-weight:900;}
-    .final-message{
-      white-space:pre-wrap;
-      line-height:2;
-      font-size:15px;
-      color:#ecf0f7;
-      margin-top:8px;
-    }
-
-    .life-code{
-      margin-top:16px;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid rgba(56,189,248,.28);
-      background:rgba(56,189,248,.07);
-    }
-    .life-code strong{
-      display:block;
-      margin-bottom:6px;
-      color:#bae6fd;
-      font-size:14px;
-    }
-    .life-code .big{
-      font-family:var(--mono);
-      font-size:18px;
-      color:#67e8f9;
-      font-weight:900;
-      letter-spacing:1px;
-    }
-    .life-code p{
-      margin:8px 0 0;
-      color:#d8e4f0;
-      line-height:1.8;
-      font-size:14px;
-    }
-
-    .signal-box{
-      margin-top:14px;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid rgba(124,58,237,.22);
-      background:rgba(124,58,237,.06);
-    }
-    .signal-head{
-      font-size:14px;
-      font-weight:900;
-      color:#ddd6fe;
-      margin-bottom:8px;
-    }
-    .signal-bar{
-      width:100%;
-      height:14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-    }
-    .signal-fill{
-      height:100%;
-      width:0%;
-      border-radius:999px;
-      transition:width .6s ease;
-      background:linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
-    }
-    .signal-desc{
-      margin-top:8px;
-      font-size:13px;
-      color:#dbe4ef;
-      line-height:1.8;
-    }
-
-    .toast{
-      position:fixed;
-      left:18px;
-      bottom:18px;
-      background:rgba(16,24,39,.95);
-      border:1px solid rgba(31,41,55,.95);
-      color:#e5e7eb;
-      padding:10px 12px;
-      border-radius:12px;
-      box-shadow:var(--shadow);
-      display:none;
-      font-size:13px;
-      z-index:9999;
-    }
-
-    @media (max-width:720px){
-      .hero h1{font-size:26px}
-      .start-title{font-size:22px}
-    }
-  </style>
+@media (max-width:640px){
+  h1.hero{font-size:31px}
+  .v-voice{font-size:19px}
+  .letter-body{font-size:17.5px;line-height:2.15}
+  html[dir=ltr] .letter-body{font-size:16.5px}
+  .paper{padding:36px 20px 34px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="dot"></div>
-        <div id="brandText">Decode Yourself • فك شفرة نفسك</div>
-      </div>
-      <div class="tools">
-        <div class="counter-chip" id="counterChip">+ 12,847 شخص دخلوا التجربة</div>
-        <div class="chip" id="chipText">3 مفاتيح • رسالة واحدة</div>
-        <button class="lang-btn" id="langBtn" type="button">EN</button>
-      </div>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="seal-dot"></span>
+      <span id="brandText"></span>
     </div>
-
-    <div class="card">
-      <div class="hero">
-        <h1 id="heroTitle">هناك رسالة لك… لكنها مشفّرة</h1>
-        <p id="heroDesc">
-          ليست كل الرسائل تُقرأ فورًا. بعضها لا يُفتح… إلا إذا عرفت كيف تفك نفسك أولًا.
-          أمامك ثلاثة مفاتيح. كل مفتاح يكشف جزءًا من الحقيقة.
-        </p>
-      </div>
-
-      <div class="content">
-        <div class="center-box" id="introBox">
-          <div class="sigil">
-            <div class="orbit"></div>
-            <div class="orbit2"></div>
-            <div class="orbit3"></div>
-            <div class="satellite"></div>
-            <div class="satellite2"></div>
-            <div class="core"></div>
-          </div>
-
-          <h2 class="start-title" id="startTitle">ابدأ فك الشيفرة</h2>
-          <p class="start-sub" id="startSub">
-            لن تُسأل أسئلة عادية. ستواجه ثلاث إشارات: سارق، باب، وأثر. وإذا أجبت بصدق… ستُفتح الرسالة.
-          </p>
-          <div class="actions">
-            <button class="btn-primary" id="startBtn">ابدأ الآن</button>
-          </div>
-        </div>
-
-        <div class="progress" id="progressBar">
-          <div class="prog" id="p1">المفتاح الأول</div>
-          <div class="prog" id="p2">المفتاح الثاني</div>
-          <div class="prog" id="p3">المفتاح الثالث</div>
-        </div>
-
-        <div class="step" id="step1">
-          <div class="step-head">
-            <div>
-              <h3 class="step-title" id="s1Title">المفتاح الأول: السارق الصامت</h3>
-              <div class="step-kicker" id="s1Kick">بعض اللصوص لا يسرقون مالك… بل عمرك.</div>
-            </div>
-            <div class="stamp">KEY_01</div>
-          </div>
-
-          <div class="riddle" id="s1Riddle">
-            هناك شيء في حياتك
-            <em>يأخذ منك جزءًا من عمرك كل يوم</em>
-            دون أن يترك أثرًا حقيقيًا.
-            <br><br>
-            كم ساعة تعتقد أنه يسرق منك يوميًا؟
-          </div>
-
-          <label id="lblHours" for="hoursInput">اكتب عدد الساعات</label>
-          <input id="hoursInput" type="number" min="0" max="24" placeholder="مثال: 3" />
-          <div class="hint" id="hoursHint">أدخل رقمًا فقط. كن صريحًا مع نفسك.</div>
-
-          <div class="actions" style="justify-content:flex-start;">
-            <button class="btn-primary" id="unlock1Btn">فك المفتاح الأول</button>
-          </div>
-
-          <div class="reveal" id="reveal1">
-            <div class="reveal-line" id="r1Line"></div>
-            <div class="code-fragment" id="r1Code"></div>
-            <div class="actions" style="justify-content:flex-start;">
-              <button class="btn-ghost" id="next1Btn">التالي</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="step" id="step2">
-          <div class="step-head">
-            <div>
-              <h3 class="step-title" id="s2Title">المفتاح الثاني: الباب الذي لا يُفتح وحده</h3>
-              <div class="step-kicker" id="s2Kick">بعض الأبواب تبقى مغلقة لأننا نقف أمامها فقط.</div>
-            </div>
-            <div class="stamp">KEY_02</div>
-          </div>
-
-          <div class="riddle" id="s2Riddle">
-            في حياتك باب تقف أمامه منذ فترة.
-            خلفه نسخة مختلفة منك.
-            <br><br>
-            ما اسم هذا الباب؟
-          </div>
-
-          <label id="lblDoor" for="doorInput">اكتب اسم الباب</label>
-          <textarea id="doorInput" placeholder="مثال: مشروع / قرار / سفر / اعتذار / بداية جديدة"></textarea>
-          <div class="hint" id="doorHint">لا تكتب شرحًا طويلًا. اكتب الشيء الحقيقي.</div>
-
-          <div class="actions" style="justify-content:flex-start;">
-            <button class="btn-primary" id="unlock2Btn">فك المفتاح الثاني</button>
-          </div>
-
-          <div class="reveal" id="reveal2">
-            <div class="reveal-line" id="r2Line"></div>
-            <div class="code-fragment" id="r2Code"></div>
-            <div class="actions" style="justify-content:flex-start;">
-              <button class="btn-ghost" id="next2Btn">التالي</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="step" id="step3">
-          <div class="step-head">
-            <div>
-              <h3 class="step-title" id="s3Title">المفتاح الثالث: الأثر الأخير</h3>
-              <div class="step-kicker" id="s3Kick">ما يبقى منك… ليس ما كنت تفكر فيه، بل ما تركته.</div>
-            </div>
-            <div class="stamp">KEY_03</div>
-          </div>
-
-          <div class="riddle" id="s3Riddle">
-            لو لم يُسمح لك بترك شيء واحد فقط في هذه الحياة…
-            شيء واحد يثبت أنك كنت هنا…
-            <br><br>
-            فماذا سيكون؟
-          </div>
-
-          <label id="lblMark" for="markInput">اكتب أثرك</label>
-          <textarea id="markInput" placeholder="مثال: فكرة / مشروع / شخص قمت بإنقاذه / حياة صنعتها / أثر جميل"></textarea>
-          <div class="hint" id="markHint">لا تكتب ما يعجب الناس. اكتب ما يشبهك أنت.</div>
-
-          <div class="actions" style="justify-content:flex-start;">
-            <button class="btn-primary" id="unlock3Btn">إكمال فك الشيفرة</button>
-          </div>
-
-          <div class="reveal" id="reveal3">
-            <div class="reveal-line" id="r3Line"></div>
-            <div class="code-fragment" id="r3Code"></div>
-            <div class="actions" style="justify-content:flex-start;">
-              <button class="btn-green" id="finalBtn">افتح الرسالة</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="final-wrap" id="finalWrap">
-          <div class="decode-line">
-            <span class="pulse"></span>
-            <span id="decodingText">DECODE COMPLETE // الرسالة أصبحت قابلة للقراءة</span>
-          </div>
-
-          <h3 class="final-title" id="finalTitle">الرسالة</h3>
-          <div class="final-message" id="finalMessage"></div>
-
-          <div class="life-code" id="lifeCodeBox">
-            <strong id="lifeCodeTitle">رمز حياتك الحالي</strong>
-            <div class="big" id="lifeCodeValue">LIFE CODE: —</div>
-            <p id="lifeCodeDesc"></p>
-          </div>
-
-          <div class="signal-box">
-            <div class="signal-head" id="signalHead">إشارة حياتك</div>
-            <div class="signal-bar">
-              <div class="signal-fill" id="signalFill"></div>
-            </div>
-            <div class="signal-desc" id="signalDesc"></div>
-          </div>
-
-          <div class="actions" style="justify-content:flex-start;">
-            <button class="btn-green" id="shareBtn">مشاركة</button>
-            <button class="btn-ghost" id="copyMsgBtn">نسخ الرسالة</button>
-            <button class="btn-ghost" id="restartBtn">إعادة التجربة</button>
-          </div>
-        </div>
-      </div>
+    <div class="top-tools">
+      <div class="chip" id="chipText"></div>
+      <button class="lang-btn" id="langBtn" type="button">EN</button>
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="pact-ribbon" id="pactRibbon">
+    <div class="pr-title" id="prTitle"></div>
+    <div class="pr-text" id="prText"></div>
+    <div class="pr-actions">
+      <button class="btn-ghost" id="prViewBtn" type="button"></button>
+      <button class="btn-ghost" id="prResetBtn" type="button"></button>
+    </div>
+  </div>
 
-  <script>
-    const $ = (id) => document.getElementById(id);
-    let LANG = localStorage.getItem("decode_lang") || "ar";
+  <!-- ============ SCENE: INTRO ============ -->
+  <section class="scene active" id="sceneIntro">
+    <div style="text-align:center">
+      <span class="kicker"><span id="kickerLbl"></span> <span id="kickerToday"></span></span>
+      <h1 class="hero" id="heroTitle"></h1>
+      <p class="hero-sub" id="heroSub"></p>
 
-    const state = {
-      hours: null,
-      yearsLostHours: null,
-      door: "",
-      mark: ""
-    };
+      <div class="envelope" id="envelope">
+        <div class="postmark" id="postmark"></div>
+        <div class="wax"><span><span id="waxTop"></span><span class="yr" id="waxYear"></span></span></div>
+        <div class="addr">
+          <small id="addrFrom"></small>
+          <span id="addrTo"></span>
+        </div>
+      </div>
 
-    const T = {
-      ar: {
-        brandText:"Decode Yourself • فك شفرة نفسك",
-        chipText:"3 مفاتيح • رسالة واحدة",
-        counterChip:"+ 12,847 شخص دخلوا التجربة",
-        langBtn:"EN",
-        heroTitle:"هناك رسالة لك… لكنها مشفّرة",
-        heroDesc:"ليست كل الرسائل تُقرأ فورًا. بعضها لا يُفتح… إلا إذا عرفت كيف تفك نفسك أولًا. أمامك ثلاثة مفاتيح. كل مفتاح يكشف جزءًا من الحقيقة.",
-        startTitle:"ابدأ فك الشيفرة",
-        startSub:"لن تُسأل أسئلة عادية. ستواجه ثلاث إشارات: سارق، باب، وأثر. وإذا أجبت بصدق… ستُفتح الرسالة.",
-        startBtn:"ابدأ الآن",
-        p1:"المفتاح الأول", p2:"المفتاح الثاني", p3:"المفتاح الثالث",
-        s1Title:"المفتاح الأول: السارق الصامت",
-        s1Kick:"بعض اللصوص لا يسرقون مالك… بل عمرك.",
-        lblHours:"اكتب عدد الساعات",
-        hoursHint:"أدخل رقمًا فقط. كن صريحًا مع نفسك.",
-        unlock1Btn:"فك المفتاح الأول",
-        nextBtn:"التالي",
-        s2Title:"المفتاح الثاني: الباب الذي لا يُفتح وحده",
-        s2Kick:"بعض الأبواب تبقى مغلقة لأننا نقف أمامها فقط.",
-        lblDoor:"اكتب اسم الباب",
-        doorHint:"لا تكتب شرحًا طويلًا. اكتب الشيء الحقيقي.",
-        unlock2Btn:"فك المفتاح الثاني",
-        s3Title:"المفتاح الثالث: الأثر الأخير",
-        s3Kick:"ما يبقى منك… ليس ما كنت تفكر فيه، بل ما تركته.",
-        lblMark:"اكتب أثرك",
-        markHint:"لا تكتب ما يعجب الناس. اكتب ما يشبهك أنت.",
-        unlock3Btn:"إكمال فك الشيفرة",
-        finalBtn:"افتح الرسالة",
-        decodingText:"DECODE COMPLETE // الرسالة أصبحت قابلة للقراءة",
-        finalTitle:"الرسالة",
-        lifeCodeTitle:"رمز حياتك الحالي",
-        signalHead:"إشارة حياتك",
-        shareBtn:"مشاركة",
-        copyMsgBtn:"نسخ الرسالة",
-        restartBtn:"إعادة التجربة",
-        errHours:"اكتب رقمًا صحيحًا بين 0 و 24.",
-        errDoor:"اكتب اسم الباب أولًا.",
-        errMark:"اكتب الأثر الذي تريد تركه.",
-        copied:"تم النسخ.",
-        sharedFallback:"جهازك لا يدعم المشاركة المباشرة. تم نسخ الرابط.",
-        restarted:"تمت إعادة التجربة.",
-        shareTitle:"Decode Yourself",
-        shareText:"هل تستطيع فك الرسالة المخفية داخلك؟ جرب هذه التجربة."
-      },
-      en: {
-        brandText:"Decode Yourself",
-        chipText:"3 keys • 1 message",
-        counterChip:"+ 12,847 people entered the experience",
-        langBtn:"AR",
-        heroTitle:"There is a message for you… but it is encrypted",
-        heroDesc:"Not every message opens immediately. Some only open when you learn how to decode yourself first. Three keys. One truth.",
-        startTitle:"Begin the decode",
-        startSub:"You won't face ordinary questions. You will face a thief, a door, and a final mark. Answer honestly… and the message opens.",
-        startBtn:"Start now",
-        p1:"First key", p2:"Second key", p3:"Third key",
-        s1Title:"First key: The silent thief",
-        s1Kick:"Some thieves do not steal money… they steal life.",
-        lblHours:"Enter the number of hours",
-        hoursHint:"Use numbers only. Be honest.",
-        unlock1Btn:"Unlock the first key",
-        nextBtn:"Next",
-        s2Title:"Second key: The door that won't open itself",
-        s2Kick:"Some doors stay closed because we only stand in front of them.",
-        lblDoor:"Write the door name",
-        doorHint:"Do not explain too much. Write the real thing.",
-        unlock2Btn:"Unlock the second key",
-        s3Title:"Third key: The final mark",
-        s3Kick:"What remains of you is not what you imagined, but what you left behind.",
-        lblMark:"Write your mark",
-        markHint:"Do not write what sounds impressive. Write what is true.",
-        unlock3Btn:"Complete the decode",
-        finalBtn:"Open the message",
-        decodingText:"DECODE COMPLETE // Message is now readable",
-        finalTitle:"The Message",
-        lifeCodeTitle:"Your current life code",
-        signalHead:"Life signal",
-        shareBtn:"Share",
-        copyMsgBtn:"Copy message",
-        restartBtn:"Restart",
-        errHours:"Enter a valid number between 0 and 24.",
-        errDoor:"Write the door first.",
-        errMark:"Write the mark you want to leave.",
-        copied:"Copied.",
-        sharedFallback:"Direct sharing not supported. Link copied.",
-        restarted:"Experience restarted.",
-        shareTitle:"Decode Yourself",
-        shareText:"Can you unlock the hidden message inside you? Try this experience."
-      }
-    };
+      <div class="actions center">
+        <button class="btn-gold" id="startBtn" type="button"></button>
+      </div>
+    </div>
+  </section>
 
-    function toast(msg){
-      const t = $("toast");
-      t.textContent = msg;
-      t.style.display = "block";
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(()=> t.style.display = "none", 2200);
+  <!-- ============ SCENE: VERIFICATION ============ -->
+  <section class="scene" id="sceneVerify">
+    <div class="panel">
+      <div class="v-head">
+        <div class="v-step" id="vStep"></div>
+        <div class="clarity">
+          <span class="lbl" id="clarityLbl"></span>
+          <div class="bar"><div class="fill" id="clarityFill"></div></div>
+          <span class="lbl" id="clarityPct"></span>
+        </div>
+      </div>
+
+      <div class="v-voice" id="vVoice"></div>
+      <div id="vInputArea"></div>
+      <div class="err" id="vErr"></div>
+
+      <div class="actions">
+        <button class="btn-gold" id="vNextBtn" type="button"></button>
+        <button class="btn-ghost" id="vBackBtn" type="button" style="display:none"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: LETTER ============ -->
+  <section class="scene" id="sceneLetter">
+    <div class="letter-stage">
+      <div class="paper">
+        <div class="letter-meta">
+          <span id="letterFrom"></span>
+          <span id="letterVerified"></span>
+        </div>
+        <h2 class="letter-title" id="letterSalutation"></h2>
+        <div class="letter-body" id="letterBody"></div>
+        <div class="sig" id="letterSig" style="display:none">
+          <span class="who" id="sigWho"></span><br>
+          <span class="when" id="sigDate"></span>
+        </div>
+
+        <div class="ps" id="letterPS" style="display:none">
+          <p class="ps-title" id="psTitle"></p>
+          <svg class="fork" id="forkSvg" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" role="img"></svg>
+        </div>
+      </div>
+
+      <div class="skip-row">
+        <button class="btn-ghost" id="skipBtn" type="button"></button>
+      </div>
+
+      <div class="actions center" id="letterActions" style="display:none">
+        <button class="btn-gold" id="toPactBtn" type="button"></button>
+        <button class="btn-ghost" id="copyLetterBtn" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE: PACT ============ -->
+  <section class="scene" id="scenePact">
+    <div class="panel">
+      <p class="pact-intro" id="pactIntro"></p>
+
+      <label for="pactInput" id="pactLbl"></label>
+      <textarea id="pactInput"></textarea>
+      <div class="hint" id="pactHint"></div>
+      <div class="err" id="pactErr"></div>
+
+      <div class="actions">
+        <button class="btn-gold" id="sealPactBtn" type="button"></button>
+      </div>
+
+      <div class="card-preview" id="cardPreview">
+        <canvas id="pactCanvas" width="1080" height="1350"></canvas>
+        <div class="actions center">
+          <button class="btn-gold" id="downloadCardBtn" type="button"></button>
+          <button class="btn-ghost" id="shareCardBtn" type="button"></button>
+          <button class="btn-ghost" id="restartBtn" type="button"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span id="footerText"></span></footer>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const PACT_KEY = "future_letter_pact_v2";
+const LANG_KEY = "future_letter_lang";
+
+let LANG = localStorage.getItem(LANG_KEY) || "ar";
+
+/* ---------- dates & numbers ---------- */
+const now = new Date();
+const future = new Date(now); future.setFullYear(now.getFullYear() + 10);
+const fmtLong = d => new Intl.DateTimeFormat(LANG === "ar" ? "ar" : "en", {day:"numeric",month:"long",year:"numeric"}).format(d);
+const fmtYear = d => new Intl.DateTimeFormat(LANG === "ar" ? "ar" : "en", {year:"numeric"}).format(d);
+const num = n => Number(n).toLocaleString(LANG === "ar" ? "ar-EG" : "en-US");
+const pct = n => LANG === "ar" ? num(n) + "٪" : n + "%";
+
+/* ---------- state ---------- */
+const state = { deferred:"", fear:"", person:"", hours:null, sceneDesc:"" };
+let qIndex = 0;
+let currentScene = "sceneIntro";
+let letterFinished = false;
+
+/* =====================================================
+   STRINGS
+===================================================== */
+const T = {
+ar:{
+  brand:"بريدٌ عابرٌ للزمن",
+  chip:"خمسة أسئلة · رسالة واحدة · عهد",
+  langBtn:"EN",
+  kickerLbl:"وصلت اليوم ·",
+  heroTitle:`رسالة كُتبت لك<br><span class="gold">بعد عشر سنوات</span>`,
+  heroSub:"وجدناها مختومة، مؤرخة بيومٍ لم يأتِ بعد، وعليها اسمك مرتين: مُرسِلًا ومُستلِمًا. كاتبها اشترط شرطًا واحدًا قبل فتحها: أن يتأكد أنك أنت — بخمسة أسئلة لا يعرف إجابتها سواك.",
+  postmark:d=>`بريد<br>${d}`,
+  waxTop:"لا يُفتح قبل",
+  addrFrom:d=>`من: أنت — ${d}`,
+  addrTo:"إلى: أنت — كما أنت اليوم",
+  startBtn:"كسر الختم والبدء",
+  step:(i)=>`التحقق ${["الأول","الثاني","الثالث","الرابع","الخامس"][i]} من خمسة`,
+  clarityLbl:"وضوح الرسالة",
+  nextBtn:"تثبيت الإجابة",
+  lastBtn:"فكّ الرسالة",
+  backBtn:"رجوع",
+  letterFrom:d=>`من: أنت · ${d}`,
+  letterVerified:"تم التحقق · اكتمل الوضوح ١٠٠٪",
+  salutation:"إلى من كنتُه،",
+  sigWho:"— أنت،",
+  sigDate:(f,n)=>`كُتبت في ${f} — وقُرئت في ${n}`,
+  skipBtn:"إظهار الرسالة كاملة",
+  toPactBtn:"الرد على الرسالة",
+  copyBtn:"نسخ الرسالة",
+  psTitle:"حاشية: خريطة العشر سنوات القادمة، كما أراها من هنا",
+  fork:{
+    today:"اليوم",
+    winTitle:"الطريق الذي بدأ اليوم",
+    winLabel:s=>`«${s}» — تحقّق`,
+    waitTitle:"الطريق الذي انتظر",
+    waitSub:"نفس المكان، بعد عشر سنوات"
+  },
+  pactIntro:"«الرسائل التي لا يُرَدُّ عليها تموت. اكتب لي سطرًا واحدًا — لا وعدًا عابرًا، بل عهدًا — وسأحفظه لك حتى نلتقي.»",
+  pactLbl:"عهدك، في سطر واحد",
+  pactPh:"مثال: سأبدأ العمل على مشروعي قبل نهاية هذا الشهر، ساعة كل يوم.",
+  pactHint:"سيُنقش على بطاقة العهد مع تاريخ اليوم وتاريخ الوفاء بعد عشر سنوات.",
+  pactErr:"اكتب عهدك أولًا.",
+  sealBtn:"ختم العهد",
+  downloadBtn:"تنزيل البطاقة",
+  shareBtn:"مشاركة",
+  restartBtn:"إعادة التجربة",
+  footer:`كل ما كتبتَه بقي على جهازك، ولم يغادر هذه الصفحة. <span class="l">الرسالة رسالتك.</span>`,
+  toastCopied:"نُسخت الرسالة.",
+  toastCopyFail:"تعذّر النسخ على هذا المتصفح.",
+  toastSealed:"خُتم العهد.",
+  toastShareFallback:"جهازك لا يدعم المشاركة المباشرة. نُسخ الرابط.",
+  toastShareFail:"المشاركة غير متاحة هنا — نزّل البطاقة وشاركها من جهازك.",
+  shareText:"كتبتُ عهدًا لنفسي بعد عشر سنوات. جرّب الرسالة بنفسك:",
+  shareTitle:"عهد",
+  prTitle:p=>`عهدك قائم ${p}`,
+  prView:"عرض بطاقة العهد",
+  prReset:"بدء رسالة جديدة",
+  days:d=> d===0 ? "منذ اليوم" : d===1 ? "منذ يوم واحد" : d===2 ? "منذ يومين" : d<=10 ? `منذ ${num(d)} أيام` : `منذ ${num(d)} يومًا`,
+  card:{
+    header:"بريد عابر للزمن",
+    title:"عَهْد",
+    made:d=>`كُتب في ${d}`,
+    due:d=>`يُفتح للمحاسبة في ${d}`,
+    seal:"أنا",
+    file:"بطاقة-العهد.png"
+  },
+  questions:[
+    {
+      voice:"أعرف أنك تحمل معك شيئًا واحدًا تؤجّله منذ سنوات، وتأخذه معك إلى كل مكان كأنه دَين. أنا كتبتُ هذه الرسالة كلها بسببه. اكتبه كما هو، بلا تجميل — حتى أعرف أنك أنت.",
+      label:"الشيء المؤجَّل",
+      ph:"مشروع، قرار، مهارة، اعتذار، بداية…",
+      hint:"كلمة أو جملة قصيرة. الصدق هنا هو المفتاح، لا البلاغة.",
+      err:"اكتب الشيء المؤجَّل أولًا."
+    },
+    {
+      voice:"وأتذكّر جيدًا ما الذي كان يوقفك. لم يكن الكسل — أنا أعرفك. كان شيئًا أعمق. اختره بصدق:",
+      err:"اختر ما يوقفك حقًا."
+    },
+    {
+      voice:"وكان هناك شخص واحد كنت تتمنى — أكثر من أي شيء — أن يراك يوم تصل. لم تقلها كثيرًا، لكنني أعرف. من هو؟",
+      label:"هذا الشخص",
+      ph:"أمي، أبي، ابني، زوجتي، نفسي القديمة…",
+      hint:"يكفي وصفه. لا حاجة لاسمه الكامل.",
+      err:"اكتب من هو هذا الشخص."
+    },
+    {
+      voice:"وكنتَ تعرف — في قرارة نفسك — أن في يومك ساعاتٍ تتسرّب بلا أثر: تمريرٌ بلا هدف، وانشغالٌ يشبه العمل وليس عملًا. كم ساعة تقريبًا في اليوم الواحد؟",
+      label:"عدد الساعات المتسرّبة يوميًا",
+      ph:"مثال: 3",
+      hint:"رقم بين ٠ و ١٦. كن قاسيًا في الحساب قليلًا؛ فأنا كنتُ كذلك.",
+      err:"أدخل رقمًا بين ٠ و ١٦."
+    },
+    {
+      voice:"سؤال أخير، وهو أثمنها: أغمض عينيك. لو نجح كل شيء — كل شيء — ما أول مشهد تراه؟ صِفه لي في سطر، فأنا أريد أن أقارنه بما أراه الآن.",
+      label:"المشهد الأول للنجاح",
+      ph:"مثال: أقف في مكتبي الخاص وأول عميل يوقّع العقد.",
+      hint:"مشهد واحد محدد، بصورته وتفاصيله — لا هدف عام.",
+      err:"صِف المشهد أولًا، ولو بسطر واحد."
     }
-
-    function clean(s){
-      return (s || "").toString().trim().replace(/\s+/g," ");
+  ],
+  fears:[
+    {id:"people",  label:"رأي الناس",          sub:"ماذا سيقولون إن حاولت وتعثرت؟"},
+    {id:"failure", label:"الخوف من الفشل",      sub:"أن أحاول بكل ما أملك ثم لا أصل."},
+    {id:"start",   label:"لا أعرف من أين أبدأ", sub:"الطريق غير واضح، والخطوة الأولى غامضة."},
+    {id:"time",    label:"الانشغال وضيق الوقت", sub:"الحياة مزدحمة، وأنتظر مرحلة أهدأ."},
+    {id:"comfort", label:"الراحة والتعوّد",      sub:"أيامي مقبولة، والخروج منها يحتاج جهدًا."}
+  ],
+  wakingSpan(y){
+    if(y < 0.09) return "أسابيع من ساعات اليقظة";
+    if(y < 0.75) return `قرابة ${num(Math.max(1,Math.round(y*12)))} من الأشهر الكاملة من ساعات اليقظة`;
+    if(y < 1.5)  return "قرابة سنة كاملة من ساعات اليقظة";
+    if(y < 2.5)  return "قرابة سنتين كاملتين من ساعات اليقظة";
+    return `قرابة ${num(Math.round(y))} سنوات كاملة من ساعات اليقظة`;
+  },
+  fearParagraphs:{
+    people:`وأتذكّر الخوف. لم يكن خوفًا من الفشل نفسه، بل من العيون التي ستراه. دعني أخبرك بما تعلّمته هنا: الناس الذين خشيتَ كلامهم لم يكونوا ينظرون إليك أصلًا؛ كانوا مشغولين بخوفهم هم. وحين بدأتُ أخيرًا، لم يسخر أحد. بعضهم صمت، وبعضهم — وهذا ما لم نتوقعه — جاء يسأل: كيف فعلتَها؟`,
+    failure:`وأتذكّر الخوف من السقوط. سأصدُقك القول من هنا: سقطتُ فعلًا، وأكثر من مرة. لكن المفاجأة أن السقوط لم يكن الوحش الذي تخيّلناه؛ كان درسًا سريعًا يمضي ويترك خبرة، بينما كان التأجيل سقوطًا بطيئًا لا ينتهي ولا يعلّم شيئًا. الفشل الوحيد الذي ندمتُ عليه حقًا هو السنوات التي لم أحاول فيها.`,
+    start:`وأتذكّر تلك الحيرة: من أين أبدأ؟ كنا نظنها سؤالًا يحتاج جوابًا كاملًا قبل الخطوة الأولى. والحقيقة التي اكتشفتُها متأخرًا: البداية لا تُعرَف، بل تُصنَع. خطوتي الأولى كانت غير صحيحة تقريبًا — لكنها كشفت الثانية، والثانية أضاءت الطريق. الخريطة لا تُرسم قبل المشي؛ تُرسم به.`,
+    time:`وأتذكّر حجة الوقت. كنا ننتظر أسبوعًا أهدأ، وشهرًا أخف، ومرحلةً "تستقر فيها الأمور". أخبرك سرًا من هذا الطرف من الزمن: تلك المرحلة لم تأتِ قط. الحياة لم تهدأ يومًا واحدًا؛ أنا الذي تعلّمتُ أن أقتطع لها ساعةً من وسط الضجيج. ساعة واحدة صادقة، كل يوم — كانت تكفي، وما زالت.`,
+    comfort:`وأتذكّر أخطر خصومنا، لأنه لم يكن يشبه الخصوم: الراحة. لا أحد يحذّرك من الأيام المريحة المتشابهة وهي تأكل العمر بأدبٍ شديد. والخروج منها لم يكن قاسيًا كما توقّعنا؛ كان أشبه بفتح نافذة في غرفة مغلقة منذ سنوات — لحظة انزعاج واحدة، ثم هواء.`
+  },
+  letter(st, totalHours, span){
+    const parts = [];
+    parts.push(`لن أبدأ بالتحية؛ فأنا لا أكتب لغريب.\nعرفتُك من إجابتك الأولى قبل أن تُكمِل الباقي. لا أحد في هذا العالم يحمل «${st.deferred}» بالطريقة التي تحمله بها: مؤجَّلًا في الظاهر، حاضرًا في كل شيء.`);
+    if(st.hours === 0){
+      parts.push(`تقول إن يومك لا يتسرّب منه شيء. إن كان هذا صحيحًا فأنت أسبق مني في أهم درس تعلّمته هنا، ولن أجادلك. لكن احذر خدعةً وقعتُ فيها: الانشغال الممتلئ بالحركة، الفارغ من الاتجاه. الوقت لم يكن يومًا مشكلتنا؛ الاتجاه كان.`);
+    } else {
+      parts.push(`دعني أُتِمّ عنك الحساب الذي لم تجرؤ يومًا على إتمامه. ${num(st.hours)} من الساعات في اليوم تبدو شيئًا صغيرًا، لكنها خلال عشر سنوات تصير ${num(totalHours)} ساعة — أي ${span}، تُقتطع من العمر بلا إيصال استلام. لا أكتب هذا لألومك؛ أكتبه لأنني استعدتُ الكثير منها، وأعرف أن الاستعادة تبدأ بقرار صغير في يوم عاديّ يشبه يومك هذا تمامًا.`);
     }
-
-    function setLang(lang){
-      LANG = lang;
-      localStorage.setItem("decode_lang", LANG);
-      document.documentElement.lang = LANG === "ar" ? "ar" : "en";
-      document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
-
-      const t = T[LANG];
-      $("brandText").textContent = t.brandText;
-      $("chipText").textContent = t.chipText;
-      $("counterChip").textContent = t.counterChip;
-      $("langBtn").textContent = t.langBtn;
-      $("heroTitle").textContent = t.heroTitle;
-      $("heroDesc").textContent = t.heroDesc;
-      $("startTitle").textContent = t.startTitle;
-      $("startSub").textContent = t.startSub;
-      $("startBtn").textContent = t.startBtn;
-      $("p1").textContent = t.p1;
-      $("p2").textContent = t.p2;
-      $("p3").textContent = t.p3;
-      $("s1Title").textContent = t.s1Title;
-      $("s1Kick").textContent = t.s1Kick;
-      $("lblHours").textContent = t.lblHours;
-      $("hoursHint").textContent = t.hoursHint;
-      $("unlock1Btn").textContent = t.unlock1Btn;
-      $("next1Btn").textContent = t.nextBtn;
-      $("s2Title").textContent = t.s2Title;
-      $("s2Kick").textContent = t.s2Kick;
-      $("lblDoor").textContent = t.lblDoor;
-      $("doorHint").textContent = t.doorHint;
-      $("unlock2Btn").textContent = t.unlock2Btn;
-      $("next2Btn").textContent = t.nextBtn;
-      $("s3Title").textContent = t.s3Title;
-      $("s3Kick").textContent = t.s3Kick;
-      $("lblMark").textContent = t.lblMark;
-      $("markHint").textContent = t.markHint;
-      $("unlock3Btn").textContent = t.unlock3Btn;
-      $("finalBtn").textContent = t.finalBtn;
-      $("decodingText").textContent = t.decodingText;
-      $("finalTitle").textContent = t.finalTitle;
-      $("lifeCodeTitle").textContent = t.lifeCodeTitle;
-      $("signalHead").textContent = t.signalHead;
-      $("shareBtn").textContent = t.shareBtn;
-      $("copyMsgBtn").textContent = t.copyMsgBtn;
-      $("restartBtn").textContent = t.restartBtn;
-      renderDynamic();
+    parts.push(this.fearParagraphs[st.fear] || this.fearParagraphs.start);
+    parts.push(`وأما «${st.person}»، فأريدك أن تعرف شيئًا ظللتُ أجهله طويلًا: اللحظة التي تخيّلتَها كثيرًا — لحظة أن تُرى وقد وصلت — لا تحدث في النهاية كما ظننت. تحدث مبكرًا جدًا: في اليوم الذي يصل فيه الخبر أنك بدأت. لا تؤجّل تلك اللحظة من أجل نهايةٍ مثالية.`);
+    parts.push(`وذلك المشهد الذي وصفتَه لي — «${st.sceneDesc}» — لن أُفسده عليك بالتفاصيل. سأقول فقط إنه حين يتحقق لا يشبه الخيال؛ يكون أهدأ، وأصدق، وأثقل في القلب بطريقة جميلة. لكن بيني وبينك: أجمل ما فيه ليس المشهد نفسه، بل أنك — وأنت واقف فيه — تعرف كل خطوة من الطريق الذي أوصلك إليه.`);
+    parts.push(`لم أكتب هذه الرسالة لأطمئنك، ولا لأخيفك. كتبتُها لأن بيني وبينك عشر سنوات، وهي — خلافًا لما نظن — ليست مضمونةً لأحد منا. النسخة التي أنا عليها الآن لم تبدأ من يوم استثنائي؛ بدأت من يوم عاديّ، قرّر فيه شخصٌ يشبهك تمامًا ألا يقول «لاحقًا» عن «${st.deferred}» مرةً أخرى.\n\nهذا اليوم العاديّ… قد يكون اليوم.`);
+    return parts;
+  }
+},
+en:{
+  brand:"Mail Across Time",
+  chip:"Five questions · One letter · A pact",
+  langBtn:"عربي",
+  kickerLbl:"Arrived today ·",
+  heroTitle:`A letter written to you<br><span class="gold">ten years from now</span>`,
+  heroSub:"We found it sealed, dated a day that hasn't come yet, carrying your name twice: as sender and as recipient. Its writer set one condition before it opens: to be certain it's you — through five questions no one else can answer.",
+  postmark:d=>`MAIL<br>${d}`,
+  waxTop:"Do not open before",
+  addrFrom:d=>`From: you — ${d}`,
+  addrTo:"To: you — as you are today",
+  startBtn:"Break the seal and begin",
+  step:i=>`Verification ${i+1} of 5`,
+  clarityLbl:"Letter clarity",
+  nextBtn:"Confirm answer",
+  lastBtn:"Unlock the letter",
+  backBtn:"Back",
+  letterFrom:d=>`From: you · ${d}`,
+  letterVerified:"Verified · Clarity 100%",
+  salutation:"To the one I used to be,",
+  sigWho:"— You,",
+  sigDate:(f,n)=>`Written on ${f} — read on ${n}`,
+  skipBtn:"Show the full letter",
+  toPactBtn:"Reply to the letter",
+  copyBtn:"Copy the letter",
+  psTitle:"P.S. — the map of the next ten years, as I see it from here",
+  fork:{
+    today:"Today",
+    winTitle:"The road that began today",
+    winLabel:s=>`"${s}" — achieved`,
+    waitTitle:"The road that waited",
+    waitSub:"The same place, ten years on"
+  },
+  pactIntro:`"Letters that receive no reply die. Write me a single line — not a passing promise, but a pact — and I will keep it for you until we meet."`,
+  pactLbl:"Your pact, in one line",
+  pactPh:"Example: I will start working on my project before the end of this month, one hour every day.",
+  pactHint:"It will be engraved on your pact card with today's date and the date of reckoning, ten years from now.",
+  pactErr:"Write your pact first.",
+  sealBtn:"Seal the pact",
+  downloadBtn:"Download the card",
+  shareBtn:"Share",
+  restartBtn:"Start over",
+  footer:`Everything you wrote stayed on your device and never left this page. <span class="l">The letter is yours.</span>`,
+  toastCopied:"Letter copied.",
+  toastCopyFail:"Copying is not supported in this browser.",
+  toastSealed:"The pact is sealed.",
+  toastShareFallback:"Direct sharing isn't supported on this device. Link copied.",
+  toastShareFail:"Sharing isn't available here — download the card and share it from your device.",
+  shareText:"I wrote a pact to my future self, ten years from now. Try the letter yourself:",
+  shareTitle:"A Pact",
+  prTitle:p=>`Your pact has stood ${p}`,
+  prView:"View pact card",
+  prReset:"Start a new letter",
+  days:d=> d===0 ? "since today" : d===1 ? "for one day" : `for ${num(d)} days`,
+  card:{
+    header:"MAIL ACROSS TIME",
+    title:"A PACT",
+    made:d=>`Written on ${d}`,
+    due:d=>`To be opened for reckoning on ${d}`,
+    seal:"me",
+    file:"pact-card.png"
+  },
+  questions:[
+    {
+      voice:"I know you carry one thing you've been postponing for years — you take it with you everywhere, like a debt. I wrote this entire letter because of it. Write it as it is, without decoration — so I know it's you.",
+      label:"The postponed thing",
+      ph:"A project, a decision, a skill, an apology, a beginning…",
+      hint:"A word or a short phrase. Honesty is the key here, not eloquence.",
+      err:"Write the postponed thing first."
+    },
+    {
+      voice:"And I remember exactly what kept stopping you. It wasn't laziness — I know you. It was something deeper. Choose it honestly:",
+      err:"Choose what truly stops you."
+    },
+    {
+      voice:"And there was one person you wished — more than anything — would see you on the day you arrive. You rarely said it, but I know. Who is it?",
+      label:"That person",
+      ph:"My mother, my father, my son, my wife, my younger self…",
+      hint:"A description is enough. No full name needed.",
+      err:"Write who that person is."
+    },
+    {
+      voice:"And you knew — deep down — that hours leak out of your day without a trace: aimless scrolling, busyness that looks like work but isn't. Roughly how many hours a day?",
+      label:"Hours leaking away each day",
+      ph:"Example: 3",
+      hint:"A number between 0 and 16. Be a little harsh in the counting; I was.",
+      err:"Enter a number between 0 and 16."
+    },
+    {
+      voice:"One last question, and the most precious: close your eyes. If everything worked out — everything — what is the first scene you see? Describe it in one line; I want to compare it with what I see now.",
+      label:"The first scene of success",
+      ph:"Example: I'm standing in my own office as the first client signs the contract.",
+      hint:"One specific scene, with its image and details — not a general goal.",
+      err:"Describe the scene first, even in one line."
     }
-
-    function showStep(id){
-      ["step1","step2","step3"].forEach(s => $(s).classList.remove("active"));
-      $(id).classList.add("active");
+  ],
+  fears:[
+    {id:"people",  label:"What people will say",     sub:"What if I try and stumble in front of everyone?"},
+    {id:"failure", label:"Fear of failure",           sub:"Giving it everything I have, and still not arriving."},
+    {id:"start",   label:"Not knowing where to start",sub:"The road is unclear, and the first step is a blur."},
+    {id:"time",    label:"Busyness and lack of time", sub:"Life is crowded; I'm waiting for a quieter season."},
+    {id:"comfort", label:"Comfort and habit",         sub:"My days are acceptable, and leaving them takes effort."}
+  ],
+  wakingSpan(y){
+    if(y < 0.09) return "weeks of waking life";
+    if(y < 0.75) return `nearly ${num(Math.max(1,Math.round(y*12)))} full months of waking life`;
+    if(y < 1.5)  return "nearly a full year of waking life";
+    if(y < 2.5)  return "nearly two full years of waking life";
+    return `nearly ${num(Math.round(y))} full years of waking life`;
+  },
+  fearParagraphs:{
+    people:`And I remember the fear. It was never failure itself — it was the eyes that would watch it happen. Let me tell you what I learned here: the people whose words you feared were never really looking; they were busy with fears of their own. And when I finally began, no one laughed. Some went quiet. Others — and this we never expected — came asking: how did you do it?`,
+    failure:`And I remember the fear of falling. I'll be honest with you from here: I did fall, more than once. But the surprise was that falling was never the monster we imagined; it was a fast lesson that passed and left experience behind, while postponing was a slow fall that never ended and taught nothing. The only failure I ever truly regretted was the years I didn't try.`,
+    start:`And I remember that confusion: where do I even begin? We thought it was a question that needed a complete answer before the first step. The truth I discovered too late: a beginning is not known — it is made. My first step was almost entirely wrong, yet it revealed the second, and the second lit the road. The map is not drawn before the walking; it is drawn by it.`,
+    time:`And I remember the excuse of time. We kept waiting for a quieter week, a lighter month, a season when life would "settle down". Let me tell you a secret from this end of the years: that season never came. Life never went quiet for a single day; I simply learned to carve one hour out of the noise. One honest hour a day — it was enough, and it still is.`,
+    comfort:`And I remember the most dangerous of our rivals, because it never looked like one: comfort. No one warns you about the pleasant, identical days that eat a life so politely. And leaving them was never as harsh as we feared; it was like opening a window in a room shut for years — one moment of discomfort, then air.`
+  },
+  letter(st, totalHours, span){
+    const parts = [];
+    parts.push(`I won't open with a greeting; I am not writing to a stranger.\nI knew it was you from your very first answer. No one else in this world carries "${st.deferred}" the way you do: postponed on the surface, present in everything.`);
+    if(st.hours === 0){
+      parts.push(`You say nothing leaks from your day. If that is true, you are ahead of me on the most important lesson I learned here, and I won't argue. But beware of a trap I fell into: busyness full of motion, empty of direction. Time was never our problem; direction was.`);
+    } else {
+      parts.push(`Let me finish the arithmetic you never dared to complete. ${num(st.hours)} hours a day sounds small, but across ten years it becomes ${num(totalHours)} hours — ${span}, deducted from a life with no receipt. I don't write this to blame you; I write it because I reclaimed much of it, and I know the reclaiming begins with one small decision on an ordinary day exactly like yours.`);
     }
+    parts.push(this.fearParagraphs[st.fear] || this.fearParagraphs.start);
+    parts.push(`As for "${st.person}" — I need you to know something it took me too long to learn: the moment you imagined so often — the moment of being seen, having arrived — does not happen at the end the way you think. It happens much earlier: on the day the news arrives that you have begun. Don't postpone that moment for the sake of a perfect ending.`);
+    parts.push(`And that scene you described to me — "${st.sceneDesc}" — I won't spoil it with details. I'll only say that when it comes true, it doesn't feel like imagination; it is quieter, truer, heavier on the heart in a beautiful way. But between you and me: the best part is not the scene itself. It is that, standing inside it, you know every step of the road that brought you there.`);
+    parts.push(`I didn't write this letter to reassure you, nor to frighten you. I wrote it because ten years stand between us, and — contrary to what we like to think — they are guaranteed to neither of us. The version of me writing now did not begin on an extraordinary day; it began on an ordinary one, when someone exactly like you decided not to say "later" about "${st.deferred}" one more time.\n\nThat ordinary day… might be today.`);
+    return parts;
+  }
+}
+};
+const S = () => T[LANG];
 
-    function markDone(n){
-      $(`p${n}`).classList.add("done");
+/* ---------- helpers ---------- */
+function clean(s){ return (s||"").toString().trim().replace(/\s+/g," "); }
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+function focusSoon(id){ setTimeout(()=>{ const el=$(id); if(el) el.focus(); }, 120); }
+function truncate(s, n){ return s.length > n ? s.slice(0, n-1) + "…" : s; }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+async function copyText(text){
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      return true;
     }
+  }catch(e){}
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  }catch(e){ return false; }
+}
 
-    function calcYearsLost(hours){
-      return Math.round(Number(hours) * 365 * 10);
+function triggerDownload(href){
+  const a = document.createElement("a");
+  a.download = S().card.file;
+  a.href = href;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+let toastTimer;
+function toast(msg){
+  const t = $("toast");
+  t.textContent = msg; t.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.style.display = "none", 2400);
+}
+
+function showScene(id){
+  currentScene = id;
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo({top:0, behavior: REDUCED ? "auto" : "smooth"});
+}
+
+/* =====================================================
+   STATIC UI RENDER (per language)
+===================================================== */
+function applyStatic(){
+  const t = S();
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
+
+  $("brandText").textContent = t.brand;
+  $("chipText").textContent = t.chip;
+  $("langBtn").textContent = t.langBtn;
+  $("kickerLbl").textContent = t.kickerLbl;
+  $("kickerToday").textContent = fmtLong(now);
+  $("heroTitle").innerHTML = t.heroTitle;
+  $("heroSub").textContent = t.heroSub;
+  $("postmark").innerHTML = t.postmark(fmtYear(future));
+  $("waxTop").textContent = t.waxTop;
+  $("waxYear").textContent = fmtYear(future);
+  $("addrFrom").textContent = t.addrFrom(fmtLong(future));
+  $("addrTo").textContent = t.addrTo;
+  $("startBtn").textContent = t.startBtn;
+  $("clarityLbl").textContent = t.clarityLbl;
+  $("vBackBtn").textContent = t.backBtn;
+  $("letterVerified").textContent = t.letterVerified;
+  $("letterSalutation").textContent = t.salutation;
+  $("sigWho").textContent = t.sigWho;
+  $("skipBtn").textContent = t.skipBtn;
+  $("toPactBtn").textContent = t.toPactBtn;
+  $("copyLetterBtn").textContent = t.copyBtn;
+  $("psTitle").textContent = t.psTitle;
+  $("pactIntro").textContent = t.pactIntro;
+  $("pactLbl").textContent = t.pactLbl;
+  $("pactInput").placeholder = t.pactPh;
+  $("pactHint").textContent = t.pactHint;
+  $("pactErr").textContent = t.pactErr;
+  $("sealPactBtn").textContent = t.sealBtn;
+  $("downloadCardBtn").textContent = t.downloadBtn;
+  $("shareCardBtn").textContent = t.shareBtn;
+  $("restartBtn").textContent = t.restartBtn;
+  $("prViewBtn").textContent = t.prView;
+  $("prResetBtn").textContent = t.prReset;
+  $("footerText").innerHTML = t.footer;
+}
+
+/* =====================================================
+   VERIFICATION
+===================================================== */
+function renderQuestion(){
+  const t = S();
+  const q = t.questions[qIndex];
+  $("vStep").textContent = t.step(qIndex);
+  $("vVoice").textContent = q.voice;
+  $("vErr").classList.remove("active");
+  const area = $("vInputArea");
+
+  if(qIndex === 0){
+    area.innerHTML = `
+      <label for="qDeferred">${q.label}</label>
+      <input type="text" id="qDeferred" autocomplete="off" placeholder="${esc(q.ph)}" value="${esc(state.deferred)}" />
+      <div class="hint">${q.hint}</div>`;
+    focusSoon("qDeferred");
+  }
+  else if(qIndex === 1){
+    area.innerHTML = `<div class="choices" role="radiogroup">` +
+      t.fears.map(f=>`
+        <button type="button" class="choice ${state.fear===f.id?"selected":""}" data-fear="${f.id}" role="radio" aria-checked="${state.fear===f.id}">
+          ${f.label}<span class="c-sub">${f.sub}</span>
+        </button>`).join("") + `</div>`;
+    area.querySelectorAll(".choice").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        state.fear = btn.dataset.fear;
+        area.querySelectorAll(".choice").forEach(b=>{
+          b.classList.toggle("selected", b===btn);
+          b.setAttribute("aria-checked", b===btn ? "true":"false");
+        });
+      });
+    });
+  }
+  else if(qIndex === 2){
+    area.innerHTML = `
+      <label for="qPerson">${q.label}</label>
+      <input type="text" id="qPerson" autocomplete="off" placeholder="${esc(q.ph)}" value="${esc(state.person)}" />
+      <div class="hint">${q.hint}</div>`;
+    focusSoon("qPerson");
+  }
+  else if(qIndex === 3){
+    area.innerHTML = `
+      <label for="qHours">${q.label}</label>
+      <input type="number" id="qHours" min="0" max="16" step="0.5" placeholder="${esc(q.ph)}" value="${state.hours ?? ""}" />
+      <div class="hint">${q.hint}</div>`;
+    focusSoon("qHours");
+  }
+  else {
+    area.innerHTML = `
+      <label for="qScene">${q.label}</label>
+      <textarea id="qScene" placeholder="${esc(q.ph)}">${esc(state.sceneDesc)}</textarea>
+      <div class="hint">${q.hint}</div>`;
+    focusSoon("qScene");
+  }
+
+  $("vBackBtn").style.display = qIndex > 0 ? "" : "none";
+  $("vNextBtn").textContent = qIndex === 4 ? t.lastBtn : t.nextBtn;
+  const p = Math.round(qIndex / 5 * 100);
+  $("clarityFill").style.width = p + "%";
+  $("clarityPct").textContent = pct(p);
+}
+
+function validateCurrent(){
+  const q = S().questions[qIndex];
+  if(qIndex === 0){
+    const v = clean($("qDeferred").value);
+    if(v.length < 2) return q.err;
+    state.deferred = v;
+  } else if(qIndex === 1){
+    if(!state.fear) return q.err;
+  } else if(qIndex === 2){
+    const v = clean($("qPerson").value);
+    if(v.length < 2) return q.err;
+    state.person = v;
+  } else if(qIndex === 3){
+    const v = Number($("qHours").value);
+    if($("qHours").value === "" || isNaN(v) || v < 0 || v > 16) return q.err;
+    state.hours = v;
+  } else {
+    const v = clean($("qScene").value);
+    if(v.length < 4) return q.err;
+    state.sceneDesc = v;
+  }
+  return null;
+}
+
+$("vNextBtn").addEventListener("click", ()=>{
+  const err = validateCurrent();
+  if(err){ const e=$("vErr"); e.textContent = err; e.classList.add("active"); return; }
+  if(qIndex < 4){ qIndex++; renderQuestion(); }
+  else{
+    $("clarityFill").style.width = "100%";
+    $("clarityPct").textContent = pct(100);
+    setTimeout(openLetter, REDUCED ? 0 : 500);
+  }
+});
+$("vBackBtn").addEventListener("click", ()=>{ if(qIndex>0){ qIndex--; renderQuestion(); } });
+
+$("startBtn").addEventListener("click", ()=>{
+  $("envelope").classList.add("opened");
+  setTimeout(()=>{ showScene("sceneVerify"); renderQuestion(); }, REDUCED ? 0 : 420);
+});
+
+/* =====================================================
+   LETTER
+===================================================== */
+function buildLetterParts(){
+  const t = S();
+  const totalHours = Math.round((state.hours||0) * 3650);
+  const wakingYears = (state.hours||0) * 10 / 16;
+  return t.letter(state, totalHours, t.wakingSpan(wakingYears));
+}
+
+let typing = false, skipRequested = false;
+
+async function typeLetter(parts){
+  const body = $("letterBody");
+  body.innerHTML = "";
+  typing = true; skipRequested = false;
+  letterFinished = false;
+
+  for(const part of parts){
+    const p = document.createElement("p");
+    body.appendChild(p);
+    const caret = document.createElement("span");
+    caret.className = "caret";
+    p.appendChild(caret);
+
+    if(REDUCED || skipRequested){
+      caret.remove();
+      p.textContent = part;
+      continue;
     }
+    let acc = "";
+    for(const ch of part){
+      if(skipRequested) break;
+      acc += ch;
+      p.textContent = acc;
+      p.appendChild(caret);
+      const pause = /[،؛.؟…!,;?\n]/.test(ch) ? 110 : 13;
+      await sleep(pause);
+    }
+    caret.remove();
+    p.textContent = part;
+    if(!skipRequested) await sleep(260);
+  }
+  typing = false;
+  finishLetter();
+}
 
-    function reveal1(){
-      const hours = Number($("hoursInput").value);
-      if (isNaN(hours) || hours < 0 || hours > 24){
-        toast(T[LANG].errHours);
+function renderFork(){
+  const t = S().fork;
+  const M = x => LANG === "en" ? 700 - x : x;
+  $("forkSvg").innerHTML = `
+    <circle cx="${M(660)}" cy="110" r="7" fill="#8a6712"/>
+    <text x="${M(660)}" y="88" text-anchor="middle" font-size="13" fill="#4a4132">${t.today}</text>
+    <text x="${M(660)}" y="142" text-anchor="middle" font-size="11" fill="#8a8064">${fmtLong(now)}</text>
+    <path d="M${M(652)},106 C${M(520)},40 ${M(240)},30 ${M(70)},52" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${M(62)}" cy="54" r="8" fill="#c9a227"/>
+    <text x="${M(62)}" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#1f1910">${t.winTitle}</text>
+    <text x="${M(62)}" y="82" text-anchor="middle" font-size="11.5" fill="#8a6712">${esc(t.winLabel(truncate(state.deferred, 22)))}</text>
+    <path d="M${M(652)},114 C${M(520)},180 ${M(240)},190 ${M(70)},168" fill="none" stroke="#9b9179" stroke-width="2.5" stroke-dasharray="3 8" stroke-linecap="round"/>
+    <circle cx="${M(62)}" cy="166" r="6" fill="none" stroke="#9b9179" stroke-width="2"/>
+    <text x="${M(62)}" y="196" text-anchor="middle" font-size="13" fill="#7a715c">${t.waitTitle}</text>
+    <text x="${M(62)}" y="146" text-anchor="middle" font-size="11.5" fill="#9b9179">${t.waitSub}</text>`;
+}
+
+function finishLetter(){
+  const t = S();
+  letterFinished = true;
+  $("skipBtn").style.display = "none";
+  $("letterSig").style.display = "";
+  $("sigDate").textContent = t.sigDate(fmtLong(future), fmtLong(now));
+  renderFork();
+  $("letterPS").style.display = "";
+  $("letterActions").style.display = "flex";
+}
+
+function openLetter(instant){
+  const t = S();
+  $("letterFrom").textContent = t.letterFrom(fmtLong(future));
+  showScene("sceneLetter");
+  if(instant){
+    const body = $("letterBody");
+    body.innerHTML = "";
+    for(const part of buildLetterParts()){
+      const p = document.createElement("p");
+      p.textContent = part;
+      body.appendChild(p);
+    }
+    finishLetter();
+    return;
+  }
+  $("skipBtn").style.display = "";
+  $("letterSig").style.display = "none";
+  $("letterPS").style.display = "none";
+  $("letterActions").style.display = "none";
+  typeLetter(buildLetterParts());
+}
+
+$("skipBtn").addEventListener("click", ()=>{ skipRequested = true; });
+
+$("copyLetterBtn").addEventListener("click", async ()=>{
+  const t = S();
+  const text = t.salutation + "\n\n" + buildLetterParts().join("\n\n") +
+    `\n\n${t.sigWho}\n${fmtLong(future)}`;
+  const ok = await copyText(text);
+  toast(ok ? t.toastCopied : t.toastCopyFail);
+});
+
+$("toPactBtn").addEventListener("click", ()=> showScene("scenePact"));
+
+/* =====================================================
+   PACT CARD
+===================================================== */
+function wrapText(ctx, text, maxWidth){
+  const words = text.split(" ");
+  const lines = [];
+  let line = "";
+  for(const w of words){
+    const test = line ? line + " " + w : w;
+    if(ctx.measureText(test).width > maxWidth && line){ lines.push(line); line = w; }
+    else line = test;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+async function drawPactCard(promise, madeDate, dueDate){
+  const t = S().card;
+  const cv = $("pactCanvas"), ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+
+  try{
+    await Promise.all([
+      document.fonts.load('700 64px "Amiri"'),
+      document.fonts.load('400 52px "Amiri"'),
+      document.fonts.load('700 30px "Tajawal"')
+    ]);
+  }catch(e){}
+
+  ctx.direction = LANG === "ar" ? "rtl" : "ltr";
+  ctx.textAlign = "center";
+
+  ctx.fillStyle = "#0c0f16"; ctx.fillRect(0,0,W,H);
+  const glow = ctx.createRadialGradient(W/2, -100, 50, W/2, -100, 900);
+  glow.addColorStop(0, "rgba(201,162,39,.16)");
+  glow.addColorStop(1, "rgba(201,162,39,0)");
+  ctx.fillStyle = glow; ctx.fillRect(0,0,W,H);
+
+  ctx.strokeStyle = "#c9a227"; ctx.lineWidth = 3;
+  ctx.strokeRect(44,44,W-88,H-88);
+  ctx.strokeStyle = "rgba(201,162,39,.4)"; ctx.lineWidth = 1.5;
+  ctx.strokeRect(62,62,W-124,H-124);
+
+  ctx.fillStyle = "#e3c565";
+  ctx.font = '700 40px "Tajawal"';
+  ctx.fillText(t.header, W/2, 170);
+  ctx.fillStyle = "#f3ead7";
+  ctx.font = '700 112px "Amiri"';
+  ctx.fillText(t.title, W/2, 320);
+
+  ctx.strokeStyle = "rgba(201,162,39,.55)"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W/2-140, 370); ctx.lineTo(W/2+140, 370); ctx.stroke();
+  ctx.fillStyle = "#c9a227";
+  ctx.beginPath(); ctx.arc(W/2, 370, 7, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = "#eef1f8";
+  ctx.font = '400 58px "Amiri"';
+  const q1 = LANG === "ar" ? "« " : "\u201C ";
+  const q2 = LANG === "ar" ? " »" : " \u201D";
+  const lines = wrapText(ctx, q1 + promise + q2, W-260);
+  const lh = 96;
+  let y = Math.max(500, (H/2) - (lines.length*lh)/2 + 40);
+  for(const ln of lines){ ctx.fillText(ln, W/2, y); y += lh; }
+
+  ctx.font = '700 32px "Tajawal"';
+  ctx.fillStyle = "#98a1b3";
+  ctx.fillText(t.made(madeDate), W/2, H-260);
+  ctx.fillStyle = "#e3c565";
+  ctx.fillText(t.due(dueDate), W/2, H-200);
+
+  const sx = W/2, sy = H-118;
+  const seal = ctx.createRadialGradient(sx-8, sy-8, 4, sx, sy, 34);
+  seal.addColorStop(0, "#efd88a"); seal.addColorStop(.5, "#c9a227"); seal.addColorStop(1, "#7a621a");
+  ctx.fillStyle = seal;
+  ctx.beginPath(); ctx.arc(sx, sy, 32, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = "#241c05";
+  ctx.font = '700 24px "Amiri"';
+  ctx.fillText(t.seal, sx, sy+9);
+}
+
+$("sealPactBtn").addEventListener("click", async ()=>{
+  const promise = clean($("pactInput").value);
+  if(promise.length < 4){ $("pactErr").classList.add("active"); return; }
+  $("pactErr").classList.remove("active");
+
+  await drawPactCard(promise, fmtLong(now), fmtLong(future));
+  $("cardPreview").classList.add("active");
+  $("cardPreview").scrollIntoView({behavior: REDUCED ? "auto":"smooth", block:"start"});
+
+  try{ localStorage.setItem(PACT_KEY, JSON.stringify({ text: promise, date: now.toISOString() })); }catch(e){}
+  refreshRibbon();
+  toast(S().toastSealed);
+});
+
+$("downloadCardBtn").addEventListener("click", ()=>{
+  const cv = $("pactCanvas");
+  cv.toBlob(blob=>{
+    if(!blob){ triggerDownload(cv.toDataURL("image/png")); return; }
+    const url = URL.createObjectURL(blob);
+    triggerDownload(url);
+    setTimeout(()=> URL.revokeObjectURL(url), 4000);
+  }, "image/png");
+});
+
+$("shareCardBtn").addEventListener("click", ()=>{
+  const t = S();
+  $("pactCanvas").toBlob(async blob=>{
+    const file = blob ? new File([blob], "pact-card.png", {type:"image/png"}) : null;
+    const base = { title:t.shareTitle, text:t.shareText, url: location.href };
+    try{
+      if(file && navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({ ...base, files:[file] });
         return;
       }
-      state.hours = hours;
-      state.yearsLostHours = calcYearsLost(hours);
-
-      if (LANG === "ar"){
-        $("r1Line").innerHTML = `خلال 10 سنوات… هذا السارق قد يأخذ منك <span class="value">${state.yearsLostHours.toLocaleString()}</span> ساعة.`;
-        $("r1Code").textContent = `FRAGMENT_01:\nما يتسرّب من يومك… يتسرّب من عمرك.`;
-      } else {
-        $("r1Line").innerHTML = `Over 10 years… this thief may take <span class="value">${state.yearsLostHours.toLocaleString()}</span> hours.`;
-        $("r1Code").textContent = `FRAGMENT_01:\nWhat leaks from your day… leaks from your life.`;
-      }
-
-      $("reveal1").classList.add("active");
-      markDone(1);
+      if(navigator.share){ await navigator.share(base); return; }
+    }catch(e){
+      if(e && e.name === "AbortError") return;
     }
+    const ok = await copyText(location.href);
+    toast(ok ? t.toastShareFallback : t.toastShareFail);
+  }, "image/png");
+});
 
-    function reveal2(){
-      const door = clean($("doorInput").value);
-      if (!door){
-        toast(T[LANG].errDoor);
-        return;
-      }
-      state.door = door;
+/* =====================================================
+   RESTART + RETURN VISIT + LANGUAGE
+===================================================== */
+function restartAll(){
+  qIndex = 0;
+  state.deferred = ""; state.fear = ""; state.person = "";
+  state.hours = null; state.sceneDesc = "";
+  letterFinished = false;
+  $("pactInput").value = "";
+  $("cardPreview").classList.remove("active");
+  $("envelope").classList.remove("opened");
+  showScene("sceneIntro");
+}
+$("restartBtn").addEventListener("click", restartAll);
 
-      if (LANG === "ar"){
-        $("r2Line").innerHTML = `اسم الباب: <span class="value">${door}</span>.`;
-        $("r2Code").textContent = `FRAGMENT_02:\nما بقي مغلقًا… لم يكن مستحيلًا. كان مؤجّلًا.`;
-      } else {
-        $("r2Line").innerHTML = `The door is: <span class="value">${door}</span>.`;
-        $("r2Code").textContent = `FRAGMENT_02:\nWhat stayed closed was not impossible. It was postponed.`;
-      }
+function loadPact(){
+  try{ return JSON.parse(localStorage.getItem(PACT_KEY) || "null"); }catch(e){ return null; }
+}
 
-      $("reveal2").classList.add("active");
-      markDone(2);
+function refreshRibbon(){
+  const t = S();
+  const saved = loadPact();
+  if(!saved || !saved.text){ $("pactRibbon").classList.remove("active"); return; }
+  const made = new Date(saved.date);
+  const days = Math.max(0, Math.floor((now - made) / 86400000));
+  $("prTitle").textContent = t.prTitle(t.days(days));
+  $("prText").textContent = LANG === "ar" ? `«${saved.text}»` : `\u201C${saved.text}\u201D`;
+  $("pactRibbon").classList.add("active");
+}
+
+$("prViewBtn").addEventListener("click", async ()=>{
+  const saved = loadPact();
+  if(!saved) return;
+  const made = new Date(saved.date);
+  const due = new Date(made); due.setFullYear(made.getFullYear()+10);
+  await drawPactCard(saved.text, fmtLong(made), fmtLong(due));
+  showScene("scenePact");
+  $("pactInput").value = saved.text;
+  $("cardPreview").classList.add("active");
+  setTimeout(()=> $("cardPreview").scrollIntoView({behavior: REDUCED ? "auto":"smooth"}), 80);
+});
+$("prResetBtn").addEventListener("click", ()=>{
+  try{ localStorage.removeItem(PACT_KEY); }catch(e){}
+  $("pactRibbon").classList.remove("active");
+  restartAll();
+});
+
+$("langBtn").addEventListener("click", async ()=>{
+  LANG = LANG === "ar" ? "en" : "ar";
+  localStorage.setItem(LANG_KEY, LANG);
+  skipRequested = true;
+  applyStatic();
+  refreshRibbon();
+
+  if(currentScene === "sceneVerify"){
+    renderQuestion();
+  } else if(currentScene === "sceneLetter"){
+    await sleep(60);
+    openLetter(true);
+  } else if(currentScene === "scenePact"){
+    if($("cardPreview").classList.contains("active")){
+      const promise = clean($("pactInput").value);
+      if(promise) await drawPactCard(promise, fmtLong(now), fmtLong(future));
     }
+  }
+});
 
-    function reveal3(){
-      const mark = clean($("markInput").value);
-      if (!mark){
-        toast(T[LANG].errMark);
-        return;
-      }
-      state.mark = mark;
-
-      if (LANG === "ar"){
-        $("r3Line").innerHTML = `أثرك الذي اخترته: <span class="value">${mark}</span>.`;
-        $("r3Code").textContent = `FRAGMENT_03:\nما يستحق أن يبقى منك… يجب أن يبدأ منك.`;
-      } else {
-        $("r3Line").innerHTML = `Your chosen mark: <span class="value">${mark}</span>.`;
-        $("r3Code").textContent = `FRAGMENT_03:\nWhat deserves to remain from you… must begin with you.`;
-      }
-
-      $("reveal3").classList.add("active");
-      markDone(3);
-    }
-
-    function buildFinalMessage(){
-      if (LANG === "ar"){
-        return `أنا أنت… بعد سنوات.
-
-السارق الذي حسبته
-لم يكن وقتًا فقط.
-
-والباب الذي كتبته:
-${state.door}
-
-هو الحياة التي لم تدخلها بعد.
-
-أما أثرك:
-${state.mark}
-
-فهو الشيء الوحيد
-الذي يستحق أن تبدأ من أجله.
-
-المشكلة لم تكن أنك لا تعرف…
-
-بل أنك تعرف،
-وتؤجل.`;
-      }
-
-      return `This is you… years later.
-
-The thief you counted
-was not just time.
-
-And the door you named:
-${state.door}
-
-is the life you still haven't entered.
-
-And your mark:
-${state.mark}
-
-is the only thing
-worth beginning for.
-
-The problem was never that you didn't know…
-
-It was that you knew,
-and kept postponing.`;
-    }
-
-    function buildLifeCode(){
-      let score = 0;
-      const h = Number(state.hours || 0);
-
-      if (h <= 1) score += 4;
-      else if (h <= 3) score += 3;
-      else if (h <= 5) score += 2;
-      else score += 1;
-
-      if ((state.door || "").length >= 5) score += 3;
-      else score += 2;
-
-      if ((state.mark || "").length >= 8) score += 3;
-      else score += 2;
-
-      score = Math.max(3, Math.min(10, score));
-
-      let descAr = "";
-      let descEn = "";
-
-      if (score <= 4){
-        descAr = "أنت ترى ما ينقصك… لكنك ما زلت في منطقة التأجيل.";
-        descEn = "You can see what is missing… but you still live in postponement.";
-      } else if (score <= 7){
-        descAr = "أنت بين الوعي والبداية. تحتاج حسمًا أكثر من حاجتك لإلهام.";
-        descEn = "You stand between awareness and beginning. You need decision more than inspiration.";
-      } else {
-        descAr = "فيك وضوح حقيقي. الخطر الوحيد أن تعرف… ثم لا تبدأ.";
-        descEn = "There is real clarity in you. The only danger is knowing… and not beginning.";
-      }
-
-      return {
-        value:`LIFE CODE: ${score}/10`,
-        score,
-        desc: LANG === "ar" ? descAr : descEn
-      };
-    }
-
-    function buildSignal(score){
-      let width = score * 10;
-      let descAr = "";
-      let descEn = "";
-
-      if (score <= 4){
-        descAr = "إشارتك منخفضة. أنت تشعر بالنقص، لكن الحركة ما زالت ضعيفة.";
-        descEn = "Your signal is low. You feel the gap, but movement is still weak.";
-      } else if (score <= 7){
-        descAr = "إشارتك متوسطة. عندك وعي جيد، لكنك لم تحسم اتجاهك بالكامل.";
-        descEn = "Your signal is medium. You have awareness, but your direction is not fully decided.";
-      } else {
-        descAr = "إشارتك قوية. لديك وضوح داخلي، وتحتاج فقط أن تحميه من التأجيل.";
-        descEn = "Your signal is strong. You have inner clarity. Now protect it from delay.";
-      }
-
-      return {
-        width,
-        desc: LANG === "ar" ? descAr : descEn
-      };
-    }
-
-    function openFinal(){
-      $("finalWrap").classList.add("active");
-      $("finalMessage").textContent = buildFinalMessage();
-
-      const lc = buildLifeCode();
-      $("lifeCodeValue").textContent = lc.value;
-      $("lifeCodeDesc").textContent = lc.desc;
-
-      const signal = buildSignal(lc.score);
-      $("signalFill").style.width = `${signal.width}%`;
-      $("signalDesc").textContent = signal.desc;
-
-      $("finalWrap").scrollIntoView({behavior:"smooth", block:"start"});
-    }
-
-    function renderDynamic(){
-      if ($("reveal1").classList.contains("active")) reveal1();
-      if ($("reveal2").classList.contains("active")) reveal2();
-      if ($("reveal3").classList.contains("active")) reveal3();
-
-      if ($("finalWrap").classList.contains("active")){
-        openFinal();
-      }
-    }
-
-    function restartAll(){
-      state.hours = null;
-      state.yearsLostHours = null;
-      state.door = "";
-      state.mark = "";
-
-      $("hoursInput").value = "";
-      $("doorInput").value = "";
-      $("markInput").value = "";
-      $("reveal1").classList.remove("active");
-      $("reveal2").classList.remove("active");
-      $("reveal3").classList.remove("active");
-      $("p1").classList.remove("done");
-      $("p2").classList.remove("done");
-      $("p3").classList.remove("done");
-      $("finalWrap").classList.remove("active");
-      $("signalFill").style.width = "0%";
-      $("signalDesc").textContent = "";
-      showStep("step1");
-      toast(T[LANG].restarted);
-    }
-
-    $("langBtn").addEventListener("click", ()=>{
-      setLang(LANG === "ar" ? "en" : "ar");
-    });
-
-    $("startBtn").addEventListener("click", ()=>{
-      showStep("step1");
-      $("step1").scrollIntoView({behavior:"smooth", block:"start"});
-    });
-
-    $("unlock1Btn").addEventListener("click", reveal1);
-    $("unlock2Btn").addEventListener("click", reveal2);
-    $("unlock3Btn").addEventListener("click", reveal3);
-
-    $("next1Btn").addEventListener("click", ()=>{
-      showStep("step2");
-      $("step2").scrollIntoView({behavior:"smooth", block:"start"});
-    });
-
-    $("next2Btn").addEventListener("click", ()=>{
-      showStep("step3");
-      $("step3").scrollIntoView({behavior:"smooth", block:"start"});
-    });
-
-    $("finalBtn").addEventListener("click", openFinal);
-
-    $("copyMsgBtn").addEventListener("click", async ()=>{
-      const msg = $("finalMessage").textContent || "";
-      if (!msg) return;
-      await navigator.clipboard.writeText(msg);
-      toast(T[LANG].copied);
-    });
-
-    $("shareBtn").addEventListener("click", async ()=>{
-      const shareData = {
-        title: T[LANG].shareTitle,
-        text: T[LANG].shareText,
-        url: location.href
-      };
-      if (navigator.share){
-        try{
-          await navigator.share(shareData);
-        }catch(e){}
-      } else {
-        await navigator.clipboard.writeText(location.href);
-        toast(T[LANG].sharedFallback);
-      }
-    });
-
-    $("restartBtn").addEventListener("click", restartAll);
-
-    setLang(LANG);
-  </script>
+/* ---------- init ---------- */
+applyStatic();
+refreshRibbon();
+</script>
 </body>
 </html>
