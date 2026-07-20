@@ -206,6 +206,8 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
 
       <label>تاريخ الفتح</label>
       <div class="presets" id="presets">
+        <span class="preset" data-d="1">بعد يوم (للتجربة)</span>
+        <span class="preset" data-d="3">بعد ٣ أيام</span>
         <span class="preset" data-m="3">بعد ٣ أشهر</span>
         <span class="preset" data-m="12">بعد سنة</span>
         <span class="preset" data-m="60">بعد ٥ سنوات</span>
@@ -449,12 +451,13 @@ function freqDayOptions(){
 }
 $("ncFreq").onchange = freqDayOptions;
 
-function setPreset(months){
-  const d = new Date(); d.setMonth(d.getMonth()+months);
+document.querySelectorAll(".preset").forEach(p=> p.onclick = ()=>{
+  const d = new Date();
+  if(p.dataset.d) d.setDate(d.getDate() + Number(p.dataset.d));
+  else d.setMonth(d.getMonth() + Number(p.dataset.m));
   $("ncDate").value = d.toISOString().slice(0,10);
-  document.querySelectorAll(".preset").forEach(p=>p.classList.toggle("on", Number(p.dataset.m)===months));
-}
-document.querySelectorAll(".preset").forEach(p=> p.onclick = ()=> setPreset(Number(p.dataset.m)));
+  document.querySelectorAll(".preset").forEach(x=>x.classList.toggle("on", x===p));
+});
 $("ncDate").oninput = ()=> document.querySelectorAll(".preset").forEach(p=>p.classList.remove("on"));
 
 function addMsRow(){
