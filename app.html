@@ -72,7 +72,31 @@ select{appearance:none}
 @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
 /* auth */
-.auth-box{width:min(460px,100%);margin:6vh auto 0}
+.auth-box{width:min(460px,100%);margin:0 auto}
+.hero-how{width:min(760px,100%);margin:2vh auto 34px;text-align:center}
+.hero-how h1{font-size:34px;line-height:1.4}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 10px}
+@media(max-width:700px){.how{grid-template-columns:1fr}}
+.hs{border:1px solid var(--line);border-radius:16px;padding:18px 14px;background:var(--panel);text-align:center}
+.hs .n{width:38px;height:38px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;
+  background:radial-gradient(circle at 32% 28%, #efd88a, var(--gold) 45%, #8a6f1c 85%);
+  color:#241c05;font-weight:800;font-size:16px}
+.hs .t{font-weight:800;color:#f3ead7;font-size:15px;margin-bottom:6px}
+.hs .b{font-size:13px;color:var(--muted);line-height:1.8}
+.tagline{font-family:var(--letter);font-size:18px;color:var(--gold-2);margin:14px 0 26px}
+
+/* paywall */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:700px){.plans{grid-template-columns:1fr}}
+.plan{border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center;background:rgba(10,13,20,.4);position:relative}
+.plan.best{border-color:var(--gold)}
+.plan .best-tag{position:absolute;top:-12px;inset-inline-start:50%;transform:translateX(50%);
+  background:var(--gold);color:#191302;font-size:11.5px;font-weight:800;border-radius:999px;padding:3px 12px}
+html[dir=rtl] .plan .best-tag{transform:translateX(50%)}
+.plan .pt{font-weight:800;color:#f3ead7;font-size:17px}
+.plan .price{font-size:34px;font-weight:800;color:var(--gold-2);margin:8px 0 2px}
+.plan .per{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px}
+.plan .pd{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:14px}
 .tabs{display:flex;gap:8px;margin-bottom:16px}
 .tab{flex:1;text-align:center;padding:10px;border-radius:12px;border:1px solid var(--line);color:var(--muted);font-weight:800;cursor:pointer;font-size:14px}
 .tab.on{border-color:var(--gold);color:var(--gold-2);background:rgba(201,162,39,.08)}
@@ -159,6 +183,30 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
 
   <!-- ============ AUTH ============ -->
   <section class="view" id="vAuth">
+    <div class="hero-how">
+      <h1>عهدٌ تكتبه اليوم…<br><span style="color:var(--gold-2)">ويعود إليك في موعده</span></h1>
+      <p class="sub" style="max-width:560px;margin:10px auto 0">
+        «عهد» منصة الكبسولات الزمنية: اكتب حلمك أو هدفك، ونحن نقفله عنك.
+      </p>
+      <div class="how">
+        <div class="hs">
+          <div class="n">١</div>
+          <div class="t">اكتب واختم</div>
+          <div class="b">عهدك بكلماتك، وتاريخ الفتح باختيارك — بعد أشهر أو سنوات. ومنذ الختم لا تستطيع حتى أنت قراءته.</div>
+        </div>
+        <div class="hs">
+          <div class="n">٢</div>
+          <div class="t">نتابعك في طريقك</div>
+          <div class="b">سؤال واحد يصلك أسبوعيًا أو شهريًا، وإجابتك تُختم في الكبسولة — مذكرةً فوق مذكرة.</div>
+        </div>
+        <div class="hs">
+          <div class="n">٣</div>
+          <div class="t">يوم الفتح</div>
+          <div class="b">في موعده يُفتح كل شيء دفعة واحدة: عهدك، ومذكراتك، ومحطاتك — فتقرأ قصة رحلتك كاملة.</div>
+        </div>
+      </div>
+      <p class="tagline">لأن ما تكتبه اليوم وتقرؤه بعد سنة… لا يشبه أي شيء آخر.</p>
+    </div>
     <div class="auth-box panel">
       <h1>ادخل إلى رفّك</h1>
       <p class="sub">كبسولاتك تنتظرك حيث تركتها.</p>
@@ -248,6 +296,12 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
       <p class="sub" id="cSealedSince"></p>
 
       <div id="cSealedBlock">
+        <div id="firstBanner" class="ms-q" style="display:none">
+          <div class="t">ابدأ سجلّك من اليوم الأول</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.9">
+            اكتب مذكرتك الأولى الآن في الأسفل — سطران يُختمان مع الكبسولة، وستقرؤهما يوم الفتح بعين مختلفة.
+          </div>
+        </div>
         <div class="big-count"><span id="cDays"></span><small id="cOpenDate"></small></div>
 
         <div class="detail-grid">
@@ -272,6 +326,35 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
           <button class="btn-gold" id="openCapBtn" type="button">فتح الكبسولة</button>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ PAYWALL ============ -->
+  <section class="view" id="vPay">
+    <div class="panel">
+      <a class="linkless" id="backBtn3">← الرجوع للرف</a>
+      <div style="height:8px"></div>
+      <h2>رفّك يتسع لأكثر من عهد</h2>
+      <p class="sub">كبسولتك الأولى هدية منا. لإضافة المزيد، اختر ما يناسبك:</p>
+
+      <div class="plans">
+        <div class="plan">
+          <div class="pt">كبسولة مفردة</div>
+          <div class="price">١٩ درهمًا</div>
+          <div class="per">دفعة واحدة</div>
+          <div class="pd">كبسولة إضافية واحدة بأجلها ومتابعتها ويوم فتحها — تبقى لك مدى الحياة.</div>
+          <button class="btn-ghost" id="paySingleBtn" type="button">شراء كبسولة</button>
+        </div>
+        <div class="plan best">
+          <div class="best-tag">الأنسب</div>
+          <div class="pt">اشتراك «عهد» السنوي</div>
+          <div class="price">٩٩ درهمًا</div>
+          <div class="per">في السنة</div>
+          <div class="pd">كبسولات غير محدودة بآجال مختلفة، لكل أحلامك ومحطاتك — واشتراكك أول بند في عهدك.</div>
+          <button class="btn-gold" id="payAnnualBtn" type="button">الاشتراك الآن</button>
+        </div>
+      </div>
+      <div class="hint" style="margin-top:14px">الدفع الآمن عبر Stripe. يمكنك الإلغاء متى شئت، وكبسولاتك المختومة تبقى محفوظة دائمًا.</div>
     </div>
   </section>
 
@@ -327,6 +410,28 @@ const SUPABASE_KEY = "sb_publishable_QhdDI8rpmw_1NmOml4d0wQ_n8iNYuKS";
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
+
+/* ---------- الدفع (تُعبّأ الروابط في المرحلة ب من لوحة Stripe) ---------- */
+const PAY_LINK_SINGLE = "";   // رابط دفع «كبسولة مفردة»
+const PAY_LINK_ANNUAL = "";   // رابط دفع «الاشتراك السنوي»
+const FREE_LIMIT = 1;         // كبسولة مجانية واحدة لكل حساب
+
+let CAP_COUNT = 0;
+let ENT = { plan:"free", credits:0 };   // الصلاحيات — تُفعّل من القاعدة في المرحلة ج
+let FIRST_ENTRY_HINT = false;
+
+async function loadEntitlement(){
+  try{
+    const {data,error} = await sb.rpc("get_entitlement");
+    if(!error && data && data.plan) ENT = data;
+  }catch(e){ /* الدالة تُضاف في المرحلة ج — حتى ذلك الحين الجميع على المجاني */ }
+}
+function canCreate(){
+  return ENT.plan === "annual" || CAP_COUNT < FREE_LIMIT + (ENT.credits || 0);
+}
+function payUrl(link){
+  return `${link}?client_reference_id=${USER.id}&prefilled_email=${encodeURIComponent(USER.email||"")}`;
+}
 
 const CHECKIN_PROMPT = "ماذا فعلت — ولو شيئًا صغيرًا — من أجل عهدك؟ وماذا أوقفك؟";
 const WEEKDAYS = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
@@ -391,6 +496,7 @@ sb.auth.onAuthStateChange((_ev, session)=>{
   if(USER){
     $("userTools").style.display="flex";
     $("userEmail").textContent = USER.email;
+    loadEntitlement();
     loadShelf();
   } else {
     $("userTools").style.display="none";
@@ -409,6 +515,7 @@ async function loadShelf(){
     .order("created_at",{ascending:false});
   grid.classList.remove("loading");
   if(error){ toast("تعذر تحميل الرف: "+error.message); return; }
+  CAP_COUNT = data.length;
 
   $("shelfSub").textContent = data.length
     ? `${arNum(data.length)} ${data.length===1?"كبسولة":"كبسولات"} على رفّك`
@@ -432,7 +539,16 @@ async function loadShelf(){
     grid.appendChild(el);
   }
 }
-$("newCapBtn").onclick = ()=> openNewForm();
+$("newCapBtn").onclick = ()=> canCreate() ? openNewForm() : show("vPay");
+$("backBtn3").onclick = ()=> loadShelf();
+$("paySingleBtn").onclick = ()=>{
+  if(!PAY_LINK_SINGLE){ toast("الدفع يُفعّل في المرحلة القادمة — قريبًا."); return; }
+  location.href = payUrl(PAY_LINK_SINGLE);
+};
+$("payAnnualBtn").onclick = ()=>{
+  if(!PAY_LINK_ANNUAL){ toast("الدفع يُفعّل في المرحلة القادمة — قريبًا."); return; }
+  location.href = payUrl(PAY_LINK_ANNUAL);
+};
 
 /* =====================================================================
    إنشاء كبسولة
@@ -526,7 +642,9 @@ $("sealCapBtn").onclick = async ()=>{
       if(e3) throw e3;
     }
     toast("خُتمت الكبسولة.");
-    loadShelf();
+    CAP_COUNT++;
+    FIRST_ENTRY_HINT = true;
+    openCapsuleView(c);
   }catch(e){
     err("ncErr","تعذر الختم: "+e.message);
   }finally{ $("sealCapBtn").disabled = false; }
@@ -548,6 +666,8 @@ async function openCapsuleView(c){
   if(isReady) return;
 
   const days = Math.max(0, Math.ceil((new Date(c.open_date) - new Date(today()))/86400000));
+  $("firstBanner").style.display = FIRST_ENTRY_HINT ? "block" : "none";
+  FIRST_ENTRY_HINT = false;
   $("cDays").textContent = arNum(days) + " يومًا";
   $("cOpenDate").textContent = "على الفتح — " + fmt(c.open_date);
   $("cFreq").textContent =
@@ -657,7 +777,7 @@ async function showCeremony(c){
     });
   } else $("oMsSec").style.display = "none";
 }
-$("newAfterOpenBtn").onclick = ()=> openNewForm();
+$("newAfterOpenBtn").onclick = ()=> canCreate() ? openNewForm() : show("vPay");
 
 /* init */
 freqDayOptions();
