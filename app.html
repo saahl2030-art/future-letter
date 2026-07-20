@@ -236,7 +236,28 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
     </div>
     <div class="grid" id="capGrid"></div>
     <div class="empty" id="shelfEmpty" style="display:none">
-      الرف فارغ. اختم كبسولتك الأولى — عهدٌ يُقفل عنك، ويعود إليك في موعده.
+      <h2 style="margin-bottom:4px">هنا تبدأ الحكاية</h2>
+      <p class="sub" style="margin-bottom:6px">كبسولتك الأولى هدية — وهكذا تعمل:</p>
+      <div class="how" style="text-align:center;margin:18px 0 6px">
+        <div class="hs">
+          <div class="n">١</div>
+          <div class="t">اكتب واختم</div>
+          <div class="b">عهدك بكلماتك، وتاريخ الفتح باختيارك. ومنذ الختم لا تستطيع حتى أنت قراءته.</div>
+        </div>
+        <div class="hs">
+          <div class="n">٢</div>
+          <div class="t">نتابعك في طريقك</div>
+          <div class="b">سؤال دوري يصلك، وإجابتك تُختم في الكبسولة — مذكرةً فوق مذكرة.</div>
+        </div>
+        <div class="hs">
+          <div class="n">٣</div>
+          <div class="t">يوم الفتح</div>
+          <div class="b">يُفتح كل شيء دفعة واحدة، فتقرأ قصة رحلتك كاملة.</div>
+        </div>
+      </div>
+      <div class="actions center">
+        <button class="btn-gold" id="firstCapBtn" type="button">اختم كبسولتك الأولى</button>
+      </div>
     </div>
   </section>
 
@@ -337,20 +358,13 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
       <h2>رفّك يتسع لأكثر من عهد</h2>
       <p class="sub">كبسولتك الأولى هدية منا. لإضافة المزيد، اختر ما يناسبك:</p>
 
-      <div class="plans">
-        <div class="plan">
-          <div class="pt">كبسولة مفردة</div>
-          <div class="price">١٩ درهمًا</div>
-          <div class="per">دفعة واحدة</div>
-          <div class="pd">كبسولة إضافية واحدة بأجلها ومتابعتها ويوم فتحها — تبقى لك مدى الحياة.</div>
-          <button class="btn-ghost" id="paySingleBtn" type="button">شراء كبسولة</button>
-        </div>
+      <div class="plans" style="grid-template-columns:1fr;max-width:430px;margin:22px auto 0">
         <div class="plan best">
-          <div class="best-tag">الأنسب</div>
+          <div class="best-tag">كل شيء</div>
           <div class="pt">اشتراك «عهد» الشهري</div>
           <div class="price">١٩ درهمًا</div>
           <div class="per">في الشهر</div>
-          <div class="pd">كبسولات غير محدودة بآجال مختلفة، لكل أحلامك ومحطاتك — وتلغي متى شئت، وتبقى كبسولاتك المختومة محفوظة.</div>
+          <div class="pd">كبسولات غير محدودة بآجال مختلفة، لكل أحلامك ومحطاتك — وتلغي متى شئت، وتبقى كبسولاتك المختومة محفوظة دائمًا.</div>
           <button class="btn-gold" id="payAnnualBtn" type="button">الاشتراك الآن</button>
         </div>
       </div>
@@ -411,9 +425,8 @@ const SUPABASE_KEY = "sb_publishable_QhdDI8rpmw_1NmOml4d0wQ_n8iNYuKS";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 
-/* ---------- الدفع (تُعبّأ الروابط في المرحلة ب من لوحة Stripe) ---------- */
-const PAY_LINK_SINGLE = "";   // رابط دفع «كبسولة مفردة»
-const PAY_LINK_ANNUAL = "";   // رابط دفع «الاشتراك السنوي»
+/* ---------- الدفع (يُعبّأ الرابط في المرحلة ب من لوحة Stripe) ---------- */
+const PAY_LINK_ANNUAL = "";   // رابط دفع «الاشتراك الشهري ١٩ درهمًا»
 const FREE_LIMIT = 1;         // كبسولة مجانية واحدة لكل حساب
 
 let CAP_COUNT = 0;
@@ -540,11 +553,8 @@ async function loadShelf(){
   }
 }
 $("newCapBtn").onclick = ()=> canCreate() ? openNewForm() : show("vPay");
+$("firstCapBtn").onclick = ()=> openNewForm();
 $("backBtn3").onclick = ()=> loadShelf();
-$("paySingleBtn").onclick = ()=>{
-  if(!PAY_LINK_SINGLE){ toast("الدفع يُفعّل في المرحلة القادمة — قريبًا."); return; }
-  location.href = payUrl(PAY_LINK_SINGLE);
-};
 $("payAnnualBtn").onclick = ()=>{
   if(!PAY_LINK_ANNUAL){ toast("الدفع يُفعّل في المرحلة القادمة — قريبًا."); return; }
   location.href = payUrl(PAY_LINK_ANNUAL);
