@@ -282,6 +282,10 @@ html[dir=ltr] .letter-body{font-size:18.5px;line-height:2}
 }
 .card-preview{display:none;margin-top:26px;text-align:center}
 .card-preview.active{display:block}
+.cta-box{margin-top:24px;border:1px solid var(--gold-dim);border-radius:16px;padding:20px 18px;background:rgba(201,162,39,.06);text-align:center}
+.cta-t{font-family:var(--letter);font-size:20px;color:#f0e9d8;font-weight:700;margin-bottom:6px}
+.cta-b{color:var(--muted);font-size:14px;line-height:1.9;margin:0 0 14px}
+a.cta-a{display:inline-block;text-decoration:none;color:#191302;background:linear-gradient(135deg,var(--gold-2),var(--gold));padding:12px 24px;border-radius:14px;font-weight:800;font-size:15px}
 .card-preview canvas{
   width:min(420px,100%);height:auto;border-radius:14px;
   box-shadow:0 30px 70px rgba(0,0,0,.55);
@@ -321,6 +325,8 @@ footer .l{color:var(--gold-2)}
       <span id="brandText"></span>
     </div>
     <div class="top-tools">
+      <div class="chip" id="statChip" style="display:none"></div>
+      <a class="lang-btn" id="shelfLink" href="app.html" style="text-decoration:none"></a>
       <div class="chip" id="chipText"></div>
       <button class="lang-btn" id="langBtn" type="button">EN</button>
     </div>
@@ -433,6 +439,11 @@ footer .l{color:var(--gold-2)}
           <button class="btn-ghost" id="shareCardBtn" type="button"></button>
           <button class="btn-ghost" id="restartBtn" type="button"></button>
         </div>
+        <div class="cta-box">
+          <div class="cta-t" id="ctaTitle"></div>
+          <p class="cta-b" id="ctaBody"></p>
+          <a class="cta-a" id="ctaBtn" href="app.html"></a>
+        </div>
       </div>
     </div>
   </section>
@@ -450,6 +461,37 @@ const PACT_KEY = "future_letter_pact_v2";
 const LANG_KEY = "future_letter_lang";
 
 let LANG = localStorage.getItem(LANG_KEY) || "ar";
+
+/* ---------- العدّاد الحقيقي (منصة عهد) ----------
+   المفتاح أدناه هو المفتاح القابل للنشر — علني وآمن.
+   تأكد أنه مطابق حرفيًا لما في app.html                */
+const SUPABASE_URL = "https://eppgvtreajfstwybodmn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_QhdDI8rpmw_1NmOml4d0wQ_n8iNYuKS";
+const STAT_MIN_SHOW = 1;   // لا يظهر العدّاد قبل هذا الرقم
+let PACTS = null;
+
+async function rpcCall(name){
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{
+      method:"POST",
+      headers:{ "apikey":SUPABASE_KEY, "Authorization":`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json" },
+      body:"{}"
+    });
+    if(!r.ok) return null;
+    return await r.json();
+  }catch(e){ return null; }
+}
+function renderStat(){
+  const c = $("statChip");
+  if(typeof PACTS === "number" && PACTS >= STAT_MIN_SHOW){
+    c.textContent = S().statChip(PACTS);
+    c.style.display = "";
+  } else c.style.display = "none";
+}
+async function loadStats(){
+  const n = await rpcCall("public_pact_count");
+  if(typeof n === "number"){ PACTS = n; renderStat(); }
+}
 
 /* ---------- dates & numbers ---------- */
 const now = new Date();
@@ -502,7 +544,7 @@ ar:{
     waitTitle:"الطريق الذي انتظر",
     waitSub:"نفس المكان، بعد عشر سنوات"
   },
-  pactIntro:"«الرسائل التي لا يُرَدُّ عليها تموت. اكتب لي سطرًا واحدًا — لا وعدًا عابرًا، بل عهدًا — وسأحفظه لك حتى نلتقي.»",
+  pactIntro:"«الآن جاء دورك في الكتابة. سطر واحد يكفي — عهدٌ تختمه اليوم، وأحمله معي إلى حيث أنتظرك.»",
   pactLbl:"عهدك، في سطر واحد",
   pactPh:"مثال: سأبدأ العمل على مشروعي قبل نهاية هذا الشهر، ساعة كل يوم.",
   pactHint:"سيُنقش على بطاقة العهد مع تاريخ اليوم وتاريخ الوفاء بعد عشر سنوات.",
@@ -522,6 +564,11 @@ ar:{
   prTitle:p=>`عهدك قائم ${p}`,
   prView:"عرض بطاقة العهد",
   prReset:"بدء رسالة جديدة",
+  statChip:n=>`${num(n)} عهدًا مختومًا حتى الآن`,
+  shelfLink:"رفّ الكبسولات",
+  ctaTitle:"البطاقة تذكار… أما العهد الحقيقي فيُحفظ في كبسولة",
+  ctaBody:"على منصة «عهد» يُقفل عهدك عنك، وتصلك رسائل المتابعة، ثم يعود إليك كاملًا في الموعد الذي تختاره — ومعه سجل رحلتك.",
+  ctaBtn:"افتح رفّ الكبسولات",
   days:d=> d===0 ? "منذ اليوم" : d===1 ? "منذ يوم واحد" : d===2 ? "منذ يومين" : d<=10 ? `منذ ${num(d)} أيام` : `منذ ${num(d)} يومًا`,
   card:{
     header:"بريد عابر للزمن",
@@ -634,7 +681,7 @@ en:{
     waitTitle:"The road that waited",
     waitSub:"The same place, ten years on"
   },
-  pactIntro:`"Letters that receive no reply die. Write me a single line — not a passing promise, but a pact — and I will keep it for you until we meet."`,
+  pactIntro:`"Now it is your turn to write. One line is enough — a pact you seal today, and I will carry it with me to where I wait for you."`,
   pactLbl:"Your pact, in one line",
   pactPh:"Example: I will start working on my project before the end of this month, one hour every day.",
   pactHint:"It will be engraved on your pact card with today's date and the date of reckoning, ten years from now.",
@@ -654,6 +701,11 @@ en:{
   prTitle:p=>`Your pact has stood ${p}`,
   prView:"View pact card",
   prReset:"Start a new letter",
+  statChip:n=>`${num(n)} pacts sealed so far`,
+  shelfLink:"My capsule shelf",
+  ctaTitle:"The card is a keepsake… the real pact lives in a capsule",
+  ctaBody:"On the Ahd platform your pact is locked away from you, follow-up messages find you, and it returns in full on the date you choose — with the record of your journey.",
+  ctaBtn:"Open your capsule shelf",
   days:d=> d===0 ? "since today" : d===1 ? "for one day" : `for ${num(d)} days`,
   card:{
     header:"MAIL ACROSS TIME",
@@ -827,6 +879,11 @@ function applyStatic(){
   $("restartBtn").textContent = t.restartBtn;
   $("prViewBtn").textContent = t.prView;
   $("prResetBtn").textContent = t.prReset;
+  $("shelfLink").textContent = t.shelfLink;
+  $("ctaTitle").textContent = t.ctaTitle;
+  $("ctaBody").textContent = t.ctaBody;
+  $("ctaBtn").textContent = t.ctaBtn;
+  renderStat();
   $("footerText").innerHTML = t.footer;
 }
 
@@ -1133,6 +1190,7 @@ $("sealPactBtn").addEventListener("click", async ()=>{
   $("cardPreview").scrollIntoView({behavior: REDUCED ? "auto":"smooth", block:"start"});
 
   try{ localStorage.setItem(PACT_KEY, JSON.stringify({ text: promise, date: now.toISOString() })); }catch(e){}
+  rpcCall("bump_pact_counter").then(n=>{ if(typeof n === "number"){ PACTS = n; renderStat(); } });
   refreshRibbon();
   toast(S().toastSealed);
 });
@@ -1236,6 +1294,7 @@ $("langBtn").addEventListener("click", async ()=>{
 /* ---------- init ---------- */
 applyStatic();
 refreshRibbon();
+loadStats();
 </script>
 </body>
 </html>
