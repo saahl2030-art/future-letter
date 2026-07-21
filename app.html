@@ -435,7 +435,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 
 /* ---------- الدفع (يُعبّأ الرابط في المرحلة ب من لوحة Stripe) ---------- */
-const PAY_LINK_ANNUAL = "https://buy.stripe.com/test_9B6bIV3j5fsd1gTcka3cc00";   // رابط دفع «الاشتراك الشهري ١٩ درهمًا» — وضع الاختبار
+const PAY_LINK_ANNUAL = "https://buy.stripe.com/9B6bIV3j5fsd1gTcka3cc00";   // رابط دفع «الاشتراك الشهري ١٩ درهمًا» — وضع الدفع الحقيقي (Live)
 const FREE_LIMIT = 1;         // كبسولة مجانية واحدة لكل حساب
 
 let CAP_COUNT = 0;
