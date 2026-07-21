@@ -132,10 +132,29 @@ h1.hero .gold{color:var(--gold-2)}
   display:grid;place-items:center;text-align:center;
   color:#241c05;font-weight:800;font-size:11.5px;line-height:1.5;
   transition:transform .5s ease, opacity .5s ease;
-  padding:8px;
+  animation:waxPulse 3.4s ease-in-out infinite;
+  padding:8px;z-index:2;
 }
 .wax .yr{font-family:var(--letter);font-size:19px;font-weight:700;display:block}
 .envelope.opened .wax{transform:translate(-50%,-50%) scale(1.25);opacity:0}
+@keyframes waxPulse{
+  0%,100%{box-shadow:0 8px 18px rgba(0,0,0,.35), 0 0 0 6px rgba(201,162,39,.14)}
+  50%{box-shadow:0 8px 22px rgba(0,0,0,.4), 0 0 0 11px rgba(201,162,39,.22)}
+}
+/* مدارات حول الختم — تلمح إلى الزمن الدائر حول الرسالة المختومة */
+.seal-orbit{
+  position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);
+  width:172px;height:172px;pointer-events:none;transition:opacity .5s ease;
+}
+.envelope.opened .seal-orbit{opacity:0}
+.seal-orbit .ring{position:absolute;inset:0;border-radius:50%}
+.seal-orbit .ring.r1{border:1px solid rgba(201,162,39,.22);animation:spin 17s linear infinite}
+.seal-orbit .ring.r2{inset:18px;border:1px dashed rgba(148,163,184,.16);animation:spinReverse 24s linear infinite}
+.seal-orbit .dot{position:absolute;width:6px;height:6px;border-radius:50%;top:-3px;left:50%;margin-left:-3px;
+  background:#e3c565;box-shadow:0 0 9px rgba(227,197,101,.6)}
+.seal-orbit .ring.r2 .dot{width:5px;height:5px;margin-left:-2.5px;background:#7fb8e8;box-shadow:0 0 8px rgba(127,184,232,.5)}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes spinReverse{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
 .postmark{
   position:absolute;top:10px;inset-inline-end:16px;
   font-size:11px;font-weight:700;color:var(--ink-soft);
@@ -326,6 +345,7 @@ footer .l{color:var(--gold-2)}
     </div>
     <div class="top-tools">
       <div class="chip" id="statChip" style="display:none"></div>
+      <div class="chip" id="subsChip" style="display:none"></div>
       <a class="lang-btn" id="shelfLink" href="app.html" style="text-decoration:none"></a>
       <div class="chip" id="chipText"></div>
       <button class="lang-btn" id="langBtn" type="button">EN</button>
@@ -350,6 +370,10 @@ footer .l{color:var(--gold-2)}
 
       <div class="envelope" id="envelope">
         <div class="postmark" id="postmark"></div>
+        <div class="seal-orbit">
+          <div class="ring r1"><span class="dot"></span></div>
+          <div class="ring r2"><span class="dot"></span></div>
+        </div>
         <div class="wax"><span><span id="waxTop"></span><span class="yr" id="waxYear"></span></span></div>
         <div class="addr">
           <small id="addrFrom"></small>
@@ -403,7 +427,7 @@ footer .l{color:var(--gold-2)}
 
         <div class="ps" id="letterPS" style="display:none">
           <p class="ps-title" id="psTitle"></p>
-          <svg class="fork" id="forkSvg" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" role="img"></svg>
+          <svg class="fork" id="forkSvg" viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" role="img"></svg>
         </div>
       </div>
 
@@ -467,8 +491,10 @@ let LANG = localStorage.getItem(LANG_KEY) || "ar";
    تأكد أنه مطابق حرفيًا لما في app.html                */
 const SUPABASE_URL = "https://eppgvtreajfstwybodmn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_QhdDI8rpmw_1NmOml4d0wQ_n8iNYuKS";
-const STAT_MIN_SHOW = 1;   // لا يظهر العدّاد قبل هذا الرقم
+const STAT_MIN_SHOW = 50;   // لا يظهر عدّاد العهود قبل هذا الرقم
+const SUB_MIN_SHOW = 1;     // لا يظهر عدّاد المشتركين قبل هذا الرقم
 let PACTS = null;
+let SUBS = null;
 
 async function rpcCall(name){
   try{
@@ -487,10 +513,21 @@ function renderStat(){
     c.textContent = S().statChip(PACTS);
     c.style.display = "";
   } else c.style.display = "none";
+
+  const sc = $("subsChip");
+  if(typeof SUBS === "number" && SUBS >= SUB_MIN_SHOW){
+    sc.textContent = S().subsChip(SUBS);
+    sc.style.display = "";
+  } else sc.style.display = "none";
 }
 async function loadStats(){
-  const n = await rpcCall("public_pact_count");
-  if(typeof n === "number"){ PACTS = n; renderStat(); }
+  const [pacts, subs] = await Promise.all([
+    rpcCall("public_pact_count"),
+    rpcCall("public_subscriber_count")
+  ]);
+  if(typeof pacts === "number") PACTS = pacts;
+  if(typeof subs === "number") SUBS = subs;
+  renderStat();
 }
 
 /* ---------- dates & numbers ---------- */
@@ -499,6 +536,7 @@ const future = new Date(now); future.setFullYear(now.getFullYear() + 10);
 const fmtLong = d => new Intl.DateTimeFormat(LANG === "ar" ? "ar" : "en", {day:"numeric",month:"long",year:"numeric"}).format(d);
 const fmtYear = d => new Intl.DateTimeFormat(LANG === "ar" ? "ar" : "en", {year:"numeric"}).format(d);
 const num = n => Number(n).toLocaleString(LANG === "ar" ? "ar-EG" : "en-US");
+const numLatin = n => Number(n).toLocaleString("en-US"); // أرقام لاتينية دائمًا — للعدادات والواجهة
 const pct = n => LANG === "ar" ? num(n) + "٪" : n + "%";
 
 /* ---------- state ---------- */
@@ -530,7 +568,7 @@ ar:{
   backBtn:"رجوع",
   letterFrom:d=>`من: أنت · ${d}`,
   letterVerified:"تم التحقق · اكتمل الوضوح ١٠٠٪",
-  salutation:"إلى من كنتُه،",
+  salutation:"إليك، من الغدِ الذي بلغتُه،",
   sigWho:"— أنت،",
   sigDate:(f,n)=>`كُتبت في ${f} — وقُرئت في ${n}`,
   skipBtn:"إظهار الرسالة كاملة",
@@ -564,7 +602,8 @@ ar:{
   prTitle:p=>`عهدك قائم ${p}`,
   prView:"عرض بطاقة العهد",
   prReset:"بدء رسالة جديدة",
-  statChip:n=>`${num(n)} عهدًا مختومًا حتى الآن`,
+  statChip:n=>`${numLatin(n)} عهدًا مختومًا حتى الآن`,
+  subsChip:n=>`${numLatin(n)} ${n===1?"مشتركًا فعليًا":"مشتركين فعليين"} في «عهد»`,
   shelfLink:"رفّ الكبسولات",
   ctaTitle:"البطاقة تذكار… أما العهد الحقيقي فيُحفظ في كبسولة",
   ctaBody:"على منصة «عهد» يُقفل عهدك عنك، وتصلك رسائل المتابعة، ثم يعود إليك كاملًا في الموعد الذي تختاره — ومعه سجل رحلتك.",
@@ -642,6 +681,7 @@ ar:{
       parts.push(`دعني أُتِمّ عنك الحساب الذي لم تجرؤ يومًا على إتمامه. ${num(st.hours)} من الساعات في اليوم تبدو شيئًا صغيرًا، لكنها خلال عشر سنوات تصير ${num(totalHours)} ساعة — أي ${span}، تُقتطع من العمر بلا إيصال استلام. لا أكتب هذا لألومك؛ أكتبه لأنني استعدتُ الكثير منها، وأعرف أن الاستعادة تبدأ بقرار صغير في يوم عاديّ يشبه يومك هذا تمامًا.`);
     }
     parts.push(this.fearParagraphs[st.fear] || this.fearParagraphs.start);
+    parts.push(`ولأنك ستشك أنني حقًا من المستقبل، دعني أهمس لك بأشياء من هنا — لا كتنبؤ، بل كذكرى: الذكاء الاصطناعي الذي يبدو اليوم عجيبًا سيصبح مملًا كالكهرباء — لا يلتفت إليه أحد إلا حين ينقطع فجأة. أفق مدينتك سيتغيّر حتى تحتاج لحظة لتتعرّف على الشارع الذي تعرفه اليوم عن ظهر قلب. الهاتف الذي في جيبك الآن سيصبح قطعةً قديمة تبتسم حين تجدها في درج، وأشياء تدفع فيها اليوم مالًا كثيرًا سترخص حتى تُنسى. أشخاص تعرفهم سيتزوجون، وسيولد أطفال ستحبهم حبًا لا تتخيله الآن — وهم لم يولدوا بعد. وستمر بك سنة صعبة واحدة على الأقل؛ لن أخبرك أيّها، لكنني أخبرك أنها تمر — وأن «${st.deferred}» كان حبل نجاتي فيها. كل هذا سيحدث لك سواء بدأتَ اليوم أو أجّلت؛ الفارق الوحيد أنك إن بدأت، تكون أنت من يصنع الحكاية — لا من يشاهدها فقط.`);
     parts.push(`وأما «${st.person}»، فأريدك أن تعرف شيئًا ظللتُ أجهله طويلًا: اللحظة التي تخيّلتَها كثيرًا — لحظة أن تُرى وقد وصلت — لا تحدث في النهاية كما ظننت. تحدث مبكرًا جدًا: في اليوم الذي يصل فيه الخبر أنك بدأت. لا تؤجّل تلك اللحظة من أجل نهايةٍ مثالية.`);
     parts.push(`وذلك المشهد الذي وصفتَه لي — «${st.sceneDesc}» — لن أُفسده عليك بالتفاصيل. سأقول فقط إنه حين يتحقق لا يشبه الخيال؛ يكون أهدأ، وأصدق، وأثقل في القلب بطريقة جميلة. لكن بيني وبينك: أجمل ما فيه ليس المشهد نفسه، بل أنك — وأنت واقف فيه — تعرف كل خطوة من الطريق الذي أوصلك إليه.`);
     parts.push(`لم أكتب هذه الرسالة لأطمئنك، ولا لأخيفك. كتبتُها لأن بيني وبينك عشر سنوات، وهي — خلافًا لما نظن — ليست مضمونةً لأحد منا. النسخة التي أنا عليها الآن لم تبدأ من يوم استثنائي؛ بدأت من يوم عاديّ، قرّر فيه شخصٌ يشبهك تمامًا ألا يقول «لاحقًا» عن «${st.deferred}» مرةً أخرى.\n\nهذا اليوم العاديّ… قد يكون اليوم.`);
@@ -667,7 +707,7 @@ en:{
   backBtn:"Back",
   letterFrom:d=>`From: you · ${d}`,
   letterVerified:"Verified · Clarity 100%",
-  salutation:"To the one I used to be,",
+  salutation:"To you, from the tomorrow I have reached,",
   sigWho:"— You,",
   sigDate:(f,n)=>`Written on ${f} — read on ${n}`,
   skipBtn:"Show the full letter",
@@ -701,7 +741,8 @@ en:{
   prTitle:p=>`Your pact has stood ${p}`,
   prView:"View pact card",
   prReset:"Start a new letter",
-  statChip:n=>`${num(n)} pacts sealed so far`,
+  statChip:n=>`${numLatin(n)} pacts sealed so far`,
+  subsChip:n=>`${numLatin(n)} active subscriber${n===1?"":"s"} on Ahd`,
   shelfLink:"My capsule shelf",
   ctaTitle:"The card is a keepsake… the real pact lives in a capsule",
   ctaBody:"On the Ahd platform your pact is locked away from you, follow-up messages find you, and it returns in full on the date you choose — with the record of your journey.",
@@ -779,6 +820,7 @@ en:{
       parts.push(`Let me finish the arithmetic you never dared to complete. ${num(st.hours)} hours a day sounds small, but across ten years it becomes ${num(totalHours)} hours — ${span}, deducted from a life with no receipt. I don't write this to blame you; I write it because I reclaimed much of it, and I know the reclaiming begins with one small decision on an ordinary day exactly like yours.`);
     }
     parts.push(this.fearParagraphs[st.fear] || this.fearParagraphs.start);
+    parts.push(`And because you will doubt that I truly write from the future, let me whisper things from here — not as prediction, but as memory: the artificial intelligence that feels astonishing today will grow as dull as electricity — unnoticed until it goes out. Your city's skyline will shift until you need a moment to recognize a street you know by heart today. The phone in your pocket right now will become an old relic you smile at in a drawer. Things you pay dearly for today will grow cheap enough to be forgotten. People you know will marry, and children you will love beyond anything you can imagine will be born — children who do not exist yet. And at least one hard year is coming; I will not tell you which, but I will tell you that it passes — and that "${st.deferred}" was my lifeline through it. All of this will happen to you whether you begin today or postpone; the only difference is that if you begin, you are the one writing the story — not merely watching it.`);
     parts.push(`As for "${st.person}" — I need you to know something it took me too long to learn: the moment you imagined so often — the moment of being seen, having arrived — does not happen at the end the way you think. It happens much earlier: on the day the news arrives that you have begun. Don't postpone that moment for the sake of a perfect ending.`);
     parts.push(`And that scene you described to me — "${st.sceneDesc}" — I won't spoil it with details. I'll only say that when it comes true, it doesn't feel like imagination; it is quieter, truer, heavier on the heart in a beautiful way. But between you and me: the best part is not the scene itself. It is that, standing inside it, you know every step of the road that brought you there.`);
     parts.push(`I didn't write this letter to reassure you, nor to frighten you. I wrote it because ten years stand between us, and — contrary to what we like to think — they are guaranteed to neither of us. The version of me writing now did not begin on an extraordinary day; it began on an ordinary one, when someone exactly like you decided not to say "later" about "${st.deferred}" one more time.\n\nThat ordinary day… might be today.`);
@@ -1041,18 +1083,102 @@ async function typeLetter(parts){
 function renderFork(){
   const t = S().fork;
   const M = x => LANG === "en" ? 700 - x : x;
+  const P = (x,y) => `${M(x)},${y}`;
+  const dist = (a,b) => Math.hypot(a.x-b.x, a.y-b.y);
+
+  // نقاط المسارين: اليوم ← +1 سنة ← +5 سنوات ← +10 سنوات
+  const today = {x:660,y:130};
+  const gold  = [ {x:580,y:118}, {x:320,y:78}, {x:60,y:42} ];
+  const gray  = [ {x:580,y:140}, {x:320,y:132}, {x:60,y:150} ];
+  const yearLbl = ["+1","+5","+10"];
+
+  const goldSeg = [dist(today,gold[0]), dist(gold[0],gold[1]), dist(gold[1],gold[2])];
+  const graySeg = [dist(today,gray[0]), dist(gray[0],gray[1]), dist(gray[1],gray[2])];
+  const goldLen = goldSeg.reduce((a,b)=>a+b,0);
+  const grayLen = graySeg.reduce((a,b)=>a+b,0);
+  const goldFrac = [goldSeg[0]/goldLen, (goldSeg[0]+goldSeg[1])/goldLen, 1];
+  const grayFrac = [graySeg[0]/grayLen, (graySeg[0]+graySeg[1])/grayLen, 1];
+
+  const goldPath = `M${P(today.x,today.y)} L${P(gold[0].x,gold[0].y)} L${P(gold[1].x,gold[1].y)} L${P(gold[2].x,gold[2].y)}`;
+  const grayPath = `M${P(today.x,today.y)} L${P(gray[0].x,gray[0].y)} L${P(gray[1].x,gray[1].y)} L${P(gray[2].x,gray[2].y)}`;
+
+  // كل عنصر يظهر تدريجيًا: data-path يحدد أي مسار يتبع، data-frac متى يظهر على طول ذلك المسار
+  let goldItems = "";
+  gold.forEach((pt,i)=>{
+    const r = i===2 ? 8 : 4;
+    goldItems += `<circle class="fk-item" data-path="gold" data-frac="${goldFrac[i]}" cx="${M(pt.x)}" cy="${pt.y}" r="${r}" fill="#c9a227" opacity="0"/>`;
+    if(i<2) goldItems += `<text class="fk-item" data-path="gold" data-frac="${goldFrac[i]}" x="${M(pt.x)}" y="${pt.y-12}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#a9863f" opacity="0">${yearLbl[i]}</text>`;
+  });
+  let grayItems = "";
+  gray.forEach((pt,i)=>{
+    const r = i===2 ? 6 : 3;
+    grayItems += i===2
+      ? `<circle class="fk-item" data-path="gray" data-frac="${grayFrac[i]}" cx="${M(pt.x)}" cy="${pt.y}" r="${r}" fill="none" stroke="#9b9179" stroke-width="2" opacity="0"/>`
+      : `<circle class="fk-item" data-path="gray" data-frac="${grayFrac[i]}" cx="${M(pt.x)}" cy="${pt.y}" r="${r}" fill="#c9c2ac" opacity="0"/>`;
+  });
+
   $("forkSvg").innerHTML = `
-    <circle cx="${M(660)}" cy="110" r="7" fill="#8a6712"/>
-    <text x="${M(660)}" y="88" text-anchor="middle" font-size="13" fill="#4a4132">${t.today}</text>
-    <text x="${M(660)}" y="142" text-anchor="middle" font-size="11" fill="#8a8064">${fmtLong(now)}</text>
-    <path d="M${M(652)},106 C${M(520)},40 ${M(240)},30 ${M(70)},52" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="${M(62)}" cy="54" r="8" fill="#c9a227"/>
-    <text x="${M(62)}" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#1f1910">${t.winTitle}</text>
-    <text x="${M(62)}" y="82" text-anchor="middle" font-size="11.5" fill="#8a6712">${esc(t.winLabel(truncate(state.deferred, 22)))}</text>
-    <path d="M${M(652)},114 C${M(520)},180 ${M(240)},190 ${M(70)},168" fill="none" stroke="#9b9179" stroke-width="2.5" stroke-dasharray="3 8" stroke-linecap="round"/>
-    <circle cx="${M(62)}" cy="166" r="6" fill="none" stroke="#9b9179" stroke-width="2"/>
-    <text x="${M(62)}" y="196" text-anchor="middle" font-size="13" fill="#7a715c">${t.waitTitle}</text>
-    <text x="${M(62)}" y="146" text-anchor="middle" font-size="11.5" fill="#9b9179">${t.waitSub}</text>`;
+    <circle class="fk-item" data-path="today" data-frac="0" cx="${M(today.x)}" cy="${today.y}" r="6" fill="#8a6712" opacity="0"/>
+    <text class="fk-item" data-path="today" data-frac="0" x="${M(today.x)}" y="${today.y-16}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4a4132" opacity="0">${t.today}</text>
+    <text class="fk-item" data-path="today" data-frac="0" x="${M(today.x)}" y="${today.y+22}" text-anchor="middle" font-size="10.5" fill="#8a8064" opacity="0">${fmtLong(now)}</text>
+
+    <path id="fkGray" d="${grayPath}" fill="none" stroke="#9b9179" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+      style="stroke-dasharray:${grayLen};stroke-dashoffset:${grayLen}" data-len="${grayLen}" opacity=".62"/>
+    <path id="fkGold" d="${goldPath}" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+      style="stroke-dasharray:${goldLen};stroke-dashoffset:${goldLen}" data-len="${goldLen}"/>
+    ${goldItems}${grayItems}
+
+    <text class="fk-item" data-path="gold" data-frac="1" x="${M(gold[2].x)}" y="${gold[2].y-22}" text-anchor="middle" font-size="13" font-weight="700" fill="#1f1910" opacity="0">${t.winTitle}</text>
+    <text class="fk-item" data-path="gold" data-frac="1" x="${M(gold[2].x)}" y="${gold[2].y-6}" text-anchor="middle" font-size="11" fill="#8a6712" opacity="0">${esc(t.winLabel(truncate(state.deferred, 22)))}</text>
+
+    <text class="fk-item" data-path="gray" data-frac="1" x="${M(gray[2].x)}" y="${gray[2].y+20}" text-anchor="middle" font-size="13" fill="#7a715c" opacity="0">${t.waitTitle}</text>
+    <text class="fk-item" data-path="gray" data-frac="1" x="${M(gray[2].x)}" y="${gray[2].y+36}" text-anchor="middle" font-size="10.5" fill="#9b9179" opacity="0">${t.waitSub}</text>`;
+
+  animateFork();
+}
+
+function revealForkPath(pathEl, durationMs){
+  const len = Number(pathEl.dataset.len);
+  pathEl.style.transition = "none";
+  pathEl.style.strokeDashoffset = String(len);
+  pathEl.getBoundingClientRect(); // إعادة تدفق إجبارية قبل بدء الانتقال
+  requestAnimationFrame(()=>{
+    pathEl.style.transition = `stroke-dashoffset ${durationMs}ms ease`;
+    pathEl.style.strokeDashoffset = "0";
+  });
+}
+
+function animateFork(){
+  const svg = $("forkSvg");
+  const todayItems = svg.querySelectorAll('[data-path="today"]');
+  const goldItems = svg.querySelectorAll('[data-path="gold"]');
+  const grayItems = svg.querySelectorAll('[data-path="gray"]');
+  const goldPathEl = svg.querySelector("#fkGold");
+  const grayPathEl = svg.querySelector("#fkGray");
+
+  if(REDUCED){
+    [...todayItems, ...goldItems, ...grayItems].forEach(el=> el.style.opacity = "1");
+    [goldPathEl, grayPathEl].forEach(p=>{ p.style.transition="none"; p.style.strokeDashoffset="0"; });
+    return;
+  }
+
+  const TODAY_FADE=300, GOLD_START=450, GOLD_MS=1500, GAP=300, GRAY_MS=1300;
+  const GRAY_START = GOLD_START + GOLD_MS + GAP;
+
+  todayItems.forEach(el=> el.style.transition = `opacity ${TODAY_FADE}ms ease`);
+  requestAnimationFrame(()=> todayItems.forEach(el=> el.style.opacity = "1"));
+
+  setTimeout(()=> revealForkPath(goldPathEl, GOLD_MS), GOLD_START);
+  goldItems.forEach(el=>{
+    el.style.transition = "opacity .3s ease";
+    setTimeout(()=>{ el.style.opacity = "1"; }, GOLD_START + Number(el.dataset.frac) * GOLD_MS);
+  });
+
+  setTimeout(()=> revealForkPath(grayPathEl, GRAY_MS), GRAY_START);
+  grayItems.forEach(el=>{
+    el.style.transition = "opacity .3s ease";
+    setTimeout(()=>{ el.style.opacity = "1"; }, GRAY_START + Number(el.dataset.frac) * GRAY_MS);
+  });
 }
 
 function finishLetter(){
