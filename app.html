@@ -40,6 +40,14 @@ body{
 .brand b{font-family:var(--letter);font-size:20px;color:#f3ead7}
 .top-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .chip{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--muted);background:rgba(18,23,36,.55)}
+.home-link{
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+  border:1px solid var(--gold-dim);border-radius:999px;
+  padding:6px 14px;font-size:12.5px;font-weight:800;
+  color:var(--gold-2);background:rgba(201,162,39,.06);
+  transition:filter .12s ease;
+}
+.home-link:hover{filter:brightness(1.1);background:rgba(201,162,39,.12)}
 
 button{font-family:var(--ui);font-weight:800;font-size:15px;border:0;border-radius:14px;padding:12px 20px;cursor:pointer;transition:filter .12s,transform .08s}
 button:hover{filter:brightness(1.08)} button:active{transform:translateY(1px)}
@@ -175,9 +183,10 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
 
   <div class="topbar">
     <div class="brand"><span class="seal-dot"></span><b>عَهْد</b><span class="chip">رف الكبسولات</span></div>
-    <div class="top-tools" id="userTools" style="display:none">
-      <span class="chip" id="userEmail"></span>
-      <button class="btn-ghost btn-sm" id="logoutBtn" type="button">خروج</button>
+    <div class="top-tools">
+      <a class="home-link" href="index.html">الصفحة الرئيسية</a>
+      <span class="chip" id="userEmail" style="display:none"></span>
+      <button class="btn-ghost btn-sm" id="logoutBtn" type="button" style="display:none">خروج</button>
     </div>
   </div>
 
@@ -507,12 +516,14 @@ $("logoutBtn").onclick = async ()=>{ await sb.auth.signOut(); };
 sb.auth.onAuthStateChange((_ev, session)=>{
   USER = session?.user ?? null;
   if(USER){
-    $("userTools").style.display="flex";
+    $("userEmail").style.display="";
+    $("logoutBtn").style.display="";
     $("userEmail").textContent = USER.email;
     loadEntitlement();
     loadShelf();
   } else {
-    $("userTools").style.display="none";
+    $("userEmail").style.display="none";
+    $("logoutBtn").style.display="none";
     show("vAuth");
   }
 });
