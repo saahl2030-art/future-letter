@@ -276,10 +276,25 @@ a.linkless{color:var(--gold-2);text-decoration:none;font-weight:800;cursor:point
       <h2>كبسولة جديدة</h2>
       <p class="sub">تُختم فور إنشائها — ولا تستطيع قراءتها قبل موعدها. اكتب بصدق.</p>
 
+      <label>لمن هذه الكبسولة؟</label>
+      <div class="presets" id="ncFor">
+        <span class="preset on" data-for="self">لنفسي</span>
+        <span class="preset" data-for="other">لشخص آخر</span>
+      </div>
+      <div class="hint" id="ncForHint" style="margin-bottom:14px">ستكتب رسالة لنفسك، تفتحها أنت في الموعد الذي تختاره.</div>
+
+      <div id="ncRecipientBlock" style="display:none">
+        <label for="ncRecipientName">اسم الشخص</label>
+        <input id="ncRecipientName" type="text" placeholder="مثال: أختي سارة" maxlength="60" />
+        <label for="ncRecipientEmail">بريده الإلكتروني</label>
+        <input id="ncRecipientEmail" type="email" placeholder="example@email.com" />
+        <div class="hint">في يوم الفتح، تصله رسالتك كاملة على هذا البريد — لا يحتاج حسابًا على «عهد».</div>
+      </div>
+
       <label for="ncTitle">عنوان الكبسولة</label>
       <input id="ncTitle" type="text" placeholder="مثال: مشروعي الخاص" maxlength="60" />
 
-      <label for="ncPledge">عهدك — الحلم أو الهدف، بكلماتك</label>
+      <label for="ncPledge" id="ncPledgeLbl">عهدك — الحلم أو الهدف، بكلماتك</label>
       <textarea id="ncPledge" placeholder="ماذا تعاهد نفسك أن تحقق؟ وماذا يعني لك؟"></textarea>
 
       <label>تاريخ الفتح</label>
@@ -535,7 +550,7 @@ async function loadShelf(){
   show("vShelf");
   const grid = $("capGrid"); grid.classList.add("loading");
   const {data,error} = await sb.from("capsules")
-    .select("id,title,status,seal_date,open_date,opened_at,frequency,checkin_weekday,checkin_monthday,next_checkin_at")
+    .select("id,title,status,seal_date,open_date,opened_at,frequency,checkin_weekday,checkin_monthday,next_checkin_at,recipient_name")
     .order("created_at",{ascending:false});
   grid.classList.remove("loading");
   if(error){ toast("تعذر تحميل الرف: "+error.message); return; }
@@ -555,6 +570,7 @@ async function loadShelf(){
     el.innerHTML = `
       <div class="seal">${c.status==="opened"?"فُتحت":"مختومة"}</div>
       <div class="title">${esc(c.title)}</div>
+      ${ c.recipient_name ? `<div class="meta">✉️ موجّهة إلى: ${esc(c.recipient_name)}</div>` : `` }
       <div class="meta">خُتمت في ${fmt(c.seal_date)}<br>موعد الفتح: ${fmt(c.open_date)}</div>
       ${ c.status==="opened" ? `<span class="opened-tag">مفتوحة — اقرأها متى شئت</span>`
         : isReady ? `<span class="ready-tag">حان موعد الفتح</span>`
@@ -588,14 +604,14 @@ function freqDayOptions(){
 }
 $("ncFreq").onchange = freqDayOptions;
 
-document.querySelectorAll(".preset").forEach(p=> p.onclick = ()=>{
+document.querySelectorAll("#presets .preset").forEach(p=> p.onclick = ()=>{
   const d = new Date();
   if(p.dataset.d) d.setDate(d.getDate() + Number(p.dataset.d));
   else d.setMonth(d.getMonth() + Number(p.dataset.m));
   $("ncDate").value = d.toISOString().slice(0,10);
-  document.querySelectorAll(".preset").forEach(x=>x.classList.toggle("on", x===p));
+  document.querySelectorAll("#presets .preset").forEach(x=>x.classList.toggle("on", x===p));
 });
-$("ncDate").oninput = ()=> document.querySelectorAll(".preset").forEach(p=>p.classList.remove("on"));
+$("ncDate").oninput = ()=> document.querySelectorAll("#presets .preset").forEach(p=>p.classList.remove("on"));
 
 function addMsRow(){
   const rows = $("msRows");
@@ -611,11 +627,30 @@ function addMsRow(){
 }
 $("addMsBtn").onclick = addMsRow;
 
+let NC_FOR = "self";
+function setNcFor(mode){
+  NC_FOR = mode;
+  document.querySelectorAll("#ncFor .preset").forEach(p=> p.classList.toggle("on", p.dataset.for===mode));
+  $("ncRecipientBlock").style.display = mode==="other" ? "block":"none";
+  if(mode==="other"){
+    $("ncForHint").textContent = "ستكتب رسالة موجّهة لهذا الشخص — تصله كاملة في يوم الفتح.";
+    $("ncPledgeLbl").textContent = "رسالتك لهم — بكلماتك";
+    $("ncPledge").placeholder = "ماذا تريد أن تخبرهم به؟ ماذا تتمنى لهم؟";
+  } else {
+    $("ncForHint").textContent = "ستكتب رسالة لنفسك، تفتحها أنت في الموعد الذي تختاره.";
+    $("ncPledgeLbl").textContent = "عهدك — الحلم أو الهدف، بكلماتك";
+    $("ncPledge").placeholder = "ماذا تعاهد نفسك أن تحقق؟ وماذا يعني لك؟";
+  }
+}
+document.querySelectorAll("#ncFor .preset").forEach(p=> p.onclick = ()=> setNcFor(p.dataset.for));
+
 function openNewForm(){
   $("ncTitle").value=""; $("ncPledge").value=""; $("ncDate").value="";
+  $("ncRecipientName").value=""; $("ncRecipientEmail").value="";
+  setNcFor("self");
   $("ncFreq").value="monthly"; freqDayOptions();
   $("msRows").innerHTML=""; err("ncErr");
-  document.querySelectorAll(".preset").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll("#presets .preset").forEach(p=>p.classList.remove("on"));
   show("vNew");
 }
 $("cancelNewBtn").onclick = ()=> loadShelf();
@@ -626,9 +661,15 @@ $("sealCapBtn").onclick = async ()=>{
   const openDate = $("ncDate").value;
   const freq = $("ncFreq").value;
   const day = Number($("ncFreqDay").value);
+  const recipientName = clean($("ncRecipientName").value);
+  const recipientEmail = clean($("ncRecipientEmail").value);
 
+  if(NC_FOR==="other"){
+    if(recipientName.length < 2){ err("ncErr","اكتب اسم الشخص."); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)){ err("ncErr","أدخل بريدًا إلكترونيًا صحيحًا للمستلم."); return; }
+  }
   if(title.length < 2){ err("ncErr","اكتب عنوان الكبسولة."); return; }
-  if(pledge.length < 8){ err("ncErr","اكتب عهدك — سطر واحد على الأقل."); return; }
+  if(pledge.length < 8){ err("ncErr", NC_FOR==="other" ? "اكتب رسالتك — سطر واحد على الأقل." : "اكتب عهدك — سطر واحد على الأقل."); return; }
   if(!openDate || openDate <= today()){ err("ncErr","اختر تاريخ فتح في المستقبل."); return; }
 
   const milestones = [];
@@ -647,6 +688,8 @@ $("sealCapBtn").onclick = async ()=>{
       user_id: USER.id, title, open_date: openDate, frequency: freq,
       checkin_weekday: freq==="weekly" ? day : null,
       checkin_monthday: freq==="monthly" ? day : null,
+      recipient_name: NC_FOR==="other" ? recipientName : null,
+      recipient_email: NC_FOR==="other" ? recipientEmail : null,
     };
     const {data:c, error:e1} = await sb.from("capsules").insert(cap).select().single();
     if(e1) throw e1;
@@ -662,7 +705,7 @@ $("sealCapBtn").onclick = async ()=>{
       );
       if(e3) throw e3;
     }
-    toast("خُتمت الكبسولة.");
+    toast(NC_FOR==="other" ? `خُتمت الرسالة إلى ${recipientName}.` : "خُتمت الكبسولة.");
     CAP_COUNT++;
     FIRST_ENTRY_HINT = true;
     openCapsuleView(c);
@@ -681,7 +724,9 @@ async function openCapsuleView(c){
   const isReady = c.open_date <= today();
   show("vCap");
   $("cTitle").textContent = c.title;
-  $("cSealedSince").textContent = `مختومة منذ ${fmt(c.seal_date)}`;
+  $("cSealedSince").textContent = c.recipient_name
+    ? `موجّهة إلى ${c.recipient_name} — مختومة منذ ${fmt(c.seal_date)}`
+    : `مختومة منذ ${fmt(c.seal_date)}`;
   $("cSealedBlock").style.display = isReady ? "none":"block";
   $("cReadyBlock").style.display = isReady ? "block":"none";
   if(isReady) return;
@@ -766,7 +811,8 @@ $("openCapBtn").onclick = async ()=>{
 async function showCeremony(c){
   show("vOpen");
   $("oTitle").textContent = c.title;
-  $("oMeta").textContent = `خُتمت في ${fmt(c.seal_date)} — وفُتحت في ${fmt(c.opened_at || new Date())}`;
+  $("oMeta").textContent = (c.recipient_name ? `موجّهة إلى ${c.recipient_name} — ` : "") +
+    `خُتمت في ${fmt(c.seal_date)} — وفُتحت في ${fmt(c.opened_at || new Date())}`;
 
   const {data:sec} = await sb.from("capsule_secrets")
     .select("pledge_text").eq("capsule_id",c.id).single();
