@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>رسالة وصلت متأخرة عشر سنوات | A Letter Ten Years Late</title>
-<meta name="description" content="رسالة مختومة كُتبت لك بعد عشر سنوات. لن تُفتح إلا إذا تأكد كاتبها أنك أنت. — A sealed letter written to you ten years from now." />
+<title> هناك رسالة... تنتظرك منذ عشر سنوات.| A Letter Ten Years Late</title>
+<meta name="description" content="رسالة مختومة كُتبت لك . لن تُفتح إلا إذا تأكد كاتبها أنك أنت. — A sealed letter written to you ten years from now." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -324,11 +324,16 @@ footer{margin-top:46px;text-align:center;color:var(--muted);font-size:12px}
 footer .l{color:var(--gold-2)}
 
 @media (max-width:640px){
-  h1.hero{font-size:31px}
+  h1.hero{font-size:29px;line-height:1.45}
+  .hero-sub{font-size:15.5px;line-height:1.85}
+  .kicker{font-size:12.5px;padding:7px 14px}
+  .chip{font-size:12.5px;padding:8px 14px}
+  button{font-size:16px;padding:14px 20px}
   .v-voice{font-size:19px}
   .letter-body{font-size:17.5px;line-height:2.15}
   html[dir=ltr] .letter-body{font-size:16.5px}
   .paper{padding:36px 20px 34px}
+  footer{font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
@@ -346,8 +351,6 @@ footer .l{color:var(--gold-2)}
     <div class="top-tools">
       <div class="chip" id="statChip" style="display:none"></div>
       <div class="chip" id="subsChip" style="display:none"></div>
-      <a class="lang-btn" id="shelfLink" href="app.html" style="text-decoration:none"></a>
-      <div class="chip" id="chipText"></div>
       <button class="lang-btn" id="langBtn" type="button">EN</button>
     </div>
   </div>
@@ -472,7 +475,12 @@ footer .l{color:var(--gold-2)}
     </div>
   </section>
 
-  <footer><span id="footerText"></span></footer>
+  <footer>
+    <span id="footerText"></span>
+    <div style="margin-top:10px">
+      <a id="shelfLink" href="app.html" style="color:var(--muted);text-decoration:underline;font-size:12px"></a>
+    </div>
+  </footer>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -560,7 +568,7 @@ ar:{
   waxTop:"لا يُفتح قبل",
   addrFrom:d=>`من: أنت — ${d}`,
   addrTo:"إلى: أنت — كما أنت اليوم",
-  startBtn:"كسر الختم والبدء",
+  startBtn:"افتح الرسالة",
   step:(i)=>`التحقق ${["الأول","الثاني","الثالث","الرابع","الخامس"][i]} من خمسة`,
   clarityLbl:"وضوح الرسالة",
   nextBtn:"تثبيت الإجابة",
@@ -604,7 +612,7 @@ ar:{
   prReset:"بدء رسالة جديدة",
   statChip:n=>`${numLatin(n)} عهدًا مختومًا حتى الآن`,
   subsChip:n=>`${numLatin(n)} ${n===1?"مشتركًا فعليًا":"مشتركين فعليين"} في «عهد»`,
-  shelfLink:"رفّ الكبسولات",
+  shelfLink:"لديك حساب على «عهد»؟ ادخل إلى رفّ الكبسولات",
   ctaTitle:"البطاقة تذكار… أما العهد الحقيقي فيُحفظ في كبسولة",
   ctaBody:"على منصة «عهد» يُقفل عهدك عنك، وتصلك رسائل المتابعة، ثم يعود إليك كاملًا في الموعد الذي تختاره — ومعه سجل رحلتك.",
   ctaBtn:"افتح رفّ الكبسولات",
@@ -699,7 +707,7 @@ en:{
   waxTop:"Do not open before",
   addrFrom:d=>`From: you — ${d}`,
   addrTo:"To: you — as you are today",
-  startBtn:"Break the seal and begin",
+  startBtn:"Open the letter",
   step:i=>`Verification ${i+1} of 5`,
   clarityLbl:"Letter clarity",
   nextBtn:"Confirm answer",
@@ -743,7 +751,7 @@ en:{
   prReset:"Start a new letter",
   statChip:n=>`${numLatin(n)} pacts sealed so far`,
   subsChip:n=>`${numLatin(n)} active subscriber${n===1?"":"s"} on Ahd`,
-  shelfLink:"My capsule shelf",
+  shelfLink:"Already have an Ahd account? Go to your capsule shelf",
   ctaTitle:"The card is a keepsake… the real pact lives in a capsule",
   ctaBody:"On the Ahd platform your pact is locked away from you, follow-up messages find you, and it returns in full on the date you choose — with the record of your journey.",
   ctaBtn:"Open your capsule shelf",
@@ -889,7 +897,6 @@ function applyStatic(){
   document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
 
   $("brandText").textContent = t.brand;
-  $("chipText").textContent = t.chip;
   $("langBtn").textContent = t.langBtn;
   $("kickerLbl").textContent = t.kickerLbl;
   $("kickerToday").textContent = fmtLong(now);
