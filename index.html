@@ -58,7 +58,7 @@ body{
   color:var(--gold-2);border:1px solid var(--gold-dim);border-radius:999px;padding:6px 14px;
   background:rgba(201,162,39,.06);margin-bottom:20px}
 h1.hero{font-family:var(--letter);font-weight:700;font-size:44px;line-height:1.4;margin:0 0 16px}
-h1.hero .gold{color:var(--gold-2)}
+h1.hero .accent{color:var(--gold-2)}
 .hero-sub{color:var(--muted);font-size:16.5px;max-width:600px;margin:0 auto 30px}
 
 /* the seal — signature element */
@@ -106,6 +106,8 @@ h1.hero .gold{color:var(--gold-2)}
 .hs .n{font-family:var(--letter);font-size:15px;font-weight:700;color:var(--gold-2);margin-bottom:10px}
 .hs .t{font-weight:800;color:#f3ead7;font-size:16.5px;margin-bottom:8px}
 .hs .b{font-size:13.5px;color:var(--muted);line-height:1.9}
+.hs .opt-tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:800;color:var(--gold-2);
+  background:rgba(201,162,39,.1);border:1px solid var(--gold-dim);border-radius:999px;padding:3px 10px}
 
 /* ---------- FORK ---------- */
 .fork-sec{padding:70px 0 80px}
@@ -182,7 +184,7 @@ footer a{color:var(--muted);text-decoration:underline;font-size:12px}
     </div>
     <div class="how-grid">
       <div class="hs reveal"><div class="n" id="hn1"></div><div class="t" id="ht1"></div><div class="b" id="hb1"></div></div>
-      <div class="hs reveal" style="animation-delay:.08s"><div class="n" id="hn2"></div><div class="t" id="ht2"></div><div class="b" id="hb2"></div></div>
+      <div class="hs reveal" style="animation-delay:.08s"><div class="n" id="hn2"></div><div class="t" id="ht2"></div><div class="b" id="hb2"></div><span class="opt-tag" id="hOptTag"></span></div>
       <div class="hs reveal" style="animation-delay:.16s"><div class="n" id="hn3"></div><div class="t" id="ht3"></div><div class="b" id="hb3"></div></div>
     </div>
   </section>
@@ -261,51 +263,53 @@ async function loadStats(){
 
 const T = {
 ar:{
-  brand:"بريدٌ عابرٌ للزمن",
-  kicker:"عهد — منصة الكبسولات الزمنية",
-  heroTitle:`عهدٌ تكتبه اليوم…<br><span class="gold">ويصلك حين يحين وقته</span>`,
-  heroSub:"اكتب حلمك أو هدفك أو رسالة لشخص تحبه — نختمها عنك، ونعيدها كاملة في الموعد الذي تختاره، ومعها كل ما مررت به في الطريق.",
+  brand:"عهد",
+  kicker:"عهد — بريدٌ عابرٌ للزمن",
+  heroTitle:`عهدٌ تكتبه اليوم…<br><span class="accent">ويسألك عنه الغد</span>`,
+  heroSub:"اختم عهدك اليوم بصدق، ونتابعك بلطف في الطريق — وفي الموعد الذي تختاره، يُفتح كل شيء دفعة واحدة، لتقرأه بعين لم تكن تملكها من قبل.",
   scrollCue:"↓ كيف تعمل «عهد»",
   howTitle:"كيف تعمل؟",
-  howSub:"ثلاث خطوات، وينتهي بها الأمر إلى رسالة لا تشبه أي شيء آخر.",
-  h1:{n:"١",t:"اكتب واختم",b:"عهدك أو رسالتك بكلماتك، وتاريخ الفتح باختيارك — بعد أشهر أو سنوات. من لحظة الختم، لا يستطيع أحد قراءتها، ولا حتى أنت."},
-  h2:{n:"٢",t:"نتابعك في الطريق",b:"سؤال واحد يصلك دوريًا، وإجابتك تُختم مع الرسالة — مذكرةً فوق مذكرة، حتى يوم الفتح."},
-  h3:{n:"٣",t:"يوم الفتح",b:"في موعده يُفتح كل شيء دفعة واحدة: العهد أو الرسالة، والمذكرات، والمحطات — قصة كاملة تُقرأ بعين مختلفة."},
-  forkTitle:"والرسالة… لمن تكتبها؟",
+  howSub:"ثلاث خطوات هادئة، تنتهي بلحظة لا تشبه أي شيء آخر.",
+  h1:{n:"1",t:"اكتب واختم",b:"عهدك أو رسالتك بكلماتك، وتاريخ الفتح باختيارك — بعد أشهر أو سنوات. من لحظة الختم، لا يستطيع أحد قراءتها، ولا حتى أنت."},
+  h2:{n:"2",t:"ادعُ شاهدًا",b:"قريبًا، ستقدر تدعو من تثق به ليكون شاهدًا على عهدك — يصله سؤال بسيط يوم الفتح: هل التزمت؟ لا ضغط ولا إلزام، والخيار بيدك بالكامل."},
+  h3:{n:"3",t:"يوم الفتح",b:"يُفتح كل شيء دفعة واحدة: عهدك، ومذكراتك، ومحطاتك — قصة كاملة تُقرأ بعين مختلفة."},
+  hOptTag:"قريبًا",
+  forkTitle:"والعهد… لمن تكتبه؟",
   forkSub:"اختر الطريق الذي يناسبك.",
   fcSelfT:"لنفسك",
-  fcSelfB:"جرّب التجربة المجانية الآن: خمس أسئلة تتأكد أنك أنت، ثم رسالة كاملة كأنها كُتبت من نفسك بعد عشر سنوات — وعهد تختمه في النهاية.",
-  fcSelfBtn:"اكتب رسالتك",
+  fcSelfB:"جرّب التجربة المجانية الآن: رسالة كاملة كأنها كُتبت من نفسك بعد سنوات — وعهد تختمه في النهاية.",
+  fcSelfBtn:"اكتب عهدك",
   fcOtherT:"لشخص تحبه",
   fcOtherB:"اكتب كبسولة موجّهة لشخص آخر — ابنك، صديقك، أحد والديك — تُفتح له في التاريخ الذي تختاره أنت. هدية، أو تذكير، أو وعد لا يُنسى.",
   fcOtherBtn:"ادخل إلى المنصة",
   statChip:n=>`${numLatin(n)} عهدًا مختومًا حتى الآن`,
   subsChip:n=>`${numLatin(n)} مشتركين فعليين في «عهد»`,
-  footer:`كل ما تكتبه يبقى مختومًا حتى موعده. <span class="l">الرسالة رسالتك.</span>`,
+  footer:`كل ما تكتبه يبقى مختومًا حتى موعده. <span class="l">العهد عهدك.</span>`,
   shelfLink:"لديك حساب على «عهد»؟ ادخل إلى رفّ الكبسولات"
 },
 en:{
-  brand:"Mail Across Time",
-  kicker:"Ahd — the time-capsule platform",
-  heroTitle:`A pact you write today…<br><span class="gold">arrives when its time comes</span>`,
-  heroSub:"Write a dream, a goal, or a message to someone you love — we seal it for you, and return it in full on the date you choose, along with everything you went through along the way.",
+  brand:"Ahd",
+  kicker:"Ahd — Mail Across Time",
+  heroTitle:`A pact you write today…<br><span class="accent">and tomorrow asks you about it</span>`,
+  heroSub:"Seal your pact today, honestly, and we check in with you gently along the way — on the date you choose, everything opens at once, read with eyes you didn't have before.",
   scrollCue:"↓ How Ahd works",
   howTitle:"How does it work?",
-  howSub:"Three steps, ending in a letter unlike anything else.",
+  howSub:"Three calm steps, ending in a moment unlike anything else.",
   h1:{n:"1",t:"Write and seal",b:"Your pact or message, in your own words, with an opening date you choose — months or years from now. From the moment it's sealed, no one can read it, not even you."},
-  h2:{n:"2",t:"We check in with you",b:"One question arrives periodically, and your answer is sealed alongside it — entry after entry, until opening day."},
-  h3:{n:"3",t:"Opening day",b:"Everything opens at once, on schedule: the pact or message, the entries, the milestones — a full story read with different eyes."},
-  forkTitle:"And the letter… who is it for?",
+  h2:{n:"2",t:"Invite a witness",b:"Coming soon: invite someone you trust to witness your pact — they'll receive one simple question on opening day: did you keep it? No pressure, no obligation — entirely your choice."},
+  h3:{n:"3",t:"Opening day",b:"Everything opens at once: your pact, your entries, your milestones — a full story read with different eyes."},
+  hOptTag:"Coming soon",
+  forkTitle:"And the pact… who is it for?",
   forkSub:"Choose the path that fits.",
   fcSelfT:"For yourself",
-  fcSelfB:"Try the free experience now: five questions to confirm it's really you, then a full letter as if written by your future self — ending in a pact you seal.",
-  fcSelfBtn:"Write your letter",
+  fcSelfB:"Try the free experience now: a full letter as if written by your future self — ending in a pact you seal.",
+  fcSelfBtn:"Write your pact",
   fcOtherT:"For someone you love",
   fcOtherB:"Write a capsule addressed to someone else — your child, a friend, a parent — opened for them on the date you choose. A gift, a reminder, a promise not to forget.",
   fcOtherBtn:"Go to the platform",
   statChip:n=>`${numLatin(n)} pacts sealed so far`,
   subsChip:n=>`${numLatin(n)} active subscribers on Ahd`,
-  footer:`Everything you write stays sealed until its time. <span class="l">The letter is yours.</span>`,
+  footer:`Everything you write stays sealed until its time. <span class="l">The pact is yours.</span>`,
   shelfLink:"Already have an Ahd account? Go to your capsule shelf"
 }
 };
@@ -326,6 +330,7 @@ function applyStatic(){
   $("hn1").textContent=t.h1.n; $("ht1").textContent=t.h1.t; $("hb1").textContent=t.h1.b;
   $("hn2").textContent=t.h2.n; $("ht2").textContent=t.h2.t; $("hb2").textContent=t.h2.b;
   $("hn3").textContent=t.h3.n; $("ht3").textContent=t.h3.t; $("hb3").textContent=t.h3.b;
+  $("hOptTag").textContent = t.hOptTag;
   $("forkTitle").textContent = t.forkTitle;
   $("forkSub").textContent = t.forkSub;
   $("fcSelfT").textContent = t.fcSelfT;
