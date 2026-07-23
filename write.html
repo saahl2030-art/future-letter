@@ -351,6 +351,7 @@ footer .l{color:var(--gold-2)}
     <div class="top-tools">
       <div class="chip" id="statChip" style="display:none"></div>
       <div class="chip" id="subsChip" style="display:none"></div>
+      <!-- كلاهما يبقى مخفيًا هنا عمدًا؛ العدّاد الظاهر للزوّار موجود فقط في index.html -->
       <button class="lang-btn" id="langBtn" type="button">EN</button>
     </div>
   </div>
@@ -562,8 +563,8 @@ ar:{
   chip:"خمسة أسئلة · رسالة واحدة · عهد",
   langBtn:"EN",
   kickerLbl:"وصلت اليوم ·",
-  heroTitle:`رسالة كُتبت لك<br><span class="gold">بعد عشر سنوات</span>`,
-  heroSub:"وجدناها مختومة، مؤرخة بيومٍ لم يأتِ بعد، وعليها اسمك مرتين: مُرسِلًا ومُستلِمًا. كاتبها اشترط شرطًا واحدًا قبل فتحها: أن يتأكد أنك أنت — بخمسة أسئلة لا يعرف إجابتها سواك.",
+  heroTitle:`وجدنا رسالة تحمل اسمك.<br><span class="gold">مختومة بتاريخ لم يأتِ بعد.</span>`,
+  heroSub:"لن تعرف ما بداخلها... حتى تبدأ رحلتك.",
   postmark:d=>`بريد<br>${d}`,
   waxTop:"لا يُفتح قبل",
   addrFrom:d=>`من: أنت — ${d}`,
@@ -701,8 +702,8 @@ en:{
   chip:"Five questions · One letter · A pact",
   langBtn:"عربي",
   kickerLbl:"Arrived today ·",
-  heroTitle:`A letter written to you<br><span class="gold">ten years from now</span>`,
-  heroSub:"We found it sealed, dated a day that hasn't come yet, carrying your name twice: as sender and as recipient. Its writer set one condition before it opens: to be certain it's you — through five questions no one else can answer.",
+  heroTitle:`We found a letter with your name on it.<br><span class="gold">Sealed with a date that hasn't come yet.</span>`,
+  heroSub:"You won't know what's inside... until you begin your journey.",
   postmark:d=>`MAIL<br>${d}`,
   waxTop:"Do not open before",
   addrFrom:d=>`From: you — ${d}`,
@@ -1427,7 +1428,6 @@ $("langBtn").addEventListener("click", async ()=>{
 /* ---------- init ---------- */
 applyStatic();
 refreshRibbon();
-loadStats();
 </script>
 </body>
 </html>
