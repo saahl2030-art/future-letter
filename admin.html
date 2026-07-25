@@ -260,19 +260,23 @@ async function loadStats(token) {
   $("stateMsg").textContent = "جارِ تحميل البيانات...";
   $("content").style.display = "none";
   try {
-    const res = await fetch(ADMIN_STATS_URL, { method: "POST", headers: { Authorization: "Bearer " + token } });
-    const data = await res.json();
-    if (!res.ok) {
-      $("stateMsg").textContent = res.status === 403
+    const { data, error } = await sb.functions.invoke("admin-stats", {
+      headers: { Authorization: "Bearer " + token },
+    });
+
+    if (error) {
+      const status = error.context?.status;
+      $("stateMsg").textContent = status === 403
         ? "هذا الحساب غير مصرَّح له بدخول لوحة التحكم."
-        : "تعذّر تحميل البيانات: " + (data.error || res.status);
+        : "تعذّر تحميل البيانات: " + error.message;
       return;
     }
+
     render(data);
     $("stateMsg").style.display = "none";
     $("content").style.display = "block";
   } catch (e) {
-    $("stateMsg").textContent = "تعذّر الاتصال بالخادم.";
+    $("stateMsg").textContent = "تعذّر الاتصال بالخادم: " + e.message;
   }
 }
 
