@@ -3,140 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>كشف حساب — عهد</title>
+<title>لوحة تحكم — عهد</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;900&display=swap');
 
   :root{
-    --paper:#f7f4ee; --paper-2:#f1ecdf;
-    --ink:#211f1a; --muted:#8a8373; --rule:#ded7c4;
-    --gold:#8a6f1c; --gold-2:#b8901e; --gold-soft:#e9dfc0;
-    --navy:#16324a; --navy-soft:#e7edf1;
-    --ok:#3f6e4a; --ok-soft:#e6efe8;
-    --warn:#8a6f1c; --warn-soft:#f3ecd8;
-    --bad:#8a4136; --bad-soft:#f1e3e0;
-    --card:#fffdf8;
+    --night:#0c0f16; --card:#141a29; --card-2:#182036;
+    --text:#d9dce4; --muted:#8f97a8; --line:rgba(255,255,255,.08);
+    --gold:#c9a227; --gold-2:#e3c565; --gold-soft:rgba(201,162,39,.14);
+    --blue:#5b8bc4; --blue-soft:rgba(91,139,196,.16);
+    --ok:#6fae7f; --ok-soft:rgba(111,174,127,.14);
+    --bad:#d98f86; --bad-soft:rgba(217,143,134,.14);
   }
   *{box-sizing:border-box}
   body{
-    margin:0; background:var(--paper); color:var(--ink);
-    font-family:'Tajawal',Arial,sans-serif;
-    min-height:100vh;
+    margin:0; background:var(--night); color:var(--text);
+    font-family:'Tajawal',Arial,sans-serif; min-height:100vh;
   }
-  .num{font-variant-numeric:tabular-nums; font-feature-settings:"tnum"}
+  .num{font-variant-numeric:tabular-nums}
 
-  /* ===== شاشة الدخول ===== */
+  /* ===== دخول ===== */
   #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
   .login-card{
     width:100%;max-width:340px;background:var(--card);
-    border:1px solid var(--rule);border-radius:4px;padding:36px 30px;
-    box-shadow:0 1px 0 var(--rule), 0 20px 40px rgba(33,31,26,.06);
+    border:1px solid var(--line);border-radius:16px;padding:34px 28px;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
   }
   .seal{
-    width:52px;height:52px;border-radius:50%;margin:0 auto 20px;
-    background:radial-gradient(circle at 32% 28%, #efd88a, var(--gold-2) 55%, #6b551a);
+    width:52px;height:52px;border-radius:50%;margin:0 auto 18px;
+    background:radial-gradient(circle at 32% 28%, #f3e3ab, var(--gold) 55%, #6b551a);
     display:grid;place-items:center;color:#241c05;font-weight:700;font-size:14px;
-    font-family:'Amiri',serif; box-shadow:0 0 0 3px var(--gold-soft);
+    font-family:'Amiri',serif;
   }
-  .login-card h1{font-size:16px;text-align:center;margin:0 0 4px;font-weight:900;letter-spacing:.2px}
-  .login-card .tag{text-align:center;color:var(--muted);font-size:12px;margin-bottom:26px}
+  .login-card h1{font-size:18px;text-align:center;margin:0 0 4px;font-weight:800}
+  .login-card .tag{text-align:center;color:var(--muted);font-size:12.5px;margin-bottom:24px}
   label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px;font-weight:700}
   input{
-    width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:3px;
-    font-size:14.5px;margin-bottom:16px;background:var(--paper);color:var(--ink);
+    width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+    font-size:14.5px;margin-bottom:16px;background:#0f1420;color:var(--text);
     font-family:'Tajawal',Arial,sans-serif;
   }
-  input:focus{outline:none;border-color:var(--gold-2)}
+  input:focus{outline:none;border-color:var(--gold)}
   button{
-    width:100%;padding:11px;border:1px solid var(--gold);border-radius:3px;
-    background:var(--ink);color:#f7f4ee;font-weight:700;font-size:14px;cursor:pointer;
-    letter-spacing:.3px;
+    width:100%;padding:12px;border:none;border-radius:10px;
+    background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    color:#241c05;font-weight:800;font-size:14.5px;cursor:pointer;
   }
   button:disabled{opacity:.55;cursor:default}
   #loginError{color:var(--bad);font-size:13px;margin:-6px 0 14px;display:none}
 
-  /* ===== الكشف ===== */
+  /* ===== الصفحة ===== */
   #dashboard{display:none}
-  .sheet{max-width:920px;margin:0 auto;padding:26px 20px 90px}
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 20px 90px}
 
-  .letterhead{
-    display:flex;align-items:flex-start;justify-content:space-between;
-    border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:22px;
+  header.top{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:26px;flex-wrap:wrap;gap:12px;
   }
-  .letterhead .brand{display:flex;align-items:center;gap:12px}
-  .brand .seal{width:38px;height:38px;font-size:11px;margin:0}
-  .brand h1{font-size:18px;margin:0;font-weight:900}
-  .brand .sub{font-size:11.5px;color:var(--muted);margin-top:1px}
-  .stamp{
-    text-align:left;font-size:11px;color:var(--muted);line-height:1.7;
-    border:1px solid var(--rule);border-radius:3px;padding:8px 12px;
-  }
-  .stamp b{color:var(--ink);font-family:'Amiri',serif;font-size:12.5px}
+  header.top .brand{display:flex;align-items:center;gap:12px}
+  .brand .seal{width:40px;height:40px;font-size:12px;margin:0}
+  header.top h1{font-size:20px;margin:0;font-weight:800}
+  header.top .sub{color:var(--muted);font-size:12.5px;margin-top:2px}
   #logoutBtn{
-    width:auto;padding:6px 14px;background:none;border:1px solid var(--rule);
-    color:var(--ink);font-weight:700;font-size:12px;margin-top:8px;border-radius:3px;
+    width:auto;padding:8px 16px;background:none;border:1px solid var(--line);
+    color:var(--text);font-weight:700;font-size:13px;border-radius:8px;
   }
 
-  /* شريط الأرقام الرئيسية */
-  .ledger-strip{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    border:1px solid var(--rule);border-radius:4px;background:var(--card);
-    margin-bottom:26px;overflow:hidden;
+  /* شبكة KPI */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+  @media (max-width:760px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+  .kpi-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px;display:flex;align-items:flex-start;gap:12px;
   }
-  .ledger-cell{padding:16px 18px;border-inline-start:1px solid var(--rule)}
-  .ledger-cell:first-child{border-inline-start:none}
-  .ledger-cell .k{font-size:11.5px;color:var(--muted);font-weight:700;margin-bottom:8px}
-  .ledger-cell .v{font-size:24px;font-weight:900}
-  .ledger-cell .v.gold{color:var(--gold)}
-  .ledger-cell .foot{font-size:10.5px;color:var(--muted);margin-top:4px}
-
-  @media (max-width:640px){
-    .ledger-strip{grid-template-columns:repeat(2,1fr)}
-    .ledger-cell:nth-child(3){border-inline-start:none}
+  .icon-circle{
+    width:42px;height:42px;border-radius:50%;flex:none;
+    display:grid;place-items:center;
   }
+  .icon-circle.gold{background:var(--gold-soft)}
+  .icon-circle.blue{background:var(--blue-soft)}
+  .icon-circle.ok{background:var(--ok-soft)}
+  .icon-circle svg{width:20px;height:20px}
+  .kpi-card .value{font-size:22px;font-weight:800;line-height:1.2}
+  .kpi-card .label{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
 
-  .section{margin-bottom:26px}
-  .section-head{
-    display:flex;align-items:baseline;justify-content:space-between;
-    border-bottom:1px solid var(--ink);padding-bottom:8px;margin-bottom:14px;
+  /* أقسام */
+  .charts-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-bottom:24px}
+  @media (max-width:800px){.charts-grid{grid-template-columns:1fr}}
+  .panel{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px;
   }
-  .section-head h2{font-size:14.5px;margin:0;font-weight:900}
-  .section-head .meta{font-size:11.5px;color:var(--muted)}
+  .panel h2{font-size:14.5px;margin:0 0 16px;font-weight:800}
+  .panel .chart-wrap{position:relative;height:220px}
 
-  /* توزيع الكبسولات — أعمدة شريطية أفقية */
-  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px}
-  .bar-row .label{width:96px;flex:none;color:var(--muted);font-weight:700}
-  .bar-track{flex:1;height:9px;background:var(--paper-2);border-radius:5px;overflow:hidden}
-  .bar-fill{height:100%;border-radius:5px}
-  .bar-row .count{width:34px;flex:none;text-align:left;font-weight:800}
+  .donut-legend{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+  .donut-legend .item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+  .donut-legend .dot{width:9px;height:9px;border-radius:50%}
 
-  /* جدول المشتركين */
+  .section{margin-bottom:22px}
+  .section h2{font-size:14.5px;margin:0 0 14px;font-weight:800}
+
   table{width:100%;border-collapse:collapse;font-size:13.5px}
   thead th{
     text-align:right;font-size:11px;color:var(--muted);font-weight:700;
-    padding:0 10px 8px;border-bottom:1px solid var(--ink);
+    padding:0 10px 10px;border-bottom:1px solid var(--line);
   }
-  tbody td{padding:10px 10px;border-bottom:1px solid var(--rule)}
+  tbody td{padding:11px 10px;border-bottom:1px solid var(--line)}
   tbody tr:last-child td{border-bottom:none}
   .email-cell{font-weight:700}
-  .badge{
-    display:inline-block;padding:2px 9px;border-radius:3px;font-size:11.5px;font-weight:700;
-  }
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:700}
   .badge.active{background:var(--ok-soft);color:var(--ok)}
   .badge.canceled,.badge.past_due{background:var(--bad-soft);color:var(--bad)}
-  .badge.trialing,.badge.incomplete{background:var(--warn-soft);color:var(--warn)}
-  .amount{font-weight:800}
-  td.muted, .empty-note{color:var(--muted);font-size:12.5px}
+  .badge.trialing,.badge.incomplete{background:var(--gold-soft);color:var(--gold-2)}
+  .amount{font-weight:800;color:var(--gold-2)}
+  .empty-note,td.muted{color:var(--muted);font-size:12.5px}
 
-  .log-row{
-    display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dotted var(--rule);
-    font-size:12.5px;
-  }
+  .log-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
   .log-row:last-child{border-bottom:none}
-  .log-row .who{color:var(--ink)}
   .log-row .when{color:var(--muted)}
 
-  #stateMsg{text-align:center;color:var(--muted);padding:60px 0;font-size:13.5px}
+  #stateMsg{text-align:center;color:var(--muted);padding:70px 0;font-size:13.5px}
 </style>
 </head>
 <body>
@@ -156,80 +143,73 @@
 </div>
 
 <div id="dashboard">
-  <div class="sheet">
-    <div class="letterhead">
-      <div>
-        <div class="brand">
-          <div class="seal">عهد</div>
-          <div>
-            <h1>كشف حساب المنصة</h1>
-            <div class="sub">نظرة مالية وتشغيلية شاملة</div>
-          </div>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="seal">عهد</div>
+        <div>
+          <h1>لوحة تحكم عهد</h1>
+          <div class="sub" id="genAt">—</div>
         </div>
       </div>
-      <div>
-        <div class="stamp"><b id="genDate">—</b><br><span id="genTime">—</span></div>
-        <button id="logoutBtn">تسجيل الخروج</button>
-      </div>
-    </div>
+      <button id="logoutBtn">تسجيل الخروج</button>
+    </header>
 
     <div id="stateMsg">جارِ تحميل البيانات...</div>
 
     <div id="content" style="display:none">
 
-      <div class="ledger-strip">
-        <div class="ledger-cell">
-          <div class="k">إجمالي التسجيلات</div>
-          <div class="v" id="totalSignups">—</div>
-          <div class="foot">كل من أنشأ حسابًا بالموقع</div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="icon-circle blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5b8bc4" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div><div class="value num" id="totalSignups">—</div><div class="label">إجمالي التسجيلات</div></div>
         </div>
-        <div class="ledger-cell">
-          <div class="k">مشتركون فعليون</div>
-          <div class="v" id="activeSubs">—</div>
-          <div class="foot">اشتراك مدفوع نشط الآن</div>
+        <div class="kpi-card">
+          <div class="icon-circle ok">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6fae7f" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <div><div class="value num" id="activeSubs">—</div><div class="label">مشتركون فعليون</div></div>
         </div>
-        <div class="ledger-cell">
-          <div class="k">الإيراد السنوي النشط</div>
-          <div class="v gold num" id="revenue">—</div>
-          <div class="foot">من الاشتراكات النشطة فقط (سنوي)</div>
+        <div class="kpi-card">
+          <div class="icon-circle gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e3c565" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1 1-1.8 3-1.8s3 .9 3 2-1 1.6-3 2-3 1-3 2 1.3 2 3 2 3-.8 3-1.8"/></svg>
+          </div>
+          <div><div class="value num gold-2" id="revenue" style="color:var(--gold-2)">—</div><div class="label">الإيراد السنوي النشط</div></div>
         </div>
-        <div class="ledger-cell">
-          <div class="k">إجمالي الكبسولات</div>
-          <div class="v num" id="totalCapsules">—</div>
-          <div class="foot"><span id="giftCapsules">0</span> منها هدية</div>
+        <div class="kpi-card">
+          <div class="icon-circle blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5b8bc4" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/><path d="M12 3v11"/></svg>
+          </div>
+          <div><div class="value num" id="totalCapsules">—</div><div class="label"><span id="giftCapsules">0</span> منها هدية</div></div>
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-head">
+      <div class="charts-grid">
+        <div class="panel">
+          <h2>اتجاه التسجيلات (آخر 8 أسابيع)</h2>
+          <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+        </div>
+        <div class="panel">
           <h2>توزيع الكبسولات حسب الحالة</h2>
+          <div class="chart-wrap"><canvas id="donutChart"></canvas></div>
+          <div class="donut-legend" id="donutLegend"></div>
         </div>
-        <div id="capsulesBars"></div>
       </div>
 
-      <div class="section">
-        <div class="section-head">
-          <h2>المشتركون المدفوعون</h2>
-          <span class="meta" id="subsCountMeta"></span>
-        </div>
+      <div class="section panel">
+        <h2>المشتركون المدفوعون <span style="color:var(--muted);font-weight:400" id="subsCountMeta"></span></h2>
         <table>
           <thead>
-            <tr>
-              <th>البريد الإلكتروني</th>
-              <th>الخطة</th>
-              <th>الحالة</th>
-              <th>القيمة</th>
-              <th>آخر تحديث</th>
-            </tr>
+            <tr><th>البريد الإلكتروني</th><th>الخطة</th><th>الحالة</th><th>القيمة</th><th>آخر تحديث</th></tr>
           </thead>
           <tbody id="subsTableBody"></tbody>
         </table>
       </div>
 
-      <div class="section">
-        <div class="section-head">
-          <h2>آخر الحركة (إشعارات مُرسَلة)</h2>
-        </div>
+      <div class="section panel">
+        <h2>آخر الحركة (إشعارات مُرسَلة)</h2>
         <div id="recentLog"></div>
       </div>
 
@@ -238,8 +218,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
 <script>
-// ⚠️ عدّل القيمتين قبل الرفع إن لزم (نفسها المستخدمة بباقي المشروع):
 const SUPABASE_URL = "https://eppgvtreajfstwybodmn.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwcGd2dHJlYWpmc3R3eWJvZG1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzNjM4NjYsImV4cCI6MjA5OTkzOTg2Nn0.dyW9m29ONQFWymowcQiqjLIEaeuSWDAan3OyFpiCFw0";
 const ADMIN_STATS_URL = SUPABASE_URL + "/functions/v1/admin-stats";
@@ -248,8 +228,10 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const $ = (id) => document.getElementById(id);
 
 const STATUS_LABELS = { sealed: "مختومة", ready: "جاهزة للفتح", opened: "مفتوحة" };
-const STATUS_COLORS = { sealed: "#8a8373", ready: "#b8901e", opened: "#3f6e4a" };
+const STATUS_COLORS = { sealed: "#8f97a8", ready: "#e3c565", opened: "#6fae7f" };
 const SUB_STATUS_LABELS = { active: "نشط", canceled: "ملغى", past_due: "متأخر الدفع", trialing: "تجريبي", incomplete: "غير مكتمل" };
+
+let trendChartInstance = null, donutChartInstance = null;
 
 async function tryRestoreSession() {
   const { data } = await sb.auth.getSession();
@@ -259,13 +241,8 @@ async function tryRestoreSession() {
 $("loginBtn").addEventListener("click", async () => {
   $("loginError").style.display = "none";
   $("loginBtn").disabled = true; $("loginBtn").textContent = "جارٍ الدخول...";
-
-  const { data, error } = await sb.auth.signInWithPassword({
-    email: $("email").value.trim(), password: $("password").value,
-  });
-
+  const { data, error } = await sb.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value });
   $("loginBtn").disabled = false; $("loginBtn").textContent = "تسجيل الدخول";
-
   if (error || !data?.session) {
     $("loginError").textContent = "بيانات الدخول غير صحيحة.";
     $("loginError").style.display = "block";
@@ -276,25 +253,21 @@ $("loginBtn").addEventListener("click", async () => {
 });
 
 $("logoutBtn").addEventListener("click", async () => { await sb.auth.signOut(); location.reload(); });
-
 function showDashboard() { $("loginScreen").style.display = "none"; $("dashboard").style.display = "block"; }
 
 async function loadStats(token) {
   $("stateMsg").style.display = "block";
   $("stateMsg").textContent = "جارِ تحميل البيانات...";
   $("content").style.display = "none";
-
   try {
     const res = await fetch(ADMIN_STATS_URL, { method: "POST", headers: { Authorization: "Bearer " + token } });
     const data = await res.json();
-
     if (!res.ok) {
       $("stateMsg").textContent = res.status === 403
         ? "هذا الحساب غير مصرَّح له بدخول لوحة التحكم."
         : "تعذّر تحميل البيانات: " + (data.error || res.status);
       return;
     }
-
     render(data);
     $("stateMsg").style.display = "none";
     $("content").style.display = "block";
@@ -305,8 +278,7 @@ async function loadStats(token) {
 
 function render(d) {
   const dt = new Date(d.generated_at);
-  $("genDate").textContent = dt.toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" });
-  $("genTime").textContent = "الساعة " + dt.toLocaleTimeString("ar-EG");
+  $("genAt").textContent = "آخر تحديث: " + dt.toLocaleDateString("ar-EG", { day: "numeric", month: "long" }) + " — " + dt.toLocaleTimeString("ar-EG");
 
   $("totalSignups").textContent = d.total_signups ?? 0;
   $("activeSubs").textContent = d.active_subscribers_count ?? 0;
@@ -314,19 +286,48 @@ function render(d) {
   $("totalCapsules").textContent = d.total_capsules ?? 0;
   $("giftCapsules").textContent = d.gift_capsules ?? 0;
 
-  // توزيع الكبسولات كأشرطة أفقية
+  // مخطط الاتجاه الأسبوعي
+  const weekly = d.signups_weekly || [];
+  if (trendChartInstance) trendChartInstance.destroy();
+  trendChartInstance = new Chart($("trendChart"), {
+    type: "line",
+    data: {
+      labels: weekly.map((w) => w.label),
+      datasets: [{
+        data: weekly.map((w) => w.count),
+        borderColor: "#e3c565",
+        backgroundColor: "rgba(227,197,101,.15)",
+        fill: true, tension: .35, pointRadius: 3, pointBackgroundColor: "#e3c565",
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: "#8f97a8" }, grid: { color: "rgba(255,255,255,.06)" } },
+        y: { ticks: { color: "#8f97a8", precision: 0 }, grid: { color: "rgba(255,255,255,.06)" }, beginAtZero: true },
+      },
+    },
+  });
+
+  // مخطط الدائري لتوزيع الكبسولات
   const byStatus = d.capsules_by_status || {};
-  const max = Math.max(1, ...Object.values(byStatus));
-  $("capsulesBars").innerHTML = Object.entries(byStatus).map(([k, v]) => `
-    <div class="bar-row">
-      <span class="label">${STATUS_LABELS[k] || k}</span>
-      <span class="bar-track"><span class="bar-fill" style="width:${(v/max*100).toFixed(0)}%;background:${STATUS_COLORS[k] || '#999'}"></span></span>
-      <span class="count num">${v}</span>
-    </div>`).join("") || `<p class="empty-note">لا توجد كبسولات بعد.</p>`;
+  const keys = Object.keys(byStatus);
+  if (donutChartInstance) donutChartInstance.destroy();
+  donutChartInstance = new Chart($("donutChart"), {
+    type: "doughnut",
+    data: {
+      labels: keys.map((k) => STATUS_LABELS[k] || k),
+      datasets: [{ data: keys.map((k) => byStatus[k]), backgroundColor: keys.map((k) => STATUS_COLORS[k] || "#999"), borderWidth: 0 }],
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: "68%" },
+  });
+  $("donutLegend").innerHTML = keys.map((k) => `
+    <span class="item"><span class="dot" style="background:${STATUS_COLORS[k] || '#999'}"></span>${STATUS_LABELS[k] || k} (${byStatus[k]})</span>`).join("");
 
   // جدول المشتركين
   const subs = d.subscribers || [];
-  $("subsCountMeta").textContent = subs.length + " اشتراك مدفوع إجمالًا";
+  $("subsCountMeta").textContent = "— " + subs.length + " اشتراك مدفوع إجمالًا";
   $("subsTableBody").innerHTML = subs.length
     ? subs.map((s) => `
         <tr>
@@ -341,11 +342,7 @@ function render(d) {
   // آخر الحركة
   const logs = d.recent_notifications || [];
   $("recentLog").innerHTML = logs.length
-    ? logs.map((n) => `
-        <div class="log-row">
-          <span class="who">${n.type} — كبسولة ${String(n.capsule_id).slice(0,8)}</span>
-          <span class="when">${new Date(n.sent_at).toLocaleString("ar-EG")}</span>
-        </div>`).join("")
+    ? logs.map((n) => `<div class="log-row"><span>${n.type} — كبسولة ${String(n.capsule_id).slice(0,8)}</span><span class="when">${new Date(n.sent_at).toLocaleString("ar-EG")}</span></div>`).join("")
     : `<p class="empty-note">لا إشعارات مسجّلة بعد.</p>`;
 }
 
