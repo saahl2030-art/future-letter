@@ -176,7 +176,7 @@
           <div class="icon-circle gold">
             <svg viewBox="0 0 24 24" fill="none" stroke="#e3c565" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1 1-1.8 3-1.8s3 .9 3 2-1 1.6-3 2-3 1-3 2 1.3 2 3 2 3-.8 3-1.8"/></svg>
           </div>
-          <div><div class="value num gold-2" id="revenue" style="color:var(--gold-2)">—</div><div class="label">الإيراد السنوي النشط</div></div>
+          <div><div class="value num gold-2" id="revenue" style="color:var(--gold-2)">—</div><div class="label">الإيراد الشهري النشط</div></div>
         </div>
         <div class="kpi-card">
           <div class="icon-circle blue">
@@ -286,7 +286,7 @@ function render(d) {
 
   $("totalSignups").textContent = d.total_signups ?? 0;
   $("activeSubs").textContent = d.active_subscribers_count ?? 0;
-  $("revenue").textContent = (d.annual_active_revenue_aed ?? 0).toLocaleString("ar-EG") + " د.إ";
+  $("revenue").textContent = (d.monthly_active_revenue_aed ?? 0).toLocaleString("ar-EG") + " د.إ";
   $("totalCapsules").textContent = d.total_capsules ?? 0;
   $("giftCapsules").textContent = d.gift_capsules ?? 0;
 
